@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ho.hwang.mappers.UserMapper">
+
+	<select id="selectUser"
+		resultType="com.ho.hwang.account.Account">
+		SELECT u.user_id, u.user_pw, u.employee_id,
+		a.authority_name, u.enabled
+		FROM userauthority s
+		INNER JOIN authority a
+		ON s.Authority_ID = a.Authority_ID
+		INNER JOIN users u ON s.User_ID = u.User_ID
+		WHERE u.user_id = #{username}
+	</select>
+
+	<insert id="save">
+		INSERT INTO users(user_id, user_pw,
+		employee_id, enabled) VALUES(#{user_id},#{user_pw},#{employee_id}, 1)
+	</insert>
+
+	<!-- <insert id="insertRole"> INSERT INTO userauthority VALUES(#{user_id}, 
+		3) </insert> -->
+
+
+	<select id="selectCustomer" resultType="CustomerListVO">
+		SELECT c.Customer_ID,
+		c.Customer_Name, a.address_address, d.Department_Name ,
+		e.employee_name, e.employee_phone, e.employee_email,
+		e.employee_contact, c.employee_id_se, c.employee_id_sales
+		FROM customer
+		c
+		INNER JOIN address a ON c.Customer_ID = a.Customer_ID AND
+		address_type = 1
+		INNER JOIN employee e ON e.Employee_ID =
+		c.Employee_ID_Manager
+		INNER JOIN department d ON d.Department_ID =
+		e.Department_ID;
+	</select>
+
+	<!-- 고객사 리스트 -->
+	<select id="selectCustomerList" resultType="CustomerListVO">
+		SELECT
+		a.employee_name manager, b.employee_name se, c.employee_name sales,
+		s.Customer_ID, s.Customer_Name, d.address_address
+		FROM customer s
+		INNER JOIN employee a ON a.Employee_ID = s.Employee_ID_Manager
+		INNER JOIN
+		employee b ON b.employee_id = s.Employee_ID_SE
+		INNER JOIN employee c ON
+		c.Employee_ID = s.Employee_ID_Sales
+		INNER JOIN address d ON
+		d.Customer_ID = s.Customer_ID AND d.Address_Type = 1;
+	</select>
+
+
+
+	<!-- 담당자 이름 검색 -->
+	<select id="selectSE" resultType="String">
+		SELECT employee_name
+		FROM
+		employee e
+		INNER JOIN customer c ON c.employee_id_se = e.employee_id
+	</select>
+
+	<select id="selectSALES" resultType="String">
+		SELECT employee_name
+		FROM
+		employee e
+		INNER JOIN customer c ON c.employee_id_sales = e.employee_id
+	</select>
+
+
+
+
+	<select id="selectDelivery" resultType="DeliveryVO">
+		select n.delivery_id,
+		c.customer_name, p.product_name, n.delivery_quantity,n.delivery_date,
+		n.delivery_businessNum, c.customer_id
+		from delivery n
+		INNER JOIN
+		customer c ON c.customer_id = #{customer_id} AND c.customer_id =
+		n.customer_id
+		INNER JOIN product p ON p.product_id = n.product_id;
+	</select>
+
+	<select id="selectOS" resultType="OSVO">
+		SELECT o.delivery_id,
+		o.os_name, o.os_quantity
+		FROM os o
+		INNER JOIN delivery n ON
+		n.delivery_id = o.delivery_id AND n.customer_id = #{customer_id};
+	</select>
+
+	<select id="selectTotalOS" resultType="OsVO">
+		SELECT delivery_id,
+		os_name, os_quantity
+		FROM os;
+	</select>
+
+
+
+	<select id="selectCustomerSR" resultType="SrVO">
+		SELECT c.code_name,
+		p.product_name , s.sr_title, s.sr_requestDate, s.sr_estimatedDate,
+		s.sr_completionDate, s.sr_status,s.sr_content,s.sr_registrant,
+		s.sr_registrationDate
+		FROM sr s
+		INNER JOIN code c ON c.code_id =
+		s.sr_type
+		INNER JOIN product p ON p.product_id = s.product_id
+		WHERE
+		sr.customer_id = #{customer_id};
+
+	</select>
+
+	<select id="selectCustomerDetail" resultType="CustomerVO">
+		SELECT
+		c.customer_name, a.address_address, a.address_post ,a.address_detail ,
+		c.Employee_ID_Sales, c.Employee_ID_SE,
+		c.Employee_ID_Manager,c.customer_id
+		FROM customer c
+		INNER JOIN address a
+		ON a.customer_id = c.customer_id AND c.customer_id = #{customer_id};
+	</select>
+
+	<select id="selectEmployee" resultType="EmployeeVO">
+		SELECT * from employee
+		WHERE employee_id = #{employee_id}
+	</select>
+
+	<select id="selectCustomerProduct" resultType="DeliveryVO">
+		SELECT
+		p.product_name, d.delivery_quantity, d.delivery_date,
+		d.delivery_businessNum, d.customer_id,d.product_id
+		FROM delivery d
+		INNER JOIN product p ON p.product_id = d.product_ID
+		WHERE d.customer_id
+		= #{customer_id};
+	</select>
+
+
+
+
+
+
+
+	<insert id="insertEmployee">
+		INSERT INTO Employee(
+		employee_type,
+		department_id,
+		employee_position,
+		employee_name,
+		employee_contact,
+		employee_phone,
+		employee_email,
+		employee_status
+		)
+
+		VALUES(
+		#{employee_type},
+		#{department_id},
+		#{employee_position},
+		#{employee_name},
+		#{employee_contact},
+		#{employee_phone},
+		#{employee_email},
+		'활성'
+		);
+	</insert>
+
+	<insert id="insertCustomer">
+		INSERT
+		INTO customer(customer_name, employee_ID_sales, employee_ID_se,
+		employee_ID_manager)
+		VALUES( #{customer_name},#{employee_id_sales}, #{employee_id_se},
+		#{employee_id_manager} );
+
+	</insert>
+
+	<insert id="insertSR">
+		INSERT INTO sr(customer_id, product_id, sr_type,
+		importance, sr_requestDate, sr_title, sr_content, sr_registrant,
+		sr_registrationDate)
+		values(#{customer_id},#{product_id},#{sr_type},#{importance},#{sr_requestDate},#{sr_title},#{sr_content},
+		#{sr_registrant},#{sr_registrationDate})
+	</insert>
+
+
+	<select id="selectCustomer_id" resultType="int">
+		select
+		LAST_INSERT_id();
+	</select>
+
+	<insert id="insertAddress">
+		INSERT
+		INTO address(customer_id, address_type, address_post, address_address,
+		address_detail)
+		VALUES(#{customer_id}, 1, #{address_post}, #{address_address}, #{address_detail});
+	</insert>
+
+
+	<insert id="insertActivity">
+		INSERT INTO activity (activity_type, activity_status,
+		activity_title, activity_content, activity_estimatedDate,
+		activity_completionDate)
+		VALUES(#{activity_type},#{activity_status},#{activity_title},#{activity_content},#{activity_estimatedDate},#{activity_completionDate})
+	</insert>
+
+	<!-- 납품하기 -->
+	<insert id="insertDelivery">
+		INSERT INTO delivery(customer_id, product_id, delivery_quantity,
+		delivery_date, delivery_businessNum)
+		VALUES(#{customer_id},#{product_id},#{delivery_quantity},#{delivery_date},#{delivery_businessNum})
+	</insert>
+	<select id="selectLast" resultType="int">
+		SELECT LAST_INSERT_ID()
+	</select>
+	
+	<!-- os별 입력 -->
+	<insert id="insertOS">
+		INSERT INTO os(delivery_id, os_name, os_quantity) 
+		VALUES(#{delivery_id},#{os_name},#{os_quantity})
+	</insert>
+
+	<!-- 이름으로 아이디 값 찾기 -->
+	<select id="selectCode" resultType="int">
+		SELECT code_id
+		FROM code
+		WHERE
+		code_name = #{name};
+
+	</select>
+
+	<select id="selectDept" resultType="int">
+		SELECT department_id
+		FROM
+		department
+		WHERE department_name = #{dept_name};
+	</select>
+
+	<select id="selectCustomerID" resultType="int">
+		SELECT customer_id
+		FROM customer
+		WHERE customer_name = #{name};
+	</select>
+
+	<select id="selectProductID" resultType="int">
+		SELECT product_id
+		FROM
+		product
+		WHERE product_name = #{pname};
+	</select>
+
+	<select id="selectName" resultType="String">
+		SELECT e.employee_name
+		FROM
+		employee e
+		INNER JOIN users u ON u.employee_id = e.employee_id AND
+		user_id=#{name};
+	</select>
+
+
+
+
+
+	<select id="selectEmployee_secuve" resultType="EmployeeVO">
+		SELECT
+		D.department_name, e.employee_position, e.employee_name,
+		e.employee_contact , e.employee_phone,
+		e.employee_email,e.employee_type,employee_id
+		FROM employee e
+		INNER JOIN
+		department D ON e.Department_ID = D.Department_ID
+		INNER JOIN code C ON
+		C.code_id = e.Employee_Type AND C.Code_Name='시큐브'
+		ORDER BY
+		D.department_name;
+	</select>
+
+	<select id="selectEmployee_other" resultType="EmployeeVO">
+		SELECT c.code_name
+		, d.department_name, e.Employee_Name, e.employee_contact,
+		e.employee_phone, e.employee_email ,e.employee_id
+		FROM employee e
+		INNER
+		JOIN code c ON c.code_id = e.employee_type
+		left outer JOIN department d
+		ON d.Department_ID = e.department_id
+		WHERE employee_type !=1;
+	</select>
+
+
+	<select id="selectEmployee_type" resultType="String">
+		SELECT code_name
+		FROM code
+		WHERE code_group = '직원구분' ;
+	</select>
+
+	<select id="selectDept_name" resultType="String">
+		select department_name
+		FROM department;
+	</select>
+
+
+	<select id="selectSR" resultType="SrVO">
+		SELECT s.sr_id, co.code_name,
+		p.product_name , c.customer_name, s.sr_title , s.sr_requestDate,
+		s.sr_estimatedDate, s.sr_completionDate, s.sr_status, s.importance
+		FROM SR s
+		INNER JOIN customer c ON c.customer_id = s.customer_id
+		INNER
+		JOIN product p ON p.product_id = s.product_id
+		INNER JOIN code co ON
+		co.code_id = s.sr_type
+		ORDER BY SR_requestDate desc
+	</select>
+
+	<select id="selectSRList" resultType="SrVO">
+		SELECT s.sr_id,
+		co.code_name, p.product_name , c.customer_name, s.sr_title ,
+		s.sr_requestDate, s.sr_status
+		FROM SR s
+		INNER JOIN customer c ON
+		c.customer_id = s.customer_id AND s.customer_id = #{customer_id}
+		INNER
+		JOIN product p ON p.product_id = s.product_id
+		INNER JOIN code co ON
+		co.code_id = s.sr_type;
+	</select>
+
+
+	<select id="selectSRDetail" resultType="SrVO">
+		SELECT s.sr_id,
+		co.code_name, p.product_name , c.customer_name, s.sr_title ,
+		s.sr_requestDate,
+		s.sr_estimatedDate, s.sr_completionDate, s.sr_status,
+		s.importance,s.sr_content,s.sr_registrant, s.sr_registrationDate
+		FROM
+		SR s
+		INNER JOIN customer c ON c.customer_id = s.customer_id
+		INNER JOIN
+		product p ON p.product_id = s.product_id
+		INNER JOIN code co ON
+		co.code_id = s.sr_type
+		WHERE s.sr_id = #{sr_id};
+	</select>
+
+	<select id="selectVisit" resultType="ActivityVO">
+		SELECT co.code_Name, a.activity_type, a.activity_title,
+		a.activity_estimatedDate, a.activity_completionDate, a.activity_status
+		FROM activity a
+		INNER JOIN sr s ON s.sr_id = a.sr_id AND s.customer_id
+		= #{customer_id}
+		INNER JOIN code co ON co.code_id = a.activity_type
+		WHERE a.activity_type = 0;
+		<!-- where절에 0대신 코드테이블에 있는 값 넣기 방문내역 -->
+
+	</select>
+
+	<select id="selectTotalDelivery" resultType="DeliveryVO">
+		SELECT
+		d.delivery_businessNum , c.customer_name , p.product_name,
+		d.delivery_quantity, d.delivery_date, c.customer_id, d.delivery_id
+		FROM delivery d
+		INNER JOIN customer c ON c.customer_id = d.Customer_ID
+		INNER JOIN product p ON p.Product_ID = d.Product_ID
+		ORDER BY
+		d.delivery_businessNum;
+
+	</select>
+
+
+	<!-- 개인활동 검색 -->
+	<select id="selectActivity" resultType="ActivityVO">
+		SELECT c.code_name,
+		activity_title, activity_registrant, activity_estimatedDate,
+		activity_content,activity_completionDate, activity_id
+		FROM activity a
+		INNER JOIN code c ON c.code_id =a.Activity_Type;
+	</select>
+
+	<!-- 각 고객사 SR에 대한 활동 -->
+	<!-- 각고객사의 활동 등록 -->
+	<insert id="insertCustomerActivity">
+		INSERT INTO activity (sr_id, activity_type,
+		activity_status, activity_title, activity_content,
+		activity_estimatedDate,
+		activity_completionDate, activity_registrationDate, activity_registrant)
+		VALUES(#{sr_id},#{activity_type},#{activity_status},#{activity_title},#{activity_content},#{activity_estimatedDate},
+		#{activity_completionDate}, #{activity_registrationDate},
+		#{activity_registrant});
+	</insert>
+
+	<!-- 각고객사 활동 검색 -->
+	<select id="selectCustomerActivity" resultType="ActivityVO">
+		SELECT
+		c.code_name, activity_title, activity_registrant,
+		activity_estimatedDate, activity_content,activity_completionDate,
+		activity_id, activity_status, activity_registrationDate
+		FROM activity a
+		INNER JOIN code c ON c.code_id =a.Activity_Type
+		WHERE sr_id = #{sr_id};
+	</select>
+
+
+	<!-- 제품페이지 제품 검색 -->
+	<select id="selectProduct" resultType="ProductVO">
+		SELECT product_id,
+		product_name, product_content
+		FROM product
+	</select>
+
+	<!-- 제품 검색 -->
+	<select id="selectSearchProduct2" resultType="ProductVO">
+		SELECT
+		product_name, product_content, product_id
+		FROM product
+	</select>
+
+
+	<select id="selectComplete" resultType="String">
+		SELECT activity_status
+		FROM activity
+		WHERE activity_id = #{activity_id}
+	</select>
+
+	<update id="updateComplete">
+		UPDATE activity
+		SET activity_completionDate = NOW(),
+		activity_status = '완료'
+		WHERE activity_id = #{activity_id};
+	</update>
+
+
+	<!-- 관리자 페이지 sql문 -->
+	<!-- code 테이블 리스트 -->
+	<select id="selectCodeList" resultType="CodeVO">
+		SELECT code_id,
+		code_group, code_upper, code_name, code_status,code_registrant,
+		code_registrationDate, code_modifier, code_modifiedDate
+		FROM code;
+	</select>
+	<!-- 코트테이블 삭제 -->
+	<delete id="deleteCode">
+		DELETE FROM code
+		WHERE code_id = #{code_id}
+	</delete>
+	<!-- 코드테이블 추가 -->
+	<insert id="insertCode">
+		INSERT INTO code(code_group,code_upper,code_name,code_status)
+		VALUES(#{code_group},#{code_upper},#{code_name},#{code_status})
+	</insert>
+	
+	
+
+	<!-- 고객 리스트 삭제 -->
+	<delete id="deleteCustomer">
+		DELETE FROM customer
+		WHERE customer_id = #{customer_id}
+	</delete>
+	<!-- 납품정보 삭제 -->
+	<delete id="deleteDelivery">
+		DELETE FROM delivery
+		WHERE delivery_id =
+		#{delivery_id}
+	</delete>
+	<!-- 직원 삭제 -->
+	<delete id="deleteEmployee">
+		DELETE FROM employee
+		WHERE employee_id =
+		#{employee_id}
+	</delete>
+
+
+</mapper>
