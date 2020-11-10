@@ -40,11 +40,11 @@ public class ActivityController {
 		return "redirect:/activity/list";
 	}
 
-	@PostMapping("details/sr_detail")
+	@PostMapping("detail")
 	@ResponseBody
 	public String activity_complete2(Model model, int activity_id) {
 		userService.updateComplete(activity_id);
-		return "redirect:/details/sr_detail";
+		return "redirect:/activity/detail";
 	}
 
 	// 고객사별 SR에대한 활동 추가
