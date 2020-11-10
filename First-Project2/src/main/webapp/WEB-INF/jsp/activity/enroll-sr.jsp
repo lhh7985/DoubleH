@@ -22,7 +22,6 @@
 	
 <script type="text/javascript">
 	$(function() {
-		//모든 datepicker에 대한 공통 옵션 설정
 		$.datepicker
 				.setDefaults({
 					dateFormat : 'yy-mm-dd' //Input Display Format 변경
@@ -65,10 +64,6 @@
 		$(".datepicker").datepicker();
 		$("#datepicker2").datepicker();
 
-		/*  //From의 초기값을 오늘 날짜로 설정
-		 $('#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
-		 //To의 초기값을 내일로 설정
-		 $('#datepicker2').datepicker('setDate', '+1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후) */
 	});
 
 	
@@ -90,7 +85,7 @@
 		} else {
 			var forms = $("#add").serialize();
 			$.ajax({
-				url: "/enroll/activity",
+				url: "/activity/enroll-sr",
 				type:"POST",
 				data:forms,
 				success:function(data){
@@ -158,7 +153,7 @@ tr.hide {
 
 
 	<div class="container">
-	<form id="add" name="add" action="http://localhost:8080/enroll/activity" method="POST">
+	<form id="add" name="add" action="http://localhost:8080/activity/enroll-sr" method="POST">
 		<div>
 			<h1 class="font2">활동 추가</h1>
 		</div>

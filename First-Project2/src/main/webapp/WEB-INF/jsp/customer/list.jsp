@@ -53,12 +53,12 @@ function selectDelete(){
 	
 }
 function goCustomerDetail(customer_id){
-	location.href = "/info?customer_id=" + customer_id;
+	location.href = "/customer/info?customer_id=" + customer_id;
 }
 
 var winRef;
 function customer_enroll() {
-	href = "http://localhost:8080/enroll/customer";
+	href = "http://localhost:8080/customer/enroll";
 	if(!winRef){
 		winRef=window.open(href, "customer_enroll",'width=1000px, height=600px,toolbars=no,scrollbars=no');
 	}else{
@@ -114,7 +114,7 @@ function reloadPage() {
 <body>
 	<div>
 		<div>
-			<jsp:include page="header.jsp" />
+			<jsp:include page="../header.jsp" />
 		</div>
 	</div>
 

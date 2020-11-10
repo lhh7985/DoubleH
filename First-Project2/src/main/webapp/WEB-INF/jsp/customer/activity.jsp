@@ -5,7 +5,8 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Hello test</title>
+<title>안씀</title>
+
 
 <link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.css">
 <link rel="stylesheet"
@@ -17,12 +18,6 @@
 <script type="text/javascript">
 	
 
-	$('.accordian-body').on(
-			'show.bs.collapse',
-			function() {
-				$(this).closest("table").find(".collapse.in").not(this)
-						.collapse('toggle')
-			})
 </script>
 </head>
 <style>
@@ -61,16 +56,17 @@ tr.hide {
 <body>
 
 
-	<div class="container">
 
+
+	<div class="container">
+	
 		
 		<!-- 몸통 -->
 		<div>
 			<table class="table ">
 				<thead>
 					<tr>
-						<th>제품명</td>
-						<th></td>
+						<th>활동유형</td>
 						<th>제목</td>
 						<th>활동예정일</td>
 						<th>완료일</td>
@@ -79,20 +75,22 @@ tr.hide {
 				</thead>
 				
 				<tbody>
+				<c:forEach var="item" items="${list}">
 					<tr>
-						<td>출장</td>
-						<td>국민은행</td>
-						<td>오늘 출장갑니다</td>
-						<td>2020-10-19</td>
-						<td>2020-11-10</td>
-						<td>O</td>	
+						<td>${item.code_name}</td>	
+						<td>${item.activity_title}</td>
+						<td>${item.activity_estimatedDate}</td>
+						<td>${item.activity_completionDate}</td>
+						<td>${item.activity_status}</td>	
 					</tr>
+				</c:forEach>
 				</tbody>
 			</table>
 		
 		</div>
 		
 	</div>
+
 
 </body>
 </html>

@@ -79,7 +79,7 @@ tr.hide {
 
 	<div class="container">
 		<div class="row" style="margin-top: 50px;">
-			<button class=" col-md-4 btn" onclick="location.href='http://localhost:8080/customer'"
+			<button class=" col-md-4 btn" onclick="location.href='http://localhost:8080/customer/list'"
 				style="margin: 5px; width: 360px; height: 200px;">
 				<div> 
 					<span class="glyphicon glyphicon-search" style="font-size: 60px;" aria-hidden="true"></span>
@@ -87,7 +87,7 @@ tr.hide {
 				</div>
 			</button>
 
-			<button class=" col-md-4 btn" onclick="location.href='http://localhost:8080/product'"
+			<button class=" col-md-4 btn" onclick="location.href='http://localhost:8080/product/list'"
 				style="margin: 5px; width: 360px; height: 200px;">
 				<div>
 					<span class="glyphicon glyphicon-gift" style="font-size: 60px;"
@@ -108,7 +108,7 @@ tr.hide {
 			</button>
 			
 			<!-- 2번째 줄 -->
-			<button class=" col-md-4 btn" onclick="location.href='http://localhost:8080/activity'"
+			<button class=" col-md-4 btn" onclick="location.href='http://localhost:8080/activity/list'"
 				style="margin: 5px; width: 360px; height: 200px;">
 				<div> 
 					<span class="glyphicon glyphicon-tasks" style="font-size: 60px;" aria-hidden="true"></span>

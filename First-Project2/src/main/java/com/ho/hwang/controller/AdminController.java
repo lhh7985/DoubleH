@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -16,17 +17,18 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/admin/*")
 public class AdminController {
 	private final UserService userService;
 
-	@GetMapping("/admin/codetable")
+	@GetMapping("/codetable")
 	public String admin_code(Model model) {
 		List<CodeVO> list = userService.selectCodeList();
 		model.addAttribute("list", list);
 		return "admin/codetable";
 	}
 
-	@PostMapping("/admin/codetable/delete")
+	@PostMapping("/codetable/delete")
 	@ResponseBody
 	public int deleteCode(@RequestParam(value = "chbox[]") List<Integer> charr) throws Exception {
 		int result = 0;
@@ -36,17 +38,15 @@ public class AdminController {
 			}
 			result=1;
 		}
-		
 		return result;
 	}
 	
-	
-	@GetMapping("/enroll/codetable")
+	@GetMapping("/enroll")
 	public String codetable() {
-		return "enroll/codetable";
+		return "admin/enroll";
 	}
 	
-	@PostMapping("/enroll/codetable")
+	@PostMapping("/enroll")
 	public void codetable(CodeVO codevo) {
 		userService.insertCode(codevo);
 	}

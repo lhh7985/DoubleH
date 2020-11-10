@@ -17,7 +17,7 @@
 
 <script type="text/javascript">
 	
-var winRef;
+/* var winRef;
 function goActivity() {
 	var sr_id = ${srvo.sr_id};
 	href = "http://localhost:8080/enroll/activity?sr_id=" + sr_id;
@@ -54,10 +54,10 @@ function goActivity() {
 
 	}
 
-}
+} */
 	
 	
-function complete(activity_id){
+/* function complete(activity_id){
 	$.ajax({
 		type : 'POST',
 		url : 'sr_detail?activity_id=' + activity_id,
@@ -70,7 +70,7 @@ function complete(activity_id){
 			location.reload();
 		}
 	});
-}
+} */
 
 function reloadPage() {
     location.reload();
@@ -96,11 +96,7 @@ label {
 
 </style>
 <body>
-	<div>
-		<div>
-            <jsp:include page="../header.jsp" />
-        </div>
-	</div>
+
 
 	<div class="container">
 	
@@ -129,10 +125,10 @@ label {
 			<input class="col-md-2 form-control" style="width:15%;" value="${srvo.sr_requestDate}"  disabled/>
 			
 			<label class="col-md-1" style="margin-left: 40px;">등록자</label>
-			<input class="col-md-2 form-control" style="width:15%;" value="${srvo.sr_registrant}"  disabled/>
+			<input class="col-md-2 form-control" style="width:15%;"  value="${srvo.sr_registrant}" disabled/>
 		
 			<label class="col-md-1" style="margin-left: 40px;">등록일</label>
-			<input class="col-md-2 form-control" style="width:15%;"  value="${srvo.sr_registrationDate}" disabled/>
+			<input class="col-md-2 form-control" style="width:15%;" value="${srvo.sr_registrationDate}"  disabled/>
 		</div>
 		
 		
@@ -153,9 +149,8 @@ label {
 	
 	<div style="margin-top: 20px;">
 		<div class="row-fluid">
-			<h2 class="col-md-1">활동</h2>
+			<h2>활동</h2>
 			
-			<button class="col-md-1 btn btn-default pull-right" style="margin-top:30px;" type="button" onclick="goActivity()">활동추가</button>
 		<div>
 		<table class="table" >
 			<thead>
@@ -166,7 +161,7 @@ label {
 					<th width="15%">시작일</th>
 					<th width="15%">완료예정일</th>
 					<th width="10%">상태</th>
-					<th width="10%"></th>
+					
 				</tr>
 			</thead>
 
@@ -179,14 +174,14 @@ label {
 					<td>${item.activity_registrationDate}</td>
 					<td>${item.activity_estimatedDate}</td>
 					<td>${item.activity_status}</td>
-					<c:choose>
+					<%-- <c:choose>
 						<c:when  test="${item.activity_status eq '완료'}">
 							<td height="45px;"></td>
 						</c:when>
 						<c:otherwise>
-							<td><input height="35px;" type="button" onclick=complete('${item.activity_id}') class="btn btn-default" value="활동완료"/></td>
+							<td><input height="35px;" type="button" onclick=complete('${item.activity_id}') class="btn" value="활동완료"/></td>
 						</c:otherwise>
-					</c:choose>
+					</c:choose> --%>
 				</tr>
 				
 
@@ -218,7 +213,7 @@ label {
 	</div>
 	
 	
-	<div  style="margin-bottom: 50px;">
+	<div  style="margin-bottom: 100px;">
 		
 	</div>
 

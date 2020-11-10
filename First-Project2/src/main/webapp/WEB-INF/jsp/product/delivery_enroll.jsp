@@ -85,11 +85,11 @@ var winRef;
 		} else {
 			var forms = $("#add").serialize();
 			$.ajax({
-				url: "/enroll/delivery",
+				url: "/delivery/enroll",
 				type:"POST",
 				data:forms,
 				success:function(data){
-					location.href="http://localhost:8080/delivery"
+					location.href="http://localhost:8080/product/delivery"
 				}
 			});
 		}
@@ -119,7 +119,7 @@ label {
 	
 	<div  style="margin-left:100px;">
 	
-		<form id="add" name="add" action="http://localhost:8080/enroll/delivery"  method="POST">
+		<form id="add" name="add"  method="POST">
 		<div>
 			<h1 class="font2">납품하기</h1>
 			<br>

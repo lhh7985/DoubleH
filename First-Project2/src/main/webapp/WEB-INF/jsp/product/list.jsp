@@ -19,7 +19,7 @@
 <body>
 	<div>
 		<div>
-			<jsp:include page="header.jsp" />
+			<jsp:include page="../header.jsp" />
 		</div>
 	</div>
 

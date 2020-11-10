@@ -6,7 +6,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Hello test</title>
+<title>납품 정보</title>
 
 
 <link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.css">
@@ -16,9 +16,8 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 
-<script type="text/javascript">
-
-
+<script type="text/javascript">	
+	
 function checkAll(){
     if( $("#th_checkAll").is(':checked') ){
       $("input[name=chBox]").prop("checked", true);
@@ -34,16 +33,16 @@ function selectDelete(){
 		var checkarr = new Array();
 		
 		$("input[class='chBox']:checked").each(function(){
-			checkarr.push($(this).attr("data-srNum"));
+			checkarr.push($(this).attr("data-deliveryNum"));
 		});
 		
 		$.ajax({
-			url:"/sr/delete",
+			url:"/product/delivery/delete",
 			type:"POST",
 			data:{chbox:checkarr},
 			success: function(result){
 				if(result==1){
-					location.href="/sr";
+					location.href="/delivery";
 				}else{
 					alert("삭제 실패");
 				}
@@ -53,70 +52,29 @@ function selectDelete(){
 	}
 	
 }
-
 	
-
-	function detail(sr_id){
-		$.ajax({
-			type : 'GET',
-			url : '/details/sr_detail?sr_id=' + sr_id,
-			error : function(request, status, error) {
-				alert("code:" + request.status + "\n" + "message:"
-						+ request.responseText + "\n" + "error:"
-						+ error);
-			},
-			success : function(data) {
-				location.href = "http://localhost:8080/details/sr_detail?sr_id=" + sr_id;
-			}
-		});
+	
+	
+	function enroll_delivery(){
+		location.href="http://localhost:8080/product/delivery";
 	}
-	
+	//안씀
 	var winRef;
-	function sr_detail(sr_id) {
-		
-		var _width = '1200';
-	    var _height = '900';
-	 
-	    // 팝업을 가운데 위치시키기 위해 아래와 같이 값 구하기
-	    var _left = Math.ceil(( window.screen.width - _width )/2);
-	    var _top= Math.ceil(( window.screen.width - _height )/2); 
-
-		
-		
-		href = "http://localhost:8080/details/sr_detail?sr_id=" + sr_id;
+	function delivery_enroll() {
+		href = "http://localhost:8080/product/delivery";
 		if(!winRef){
-			$.ajax({
-				type : 'GET',
-				url : '/details/sr_detail?sr_id=' + sr_id,
-				error : function(request, status, error) {
-					alert("code:" + request.status + "\n" + "message:"
-							+ request.responseText + "\n" + "error:"
-							+ error);
-				},
-				success : function(data) {
-					winRef=window.open(href, "detail",'width='+ _width +', height='+ _height +', left=' + _left + ', top='+ _top);
-				}
-			});
+			winRef=window.open(href, "customer",'width=1000px, height=600px,toolbars=no,scrollbars=no');
 		}else{
 			if (winRef.closed == false) {
 	            winRef.focus();
 	        }else{
-	        	$.ajax({
-	    			type : 'GET',
-	    			url : '/details/sr_detail?sr_id=' + sr_id,
-	    			error : function(request, status, error) {
-	    				alert("code:" + request.status + "\n" + "message:"
-	    						+ request.responseText + "\n" + "error:"
-	    						+ error);
-	    			},
-	    			success : function(data) {
-	    				winRef=window.open(href, "detail",'width='+ _width +', height='+ _height +', left=' + _left + ', top='+ _top);
-	    			}
-	    		});
+	        	winRef=window.open(href, "customer",'width=1000px, height=600px,toolbars=no,scrollbars=no');
 	        }
 		}
 
+		window.close();
 	}
+			
 	
 	function myFunction() {
 		  var input, filter, table, tr, td, i, txtValue;
@@ -125,14 +83,12 @@ function selectDelete(){
 		  table = document.getElementById("myTable");
 		  tr = table.getElementsByTagName("tr");
 		  for (i = 0; i < tr.length; i++) {
-			if( $("select option:selected").val() == 'type'){
-			    td = tr[i].getElementsByTagName("td")[0];	  
-			}else if($("select option:selected").val() == 'customer') {
-				td = tr[i].getElementsByTagName("td")[1];
+			if( $("select option:selected").val() == 'customer'){
+			    td = tr[i].getElementsByTagName("td")[1];	  
 			}else if($("select option:selected").val() == 'product') {
 				td = tr[i].getElementsByTagName("td")[2];
-			}else if($("select option:selected").val() == 'title') {
-				td = tr[i].getElementsByTagName("td")[3];
+			}else if($("select option:selected").val() == 'business') {
+				td = tr[i].getElementsByTagName("td")[0];
 			}
 		    if (td) {
 		      txtValue = td.textContent || td.innerText;
@@ -144,6 +100,11 @@ function selectDelete(){
 		    }       
 		  }
 		}
+	
+	function reloadPage() {
+	    location.reload();
+	}
+
 </script>
 </head>
 <style>
@@ -159,11 +120,14 @@ function selectDelete(){
 	margin-bottom: 15px;
 }
 
+tr.hide {
+	display: none
+}
+
 
 .font1 {
-	font-size: 15px;
-	font-weight: bold;
-	margin-top: 30px;
+	text-align: center;
+	margin-left: 200px;
 }
 
 .font2 {
@@ -171,57 +135,59 @@ function selectDelete(){
 	font-weight: bold;
 }
 
+tr.hide {
+	display: none
+}
+
+.label1 {
+	display: block;
+	width: 100%;
+	height: 34px;
+	padding: 6px 12px;
+	font-size: 15px;
+	line-height: 1.42857143;
+}
 </style>
 <body>
 	<div>
 		<div>
-            <jsp:include page="header.jsp" />
+            <jsp:include page="../header.jsp" />
         </div>
 	</div>
 	
 	
 
 	<div class="container">
-			
 		<div>
 
 			<ul class="nav nav-pills font2 row" style="padding: 5px;">
 				
-				<div class="col-md-4 font2s">SR</div>
+				<div class="col-md-4 font2">납품정보</div>
 				<form  class="navbar-form col-md-3" role="search" style="width: 45%; margin-top:7px;">
 					<select class=" form-control" style="margin-top:6px;  width: 25%; font-size: 12px;" id="searchOption" name="searchOption">
-						<option value="type">구분</option>
 						<option value="customer">고객사명</option>
 						<option value="product">제품명</option>
-						<option value="title">제목</option>
+						<option value="business">사업건 번호</option>
 					</select>
 					<div class="form-group">
 						<input type="text" id = "myInput" onkeyup="myFunction()" class="form-control" placeholder="Search">
 					</div>
 				</form>
 				
-				<button class="col-md-1 btn btn-default" id="btn1" onclick="selectDelete()" disabled="disabled" style="margin-left: 5px; margin-top:20px; float: right;">삭제</button>
-				<button class="col-md-1 btn btn-default" style="float: right; margin-top:20px;" onclick="location.href='http://localhost:8080/enroll/sr'" >추가</button>
+				<button class="col-md-1 btn btn-default" id="btn1" disabled="disabled" onclick="selectDelete()" style="margin-left: 5px; margin-top:20px; float: right;">삭제</button>
+				<button class="col-md-1 btn btn-default" style="float: right; margin-top:20px;" onclick="location.href='http://localhost:8080/product/delivery/enroll'" >추가</button>
 			</ul>
 		</div>
-		
-		
-		<!-- <div>
-			<button class="btn btn-default" style="float:right;" onclick="location.href='http://localhost:8080/enroll/SR_enroll'">등록</button>
-		</div> -->
-		
 		<!-- 몸통 -->
 		<div>
-			<table class="table table-hover " id="myTable" style="table-layout: fixed">
+			<table class="table table-hover" id="myTable" style="table-layout: fixed">
 				<thead>
 					<tr>
-						<th width="5%">구분</th>
+						<th width="10%">사업건 번호</th>
 						<th width="10%">고객사</th> 
-						<th width="8%">제품</th>
-						<th width="30%">제목</th>
-						<th width="5%">중요도</th>
-						<th width="10%">요청일자</th>
-						<th width="8%">상태</th>
+						<th width="15%">제품</th>
+						<th width="10%">수량</th>
+						<th width="15%">납품일</th>
 						<sec:authorize access="hasRole('ADMIN')">
 						<th width="3%"><input type="checkbox" name="checkAll" id="th_checkAll" onclick="checkAll()"></th>
 						</sec:authorize>
@@ -229,23 +195,23 @@ function selectDelete(){
 				</thead>
 				
 				<tbody>
-				<c:forEach var="item" items="${srList}">
+				<c:forEach var="item" items="${deliveryList}" varStatus="status">
 					<tr >
-						<td>${item.code_name}</td>
-						<td style="cursor: pointer;" onclick="detail('${item.sr_id}')")>${item.customer_name}</td>
-						<td style="cursor: pointer;" onclick="detail('${item.sr_id}')")>${item.product_name}</td>
-						<td style="cursor: pointer;" onclick="detail('${item.sr_id}')")>${item.sr_title}</td>
-						<td>${item.importance}</td>
-						<td>${item.sr_requestDate}</td>
-						<td>${item.sr_status}</td>
+						<td>${item.delivery_businessNum}</td>
+						<td>${item.customer_name}</td>
+						<td  data-toggle="collapse" data-target="#${status.index}" style="cursor: pointer;">${item.product_name}</td>
+						<td>${item.delivery_quantity}</td>
+						<td>${item.delivery_date}</td>
 						<sec:authorize access="hasRole('ADMIN')">
-						<td><input type="checkbox" name="chBox" class="chBox" data-srNum="${item.sr_id}" />
+						<td><input type="checkbox" name="chBox" class="chBox" data-deliveryNum="${item.delivery_id}" />
 							<script type="text/javascript">
 							$(".chBox").click(function(){
 								  $("#th_checkAll").prop("checked", false);
 								 });
 							
 							$('input[type="checkbox"]').click(function(){
+								
+
 						        var tmpp = $(this).prop('checked'); 
 						        var tt=$("[name='chBox']:checked").length;
 						        // this를 사용하여 클릭한 checkbox 가 체크되도록 설정
@@ -257,15 +223,33 @@ function selectDelete(){
 						        }
 						    });
 							</script>
-						</sec:authorize>
+							</td>
+							</sec:authorize>
+							
 					</tr>
+					
+					<c:if test="${item.product_name eq 'ToS' || item.product_name eq 'iGRIFFIN'}">
+					<tr class="p panel-collapse collapse" id="${status.index}">
+						<td colspan="5">
+							<div>
+								<c:forEach var="item2" items="${osList}">
+									<c:if test="${item.delivery_id eq item2.delivery_id}">
+										<p>
+											${item2.os_name} : <span>${item2.os_quantity}</span>
+										</p>
+									</c:if>
+								</c:forEach>
+							</div>
+						</td>
+					</tr>
+					</c:if>
+					
+					
 					</c:forEach>
 				</tbody>
 			</table>
 		
 		</div>
-		
-		
 		
 		
 	</div>

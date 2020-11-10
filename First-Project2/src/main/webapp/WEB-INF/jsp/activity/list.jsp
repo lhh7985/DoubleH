@@ -24,7 +24,7 @@
 	function complete(activity_id){
 		$.ajax({
 			type : 'POST',
-			url : '/activity?activity_id=' + activity_id,
+			url : '/activity/list?activity_id=' + activity_id,
 			error : function(request, status, error) {
 				alert("code:" + request.status + "\n" + "message:"
 						+ request.responseText + "\n" + "error:"
@@ -76,7 +76,7 @@ tr.hide {
 
 	<div>
 		<div>
-            <jsp:include page="header.jsp" />
+            <jsp:include page="../header.jsp" />
         </div>
 	</div>
 
@@ -85,7 +85,7 @@ tr.hide {
 		<div>
 			<h1 class="font2">활동</h1>
 			<div>
-				<button class="btn btn-default font1 col-sx-2" onclick="location.href='http://localhost:8080/enroll/activity_enroll'">추가</button>
+				<button class="btn btn-default font1 col-sx-2" onclick="location.href='http://localhost:8080/activity/enroll-employee'">추가</button>
 			</div>
 			
 		</div>

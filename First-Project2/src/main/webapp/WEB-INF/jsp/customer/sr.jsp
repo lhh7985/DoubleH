@@ -46,11 +46,11 @@ function sr_detail(sr_id) {
 
 	
 	
-	href = "http://localhost:8080/details/info?sr_id=" + sr_id;
+	href = "http://localhost:8080/customer/sr-detail?sr_id=" + sr_id;
 	if(!winRef){
 		$.ajax({
 			type : 'GET',
-			url : '/details/info?sr_id=' + sr_id,
+			url : '/customer/sr-detail?sr_id=' + sr_id,
 			error : function(request, status, error) {
 				alert("code:" + request.status + "\n" + "message:"
 						+ request.responseText + "\n" + "error:"
@@ -81,10 +81,10 @@ function sr_detail(sr_id) {
 
 }
 
-function detail(sr_id){
+/* function detail(sr_id){
 	$.ajax({
 		type : 'GET',
-		url : '/details/sr_detail?sr_id=' + sr_id,
+		url : '/details/sr?sr_id=' + sr_id,
 		error : function(request, status, error) {
 			alert("code:" + request.status + "\n" + "message:"
 					+ request.responseText + "\n" + "error:"
@@ -94,7 +94,7 @@ function detail(sr_id){
 			$('#tab').html(data);
 		}
 	});
-}
+} */
 
 
 
@@ -130,19 +130,10 @@ function detail(sr_id){
 			</tbody>
 		</table>	
 	</div>
-	
-	
-	<div>
 		
 	<div>
-
 		<div id="tab"></div>
-	
-	
 	</div>
-	
-	
-	</div>
-
+		
 </body>
 </html>
