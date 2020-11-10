@@ -30,7 +30,7 @@
 .hasDatepicker {
 	cursor: pointer;
 } -->
-</style>
+
 
 <script type="text/javascript">
 
@@ -97,9 +97,7 @@
 
 	
 	var winRef;
-	
-	
-	
+
 	function search_emp_secuve() {
 		href = "http://localhost:8080/search/employee_search_secuve";
 		if(!winRef){

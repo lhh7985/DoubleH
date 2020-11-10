@@ -30,12 +30,12 @@
 		var code_name = add.code_name.value;
 		var code_status = add.code_status.value;		
 	
-		if (!code_group || !code_upper || !code_name|| !code_status ) {
+		if (!code_group || !code_name|| !code_status ) {
 			alert("정보를 입력해주세요.");
 		} else {
 			var forms = $("#add").serialize();
 			$.ajax({
-				url: "/enroll/codetable",
+				url: "/admin/enroll",
 				type:"POST",
 				data:forms,
 				success:function(data){

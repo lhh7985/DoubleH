@@ -17,7 +17,7 @@
 
 <script type="text/javascript">
 	
-var winRef;
+/* var winRef;
 function goActivity() {
 	var sr_id = ${srvo.sr_id};
 	href = "http://localhost:8080/enroll/activity?sr_id=" + sr_id;
@@ -54,10 +54,10 @@ function goActivity() {
 
 	}
 
-}
+} */
 	
 	
-function complete(activity_id){
+/* function complete(activity_id){
 	$.ajax({
 		type : 'POST',
 		url : 'sr_detail?activity_id=' + activity_id,
@@ -70,7 +70,7 @@ function complete(activity_id){
 			location.reload();
 		}
 	});
-}
+} */
 
 function reloadPage() {
     location.reload();

@@ -50,18 +50,18 @@
 
 			<div>
 				<ul class="nav navbar-nav">
-					<li><a href="http://localhost:8080/customer">고객사</a></li>
+					<li><a href="http://localhost:8080/customer/list">고객사</a></li>
 				</ul>
 				<ul class="nav navbar-nav">
 					<li><a class="dropdown-toggle" data-toggle="dropdown" href="#"
 						role="button" aria-expanded="false">제품 <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="http://localhost:8080/product">제품</a></li>
-							<li><a href="http://localhost:8080/delivery">납품정보</a></li>
+							<li><a href="http://localhost:8080/product/list">제품</a></li>
+							<li><a href="http://localhost:8080/product/delivery">납품정보</a></li>
 						</ul></li>
 				</ul>
 				<ul class="nav navbar-nav ">
-					<li><a href="http://localhost:8080/sr">SR </a></li>
+					<li><a href="http://localhost:8080/sr/list">SR </a></li>
 
 				</ul>
 

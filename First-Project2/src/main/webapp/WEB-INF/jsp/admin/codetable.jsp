@@ -18,7 +18,7 @@
 <script type="text/javascript">	
 var winRef;
 function code_enroll() {
-	href = "http://localhost:8080/enroll/codetable";
+	href = "http://localhost:8080/admin/enroll";
 	if(!winRef){
 		winRef=window.open(href, "codetable",'width=500px, height=600px,toolbars=no,scrollbars=no');
 	}else{

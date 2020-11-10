@@ -37,7 +37,7 @@ function selectDelete(){
 		});
 		
 		$.ajax({
-			url:"/delivery/delete",
+			url:"/product/delivery/delete",
 			type:"POST",
 			data:{chbox:checkarr},
 			success: function(result){
@@ -56,12 +56,12 @@ function selectDelete(){
 	
 	
 	function enroll_delivery(){
-		location.href="http://localhost:8080/enroll/delivery";
+		location.href="http://localhost:8080/product/delivery";
 	}
 	//안씀
 	var winRef;
 	function delivery_enroll() {
-		href = "http://localhost:8080/enroll/delivery";
+		href = "http://localhost:8080/product/delivery";
 		if(!winRef){
 			winRef=window.open(href, "customer",'width=1000px, height=600px,toolbars=no,scrollbars=no');
 		}else{
@@ -151,7 +151,7 @@ tr.hide {
 <body>
 	<div>
 		<div>
-            <jsp:include page="header.jsp" />
+            <jsp:include page="../header.jsp" />
         </div>
 	</div>
 	
@@ -175,7 +175,7 @@ tr.hide {
 				</form>
 				
 				<button class="col-md-1 btn btn-default" id="btn1" disabled="disabled" onclick="selectDelete()" style="margin-left: 5px; margin-top:20px; float: right;">삭제</button>
-				<button class="col-md-1 btn btn-default" style="float: right; margin-top:20px;" onclick="location.href='http://localhost:8080/enroll/delivery'" >추가</button>
+				<button class="col-md-1 btn btn-default" style="float: right; margin-top:20px;" onclick="location.href='http://localhost:8080/product/delivery/enroll'" >추가</button>
 			</ul>
 		</div>
 		<!-- 몸통 -->

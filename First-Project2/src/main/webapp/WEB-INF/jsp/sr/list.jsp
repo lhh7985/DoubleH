@@ -59,14 +59,14 @@ function selectDelete(){
 	function detail(sr_id){
 		$.ajax({
 			type : 'GET',
-			url : '/details/sr_detail?sr_id=' + sr_id,
+			url : '/sr/detail?sr_id=' + sr_id,
 			error : function(request, status, error) {
 				alert("code:" + request.status + "\n" + "message:"
 						+ request.responseText + "\n" + "error:"
 						+ error);
 			},
 			success : function(data) {
-				location.href = "http://localhost:8080/details/sr_detail?sr_id=" + sr_id;
+				location.href = "http://localhost:8080/sr/detail?sr_id=" + sr_id;
 			}
 		});
 	}
@@ -83,11 +83,11 @@ function selectDelete(){
 
 		
 		
-		href = "http://localhost:8080/details/sr_detail?sr_id=" + sr_id;
+		href = "http://localhost:8080/sr/detail?sr_id=" + sr_id;
 		if(!winRef){
 			$.ajax({
 				type : 'GET',
-				url : '/details/sr_detail?sr_id=' + sr_id,
+				url : '/sr/detail?sr_id=' + sr_id,
 				error : function(request, status, error) {
 					alert("code:" + request.status + "\n" + "message:"
 							+ request.responseText + "\n" + "error:"
@@ -103,7 +103,7 @@ function selectDelete(){
 	        }else{
 	        	$.ajax({
 	    			type : 'GET',
-	    			url : '/details/sr_detail?sr_id=' + sr_id,
+	    			url : '/sr/detail?sr_id=' + sr_id,
 	    			error : function(request, status, error) {
 	    				alert("code:" + request.status + "\n" + "message:"
 	    						+ request.responseText + "\n" + "error:"
@@ -175,7 +175,7 @@ function selectDelete(){
 <body>
 	<div>
 		<div>
-            <jsp:include page="header.jsp" />
+            <jsp:include page="../header.jsp" />
         </div>
 	</div>
 	
@@ -201,7 +201,7 @@ function selectDelete(){
 				</form>
 				
 				<button class="col-md-1 btn btn-default" id="btn1" onclick="selectDelete()" disabled="disabled" style="margin-left: 5px; margin-top:20px; float: right;">삭제</button>
-				<button class="col-md-1 btn btn-default" style="float: right; margin-top:20px;" onclick="location.href='http://localhost:8080/enroll/sr'" >추가</button>
+				<button class="col-md-1 btn btn-default" style="float: right; margin-top:20px;" onclick="location.href='http://localhost:8080/sr/enroll'" >추가</button>
 			</ul>
 		</div>
 		

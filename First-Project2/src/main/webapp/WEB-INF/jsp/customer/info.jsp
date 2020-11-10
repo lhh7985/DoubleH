@@ -17,6 +17,9 @@
 
 <script type="text/javascript">
 
+function goModify(){
+	location.href="http://localhost:8080/customer/modify";
+}
 	
 	$(function() {
 		$('.tabmenu').click(function() {
@@ -25,7 +28,7 @@
 					
 					$.ajax({
 						type : 'GET',
-						url : '/' + activeTab,
+						url : '/customer/' + activeTab,
 						data : {
 							customer_id : "${customer.customer_id}"
 						},
@@ -79,68 +82,30 @@
 
 	<div>
 		<div>
-			<jsp:include page="header.jsp" />
+			<jsp:include page="../header.jsp" />
 		</div>
 	</div>
-	<!-- <nav class="navbar navbar-default">
-		<div class="container">
-			<div class="navbar-header">
-				<a href="http://localhost:8080/main" class="navbar-brand">Project
-					Name</a>
-			</div>
-
-			<div>
-				<ul class="nav navbar-nav">
-					<li><a href="http://localhost:8080/customer">고객사</a></li>
-				</ul>
-				<ul  class="nav navbar-nav">
-					<li><a href="http://localhost:8080/product">제품</a></li>
-				</ul>
-				<ul class="nav navbar-nav ">
-					<li>
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">SR <span class="caret"></span></a>
-
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#">기능개선</a></li>
-							<li><a href="#">이슈</a></li>
-							<li><a href="#">기타등등</a></li>
-						</ul></li>
-				</ul>
-				
-				
-				<ul  class="nav navbar-nav">
-					<li><a href="http://localhost:8080/employee/employee">사원</a></li>
-				</ul>
-				
-				
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">로그인</a></li>
-				</ul>
-				
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">회원가입</a></li>
-				</ul>
-			</div>
-
-		</div>
-	</nav> -->
 
 
 	<div>
 		<div class="container" style="margin-bottom: 30px; margin-top: 50px;">
 			<div style="margin-left: 10px;">
-				<input class = "btn btn-default" style="float: right; margin-right:50px;" type="button" value="수정" />
 				<p class="my">상세정보</p>
 			</div>
 
 			<div>
 				<div class="container">
+				
+					<form action="/customer/modify" method="post">
+						<button class="btn btn-default" type="submit" style="float: right;" onclick="goModify()">수정</button>
 					<div class="row" style="margin-left: 10px;">
 						<div class="inputsize" style="width: 8%;" >
 							<p class="myfont">회사명</p>
 						</div>
 						<div class="inputsize" style="width: 10%;">
 							<p>${customer.customer_name}</p>
+							<input name="customer_name" style="display: none" value="${customer.customer_name}"/>
+							<input name="customer_id" style="display: none" value="${customer.customer_id}" />
 						</div>
 						
 						<div class="inputsize" style="width: 8%;">
@@ -148,6 +113,9 @@
 						</div>
 						<div class="inputsize" >
 							<p>${customer.address_address}&nbsp;&nbsp;  ${customer.address_detail}&nbsp;&nbsp; (우:${customer.address_post}) </p>
+							<input name="address" style="display: none" value="${customer.address_address}"/>
+							<input name="addr_detail" style="display: none" value="${customer.address_detail}"/>
+							<input name="addr_post" style="display: none" value="${customer.address_post}"/>
 						</div>
 					</div>
 					
@@ -158,6 +126,8 @@
 						</div>
 						<div class="inputsize" style="width: 10%;">
 							<p>${manager.employee_name}</p>
+							<input name="manager" style="display: none" value="${manager.employee_name}"/>
+							<input name="manager_id" value="${manager.employee_id}" style="display:none "/>
 						</div>
 						
 						<div class="inputsize" style="width: 8%;">
@@ -195,6 +165,8 @@
 						</div>
 						<div class="inputsize" style="width: 10%;">
 							<p>${se.employee_name}</p>
+							<input name="se" style="display: none" value="${se.employee_name}"/>
+							<input name="se_id" value="${se.employee_id}"style="display:none "/>
 						</div>
 						
 						<div class="inputsize" style="width: 8%;">
@@ -202,28 +174,25 @@
 						</div>
 						<div class="inputsize">
 							<p>${sales.employee_name}</p>
+							<input name="sales" style="display: none" value="${sales.employee_name}"/>
+							<input name="sales_id" value="${sales.employee_id}" style="display:none "/>
 						</div>
 						
 					</div>
 					
-					
+					</form>
 				</div>
 
 			</div>
 
-			<!-- <ul class="nav nav-tabs font1" style="" id="dd">
-				<li data-tab='OS' class="tabmenu nav-item"><a style="cursor: pointer;">제품</a></li>
-				<li data-tab='manager' class="tabmenu nav-item"><a style="cursor: pointer;">담당자이력</a></li>
-				<li data-tab='customer_sr' class="tabmenu nav-item"><a style="cursor: pointer;">SR</a></li>
-				<li data-tab='customer_activity' class="tabmenu nav-item"><a style="cursor: pointer;">방문내역</a></li>
-			</ul> -->
+	
 			<div class="panel with-nav-tabs panel-default" style="margin-top: 10px;">
 				   <div class="panel-heading">
                         <ul class="nav nav-tabs">
                             <li data-tab='OS' class=" tabmenu"><a style="cursor: pointer; font-weight: bold;" data-toggle="tab" >납품정보</a></li>
                             <li data-tab='manager' class="tabmenu"><a style="cursor: pointer; font-weight: bold;" data-toggle="tab">담당자이력</a></li>
-                            <li data-tab='customer_sr' class="tabmenu"><a style="cursor: pointer; font-weight: bold;" data-toggle="tab">SR</a></li>
-                            <li data-tab='customer_activity' class="tabmenu"><a style="cursor: pointer; font-weight: bold;" data-toggle="tab">방문내역</a></li>
+                            <li data-tab='sr' class="tabmenu"><a style="cursor: pointer; font-weight: bold;" data-toggle="tab">SR</a></li>
+                            <li data-tab='activity' class="tabmenu"><a style="cursor: pointer; font-weight: bold;" data-toggle="tab">방문내역</a></li>
                            
                         </ul>
                 </div>
@@ -231,11 +200,7 @@
                     <div class="tab-content">
                     
                    		<div  id='tabs'></div>
-                        <!-- <div class="tab-pane fade in active" id="tab1default">Default 1</div>
-                        <div class="tab-pane fade" id="tab2default">Default 2</div>
-                        <div class="tab-pane fade" id="tab3default">Default 3</div>
-                        <div class="tab-pane fade" id="tab4default">Default 4</div>
-                        <div class="tab-pane fade" id="tab5default">Default 5</div> -->
+
                     </div>
                 </div>
 			</div>
