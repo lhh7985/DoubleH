@@ -472,5 +472,26 @@
 		#{employee_id}
 	</delete>
 
+	<!-- 고객사 정보 수정 -->
+	<!-- 고객사 담당자 수정 -->
+	<update id="updateManager">
+		UPDATE customer
+		SET employe_id_manager = #{employee_id_manager}
+		WHERE customer_id = #{customer_id}
+	</update>
+	
+	<!-- SE담당자 수정 -->
+	<update id="updateSE">
+		UPDATE customer
+		SET employe_id_se = #{employee_id_se}
+		WHERE customer_id = #{customer_id}
+	</update>
+	
+	<!-- 영업담당자 수정 -->
+	<update id="updateSales">
+		UPDATE customer
+		SET employe_id_sales = #{employee_id_sales}
+		WHERE customer_id = #{customer_id}
+	</update>
 
 </mapper>
