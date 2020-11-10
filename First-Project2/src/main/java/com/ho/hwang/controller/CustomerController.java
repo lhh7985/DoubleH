@@ -6,11 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.ho.hwang.service.UserService;
 import com.ho.hwang.vo.ActivityVO;
@@ -25,15 +26,15 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/customer/*")
 public class CustomerController {
 
 	private final UserService userService;
 
-	@RequestMapping(value = "/info")
+	@GetMapping("/info")
 	public String thymeleaf(int customer_id, Model model) {
 		CustomerVO vo = userService.selectCustomerDetail(customer_id);
 		EmployeeVO empvo = userService.selectEmployee(vo.getEmployee_id_manager());
-
 		EmployeeVO se = userService.selectEmployee(vo.getEmployee_id_se());
 		EmployeeVO sales = userService.selectEmployee(vo.getEmployee_id_sales());
 
@@ -42,62 +43,88 @@ public class CustomerController {
 		model.addAttribute("se", se);
 		model.addAttribute("sales", sales);
 
-		return "info";
+		return "customer/info";
 	}
 
-	@RequestMapping("/OS")
-	@ResponseBody
-	public ModelAndView OS(Model model, HttpServletRequest req) {
-
+	@GetMapping("/OS")
+	public String OS(Model model, HttpServletRequest req) {
 		int customer_id = Integer.parseInt(req.getParameter("customer_id"));
-		ModelAndView mav = new ModelAndView();
-
 		List<DeliveryVO> list = userService.selectDelivery(customer_id);
-		mav.addObject("list", list);
-
+		model.addAttribute("list", list);
 		List<OsVO> list2 = userService.selectOS(customer_id);
-		mav.addObject("list2", list2);
+		model.addAttribute("list2", list2);
 
-		return mav;
+		return "customer/OS";
 	}
 
-	@RequestMapping("/manager")
+	@GetMapping("/manager")
 	public String manager(Model model) {
-		return "manager";
+		return "customer/manager";
 	}
 
-	@RequestMapping("/customer")
+	@GetMapping("/list")
 	public String tab1(Model model) {
 		List<CustomerListVO> list = userService.selectCustomerList();
-
 		model.addAttribute("list", list);
 
-		return "customer";
+		return "customer/list";
 	}
 
-	@RequestMapping("/customer_sr")
+	@GetMapping("/sr")
 	public String customer_sr(Model model, HttpServletRequest req) {
-
 		int customer_id = Integer.parseInt(req.getParameter("customer_id"));
 		List<SrVO> srList = userService.selectSRList(customer_id);
-
 		model.addAttribute("srList", srList);
-		return "customer_sr";
+
+		return "customer/sr";
 	}
 
-	@RequestMapping("/details/info")
+	@GetMapping("/sr-detail")
 	public String sr_detail(Model model, int sr_id) {
-
 		SrVO srvo = userService.selectSRDetail(sr_id);
 		List<ActivityVO> acvo = userService.selectCustomerActivity(sr_id);
-
 		model.addAttribute("srvo", srvo);
 		model.addAttribute("acvo", acvo);
-		return "details/info";
+
+		return "customer/sr_detail";
 	}
-	
-	
-	@PostMapping("/customer/delete")
+
+	@GetMapping("/activity")
+	public String customer_activity(Model model, HttpServletRequest req) {
+		int customer_id = Integer.parseInt(req.getParameter("customer_id"));
+		List<ActivityVO> list = userService.selectVisit(customer_id);
+		model.addAttribute("list", list);
+
+		return "/customer/activity";
+	}
+
+	@PostMapping(value = "/modify")
+	public String customer_modify() {
+		return "/modify";
+	}
+
+	@PostMapping(value = "/modify.do")
+	public void modify(CustomerVO customerVO) {
+		if (customerVO.getEmployee_id_manager() != 0) {
+			// 오늘날짜 현재 담당자 endDate에 찍기
+			// 현재 고객사ID를 통해서 UPDATE 실행
+			System.out.println("고객담당자 변경");
+			// 새로운 담당자를 오늘 날짜로 Start에 추가하기
+		}
+		if (customerVO.getEmployee_id_se() != 0) {
+			// 오늘날짜 현재 담당자 endDate에 찍기
+			// 새로운 담당자를 오늘 날짜로 Start에 추가하기
+			System.out.println("SE담당자 변경");
+		}
+
+		if (customerVO.getEmployee_id_sales() != 0) {
+			// 오늘날짜 현재 담당자 endDate에 찍기
+			// 새로운 담당자를 오늘 날짜로 Start에 추가하기
+			System.out.println("영업담당자 변경");
+		}
+	}
+
+	@PostMapping("/delete")
 	@ResponseBody
 	public int deleteCustomer(@RequestParam(value = "chbox[]") List<Integer> charr) throws Exception {
 		int result = 0;
@@ -105,10 +132,22 @@ public class CustomerController {
 			for (int i : charr) {
 				userService.deleteCustomer(i);
 			}
-			result=1;
+			result = 1;
 		}
-		
 		return result;
 	}
-}
 
+	@GetMapping("/enroll")
+	public String custoemr_enroll(Model model) {
+		return "/customer/enroll";
+	}
+
+	// 고객사 등록부분
+	@PostMapping("/enroll")
+	public void customer_enroll(CustomerVO customerVO) {
+		userService.insertCustomer(customerVO);
+		int x = userService.selectCustomer_id();
+		customerVO.setCustomer_id(x);
+		userService.insertAddress(customerVO);
+	}
+}

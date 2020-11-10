@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,41 +19,39 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/product")
 public class ProductController {
 
 	private final UserService userService;
 
-	@RequestMapping("/product")
+	@GetMapping("/list")
 	public String product(Model model) {
-
 		List<ProductVO> productList = userService.selectProduct();
 		model.addAttribute("productList", productList);
 
-		return "product";
+		return "product/list";
 	}
 
 	// 납품정보
-	@RequestMapping("/delivery")
+	@GetMapping("/delivery")
 	public String delivery(Model model) {
-
 		List<DeliveryVO> deliveryList = userService.selectTotalDelivery();
 		model.addAttribute("deliveryList", deliveryList);
-
 		List<OsVO> osList = userService.selectTotalOS();
 		model.addAttribute("osList", osList);
 
-		return "delivery";
+		return "product/delivery";
 	}
 
-	@RequestMapping("/enroll/delivery")
+	@GetMapping("/delivery/enroll")
 	public String delivery_add(Model model) {
-		return "enroll/delivery_enroll";
+		return "product/delivery_enroll";
 	}
 
-	@PostMapping(value = "/enroll/delivery")
+	@PostMapping(value = "/delivery/enroll")
 	public String enroll_delivery(DeliveryVO deliveryVO) {
 		userService.insertDelivery(deliveryVO);
-		int delivery_id = userService.selectLast(); 
+		int delivery_id = userService.selectLast();
 		OsVO osvo = new OsVO();
 		// window 입력
 		if (deliveryVO.getWindow() != 0) {
@@ -62,7 +60,6 @@ public class ProductController {
 			osvo.setOs_quantity(deliveryVO.getWindow());
 			userService.insertOS(osvo);
 		}
-
 		// Linux 입력
 		if (deliveryVO.getLinux() != 0) {
 			osvo.setDelivery_id(delivery_id);
@@ -70,7 +67,6 @@ public class ProductController {
 			osvo.setOs_quantity(deliveryVO.getLinux());
 			userService.insertOS(osvo);
 		}
-
 		// Unix 입력
 		if (deliveryVO.getUnix() != 0) {
 			osvo.setDelivery_id(delivery_id);
@@ -78,7 +74,7 @@ public class ProductController {
 			osvo.setOs_quantity(deliveryVO.getUnix());
 			userService.insertOS(osvo);
 		}
-		return "delivery";
+		return "product/delivery";
 	}
 
 	@PostMapping("/delivery/delete")
@@ -91,7 +87,6 @@ public class ProductController {
 			}
 			result = 1;
 		}
-
 		return result;
 	}
 }
