@@ -49,7 +49,8 @@
 				type:"POST",
 				data:forms,
 				success:function(data){
-				    location.href="http://localhost:8080/main";
+				   alert("수정되었습니다.")
+ 				   location.href="http://localhost:8080/customer/list";
 				}
 			});
 	}
@@ -118,7 +119,7 @@
 	var winRef;
 
 	function search_emp_secuve() {
-		href = "http://localhost:8080/search/employee_search_secuve";
+		href = "http://localhost:8080/search/employee-search-secuve";
 		if(!winRef){
 			winRef=window.open(href, "se_manager",'width=800px, height=600px,toolbars=no,scrollbars=no');
 		}else{
@@ -133,7 +134,7 @@
 	
 	function search_emp_secuve2() {
 		
-		href = "http://localhost:8080/search/employee_search_secuve2";
+		href = "http://localhost:8080/search/employee-search-secuve2";
 		if(!winRef){
 			winRef=window.open(href, "sales",'width=800px, height=600px,toolbars=no,scrollbars=no');
 		}else{
@@ -146,7 +147,7 @@
 	}
 	
 	function search_emp() {
-		href = "http://localhost:8080/search/employee_searchOther";
+		href = "http://localhost:8080/search/employee-searchOther";
 		if(!winRef){
 			winRef=window.open(href, '_blank','width=800px, height=600px,toolbars=no,scrollbars=no');
 		}else{
@@ -223,9 +224,6 @@
   }
 }
 
-
-
-출처: https://dgkim5360.tistory.com/entry/bootstrap-adjust-container-width [개발새발로그]
 </style>
 <body>
 
