@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ho.hwang.service.ActivityService;
+import com.ho.hwang.service.SrService;
 import com.ho.hwang.service.UserService;
 import com.ho.hwang.vo.ActivityVO;
 import com.ho.hwang.vo.SrVO;
@@ -23,10 +25,12 @@ import lombok.RequiredArgsConstructor;
 public class SrController {
 
 	private final UserService userService;
+	private final SrService srService;
+	private final ActivityService actService;
 
 	@GetMapping("/list")
 	public String SR(Model model) {
-		List<SrVO> srList = userService.selectSR();
+		List<SrVO> srList = srService.selectSR();
 		model.addAttribute("srList", srList);
 
 		return "sr/list";
@@ -55,7 +59,7 @@ public class SrController {
 
 		srvo.setCustomer_id(cu_id);
 		srvo.setProduct_id(p_id);
-		userService.insertSR(srvo);
+		srService.insertSR(srvo);
 
 		return "sr/enroll";
 	}
@@ -63,8 +67,8 @@ public class SrController {
 	// =================================SR디테일
 	@GetMapping("/detail")
 	public String sr_detail(Model model, int sr_id) {
-		SrVO srvo = userService.selectSRDetail(sr_id);
-		List<ActivityVO> acvo = userService.selectCustomerActivity(sr_id);
+		SrVO srvo = srService.selectSRDetail(sr_id);
+		List<ActivityVO> acvo = actService.selectCustomerActivity(sr_id);
 
 		model.addAttribute("srvo", srvo);
 		model.addAttribute("acvo", acvo);

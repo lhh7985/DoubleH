@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ho.hwang.service.CustomerService;
 import com.ho.hwang.service.UserService;
 import com.ho.hwang.vo.CustomerListVO;
 import com.ho.hwang.vo.DeliveryVO;
@@ -22,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
 	private final UserService userService;
+	private final CustomerService customerService;
 
 	@GetMapping("/main")
 	public String main() {
@@ -34,23 +36,23 @@ public class UserController {
 	}
 
 	// ==================================팝업창 매핑
-	@GetMapping("/search/customer_search")
+	@GetMapping("/search/customer-search")
 	public String co_search(Model model) {
-		List<CustomerListVO> customerSearch = userService.selectCustomer();
+		List<CustomerListVO> customerSearch = customerService.selectCustomer();
 		model.addAttribute("customerSearch", customerSearch);
 		
 		return "search/customer_search";
 	}
 
-	@GetMapping("/search/product_search")
+	@GetMapping("/search/product-search")
 	public String product_search(Model model, int customer_id) {
-		List<DeliveryVO> deliverylist = userService.selectCustomerProduct(customer_id);
+		List<DeliveryVO> deliverylist = customerService.selectCustomerProduct(customer_id);
 		model.addAttribute("deliverylist", deliverylist);
 
 		return "search/product_search";
 	}
 
-	@GetMapping("/search/employee_search_secuve")
+	@GetMapping("/search/employee-search-secuve")
 	public String employee_search_secuve(Model model) {
 		List<EmployeeVO> list = userService.selectEmployee_secuve();
 		model.addAttribute("list", list);
@@ -58,7 +60,7 @@ public class UserController {
 		return "search/employee_search";
 	}
 
-	@GetMapping("/search/employee_search_secuve2")
+	@GetMapping("/search/employee-search-secuve2")
 	public String employee_search_secuve2(Model model) {
 		List<EmployeeVO> list = userService.selectEmployee_secuve();
 		model.addAttribute("list", list);
@@ -66,7 +68,7 @@ public class UserController {
 		return "search/employee_search2";
 	}
 
-	@GetMapping("/search/employee_searchOther")
+	@GetMapping("/search/employee-searchOther")
 	public String employee_search(Model model) {
 		List<EmployeeVO> list = userService.selectEmployee_other();
 		model.addAttribute("list", list);
@@ -75,7 +77,7 @@ public class UserController {
 	}
 
 	// 모든 제품 검색창
-	@GetMapping("/search/product_search2")
+	@GetMapping("/search/product-search2")
 	public String product_search2(Model model) {
 		List<ProductVO> list = userService.selectSearchProduct2();
 		model.addAttribute("list", list);

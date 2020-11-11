@@ -9,10 +9,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ho.hwang.service.ActivityService;
+import com.ho.hwang.service.CustomerService;
+import com.ho.hwang.service.SrService;
 import com.ho.hwang.service.UserService;
 import com.ho.hwang.vo.ActivityVO;
 import com.ho.hwang.vo.CustomerListVO;
@@ -30,10 +32,13 @@ import lombok.RequiredArgsConstructor;
 public class CustomerController {
 
 	private final UserService userService;
+	private final CustomerService customerService;
+	private final SrService srService;
+	private final ActivityService actService;
 
 	@GetMapping("/info")
 	public String thymeleaf(int customer_id, Model model) {
-		CustomerVO vo = userService.selectCustomerDetail(customer_id);
+		CustomerVO vo = customerService.selectCustomerDetail(customer_id);
 		EmployeeVO empvo = userService.selectEmployee(vo.getEmployee_id_manager());
 		EmployeeVO se = userService.selectEmployee(vo.getEmployee_id_se());
 		EmployeeVO sales = userService.selectEmployee(vo.getEmployee_id_sales());
@@ -64,7 +69,7 @@ public class CustomerController {
 
 	@GetMapping("/list")
 	public String tab1(Model model) {
-		List<CustomerListVO> list = userService.selectCustomerList();
+		List<CustomerListVO> list = customerService.selectCustomerList();
 		model.addAttribute("list", list);
 
 		return "customer/list";
@@ -73,7 +78,7 @@ public class CustomerController {
 	@GetMapping("/sr")
 	public String customer_sr(Model model, HttpServletRequest req) {
 		int customer_id = Integer.parseInt(req.getParameter("customer_id"));
-		List<SrVO> srList = userService.selectSRList(customer_id);
+		List<SrVO> srList = srService.selectSRList(customer_id);
 		model.addAttribute("srList", srList);
 
 		return "customer/sr";
@@ -81,8 +86,8 @@ public class CustomerController {
 
 	@GetMapping("/sr-detail")
 	public String sr_detail(Model model, int sr_id) {
-		SrVO srvo = userService.selectSRDetail(sr_id);
-		List<ActivityVO> acvo = userService.selectCustomerActivity(sr_id);
+		SrVO srvo = srService.selectSRDetail(sr_id);
+		List<ActivityVO> acvo = actService.selectCustomerActivity(sr_id);
 		model.addAttribute("srvo", srvo);
 		model.addAttribute("acvo", acvo);
 
@@ -92,7 +97,7 @@ public class CustomerController {
 	@GetMapping("/activity")
 	public String customer_activity(Model model, HttpServletRequest req) {
 		int customer_id = Integer.parseInt(req.getParameter("customer_id"));
-		List<ActivityVO> list = userService.selectVisit(customer_id);
+		List<ActivityVO> list = actService.selectVisit(customer_id);
 		model.addAttribute("list", list);
 
 		return "/customer/activity";
@@ -145,8 +150,8 @@ public class CustomerController {
 	// 고객사 등록부분
 	@PostMapping("/enroll")
 	public void customer_enroll(CustomerVO customerVO) {
-		userService.insertCustomer(customerVO);
-		int x = userService.selectCustomer_id();
+		customerService.insertCustomer(customerVO);
+		int x = customerService.selectCustomer_id();
 		customerVO.setCustomer_id(x);
 		userService.insertAddress(customerVO);
 	}
