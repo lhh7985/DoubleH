@@ -6,6 +6,9 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import com.ho.hwang.account.Account;
+import com.ho.hwang.dto.ActivityDTO.insertActivityDTO;
+import com.ho.hwang.dto.ActivityDTO.insertCustomerActivityDTO;
+import com.ho.hwang.dto.ActivityDTO.selectActivityDTO;
 import com.ho.hwang.vo.ActivityVO;
 import com.ho.hwang.vo.CodeVO;
 import com.ho.hwang.vo.CustomerListVO;
@@ -73,7 +76,7 @@ public interface UserMapper {
 	int selectCustomer_id();
 	
 	void insertAddress(CustomerVO customerVO);
-	void insertActivity(ActivityVO activityVO);
+	void insertActivity(insertActivityDTO activityVO);
 	
 	
 	
@@ -89,14 +92,14 @@ public interface UserMapper {
 	List<DeliveryVO> selectTotalDelivery();
 	
 	//모든 활동 확인
-	List<ActivityVO> selectActivity();
+	List<selectActivityDTO> selectActivity();
 	
 	//활동 완료
 	void updateComplete(int activity_id);
 	String selectComplete(int activity_id);
 	
 	//각 고객사별 활동 등록 과 검색
-	void insertCustomerActivity(ActivityVO activityVO);
+	void insertCustomerActivity(insertCustomerActivityDTO activityVO);
 	List<ActivityVO> selectCustomerActivity(int sr_id);
 	
 	

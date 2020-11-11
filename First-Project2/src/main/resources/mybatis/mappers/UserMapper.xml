@@ -203,8 +203,10 @@
 	<insert id="insertActivity">
 		INSERT INTO activity (activity_type, activity_status,
 		activity_title, activity_content, activity_estimatedDate,
-		activity_completionDate)
-		VALUES(#{activity_type},#{activity_status},#{activity_title},#{activity_content},#{activity_estimatedDate},#{activity_completionDate})
+		activity_completionDate, activity_registrant, activity_registrationDate)
+		VALUES(#{activity_type},#{activity_status},#{activity_title},#{activity_content},#{activity_estimatedDate},#{activity_completionDate}
+			,#{activity_registrant}, NOW()
+		)
 	</insert>
 
 	<!-- 납품하기 -->

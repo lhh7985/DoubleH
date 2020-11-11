@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ho.hwang.dto.ActivityDTO.insertActivityDTO;
+import com.ho.hwang.dto.ActivityDTO.insertCustomerActivityDTO;
+import com.ho.hwang.dto.ActivityDTO.selectActivityDTO;
 import com.ho.hwang.service.ActivityService;
 import com.ho.hwang.service.UserService;
-import com.ho.hwang.vo.ActivityVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,7 +31,7 @@ public class ActivityController {
 	//// 활동 검색 및 개발 완료 버튼
 	@GetMapping("/list")
 	public String activity(Model model) {
-		List<ActivityVO> activity = actService.selectActivity();
+		List<selectActivityDTO> activity = actService.selectActivity();
 		model.addAttribute("activity", activity);
 		return "activity/list";
 	}
@@ -57,22 +59,23 @@ public class ActivityController {
 	}
 
 	@PostMapping("/enroll-sr")
-	public void enroll_act(ActivityVO activityvo, Principal principal) {
+	public void enroll_act(insertCustomerActivityDTO activityVO, Principal principal) {
 		String name = userService.selectName(principal.getName());
-		activityvo.setActivity_registrant(name);
-		int type = userService.selectCode(activityvo.getType());
-		activityvo.setActivity_type(type);
-		actService.insertCustomerActivity(activityvo);
+		activityVO.setActivity_registrant(name);
+		int activity_type = userService.selectCode(activityVO.getType());
+		activityVO.setActivity_type(activity_type);
+		actService.insertCustomerActivity(activityVO);
 	}
 
 	// 활동 등록
 	@PostMapping("/enroll-employee")
-	public String activity_enroll(ActivityVO activityVO) {
+	public String activity_enroll(insertActivityDTO activityVO, Principal principal) {
+		String name = userService.selectName(principal.getName());
+		activityVO.setActivity_registrant(name);
 		int type = userService.selectCode(activityVO.getType());
-		System.out.println(activityVO.getActivity_estimatedDate());
 		activityVO.setActivity_type(type);
 		actService.insertActivity(activityVO);
-		return "redirect:/activity";
+		return "redirect:/activity/list";
 	}
 
 	@GetMapping("/enroll-employee")
