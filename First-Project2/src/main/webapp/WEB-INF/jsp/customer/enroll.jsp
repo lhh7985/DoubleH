@@ -99,7 +99,7 @@
 	var winRef;
 
 	function search_emp_secuve() {
-		href = "http://localhost:8080/search/employee_search_secuve";
+		href = "http://localhost:8080/search/employee-search-secuve";
 		if(!winRef){
 			winRef=window.open(href, "se_manager",'width=800px, height=600px,toolbars=no,scrollbars=no');
 		}else{
@@ -114,7 +114,7 @@
 	
 	function search_emp_secuve2() {
 		
-		href = "http://localhost:8080/search/employee_search_secuve2";
+		href = "http://localhost:8080/search/employee-search-secuve2";
 		if(!winRef){
 			winRef=window.open(href, "sales",'width=800px, height=600px,toolbars=no,scrollbars=no');
 		}else{
@@ -127,7 +127,7 @@
 	}
 	
 	function search_emp() {
-		href = "http://localhost:8080/search/employee_searchOther";
+		href = "http://localhost:8080/search/employee-searchOther";
 		if(!winRef){
 			winRef=window.open(href, '_blank','width=800px, height=600px,toolbars=no,scrollbars=no');
 		}else{
@@ -227,14 +227,6 @@ tr.hide {
 }
 </style>
 <body>
-
-	<%-- <div>
-		<div>
-			<jsp:include page="../header.jsp" />
-		</div>
-	</div> --%>
-
-
 	<div class="container">
 
 		<form id="add" name="customer_add" method="post">

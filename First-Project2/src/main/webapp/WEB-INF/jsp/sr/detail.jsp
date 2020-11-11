@@ -60,7 +60,7 @@ function goActivity() {
 function complete(activity_id){
 	$.ajax({
 		type : 'POST',
-		url : 'sr_detail?activity_id=' + activity_id,
+		url : '/activity/detail?activity_id=' + activity_id,
 		error : function(request, status, error) {
 			alert("code:" + request.status + "\n" + "message:"
 					+ request.responseText + "\n" + "error:"
