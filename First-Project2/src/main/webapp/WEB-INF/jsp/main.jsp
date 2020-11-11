@@ -97,7 +97,7 @@ tr.hide {
 					조회</p>
 			</button>
 
-			<button class=" col-md-4 btn" onclick="location.href='http://localhost:8080/sr'"
+			<button class=" col-md-4 btn" onclick="location.href='http://localhost:8080/sr/list'"
 				style="margin: 5px; width: 360px; height: 200px;">
 				<div>
 					<span class="glyphicon glyphicon-th-list" style="font-size: 60px;"
