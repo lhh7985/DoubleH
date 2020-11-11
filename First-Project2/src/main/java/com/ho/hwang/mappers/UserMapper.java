@@ -15,6 +15,8 @@ import com.ho.hwang.vo.CustomerListVO;
 import com.ho.hwang.vo.CustomerVO;
 import com.ho.hwang.vo.DeliveryVO;
 import com.ho.hwang.vo.EmployeeVO;
+import com.ho.hwang.vo.ManagerHistoryVO;
+import com.ho.hwang.vo.ManagerVO;
 import com.ho.hwang.vo.OsVO;
 import com.ho.hwang.vo.ProductVO;
 import com.ho.hwang.vo.SrVO;
@@ -72,6 +74,7 @@ public interface UserMapper {
 	
 	
 	void insertCustomer(CustomerVO customerVO);
+	void insertManagerHistory(ManagerHistoryVO managerHistoryVO);
 	
 	int selectCustomer_id();
 	
@@ -129,8 +132,12 @@ public interface UserMapper {
 	
 	
 	//고객사 정보 수정
-	void updateManaer(CustomerVO customerVO);
+	void updateEnddate(ManagerHistoryVO managerHistoryVO);
+	void updateManager(CustomerVO customerVO);
 	void updateSE(CustomerVO customerVO);
 	void updateSales(CustomerVO customerVO);
+	
+	//담당자이력
+	List<ManagerVO> selectManager(int customer_id);
 
 }

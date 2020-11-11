@@ -26,21 +26,20 @@
 					<th>구분</th>
 					<th>담당자</th>
 					<th>연락처</th>
-					<th>E-mail</th>
-					<th>기간</th>
+					<th>From</th>
+					<th>to</th>
 				</tr>
 			</thead>
 
 			<tbody>
 				<c:forEach var="item" items="${list}" varStatus="status">
 					<tr>
-						<td>${item.name}</td>
-						<td>${item.manager}</td>
-						<td>${item.co_call}</td>
-						<td>${item.m_email}</td>
-					
+						<td>${item.code_name}</td>
+						<td>${item.employee_name}</td>
+						<td>${item.employee_contact}</td>
+						<td>${item.managerHistory_startDate}</td>
+						<td>${item.managerHistory_endDate}</td>
 					</tr>
-
 				</c:forEach>
 			</tbody>
 		</table>

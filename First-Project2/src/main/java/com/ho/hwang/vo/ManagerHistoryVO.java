@@ -19,6 +19,15 @@ public class ManagerHistoryVO {
 	
 	
 	
+	public ManagerHistoryVO(int customer_id, int employee_id) {
+		this.customer_id= customer_id;
+		this.employee_id =employee_id;
+	}
+	
+	public ManagerHistoryVO(int customer_id) {
+		this.customer_id= customer_id;
+	}
+	
 	
 	
 	

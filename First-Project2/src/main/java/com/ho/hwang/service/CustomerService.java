@@ -8,6 +8,8 @@ import com.ho.hwang.mappers.UserMapper;
 import com.ho.hwang.vo.CustomerListVO;
 import com.ho.hwang.vo.CustomerVO;
 import com.ho.hwang.vo.DeliveryVO;
+import com.ho.hwang.vo.ManagerHistoryVO;
+import com.ho.hwang.vo.ManagerVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,7 +39,31 @@ public class CustomerService {
 		mapper.insertCustomer(customerVO);
 	}
 	
+	public void updateEnddate(ManagerHistoryVO managerHistoryVO) {
+		mapper.updateEnddate(managerHistoryVO);
+	}
+	
+	public void insertManagerHistory(ManagerHistoryVO managerHistoryVO) {
+		mapper.insertManagerHistory(managerHistoryVO);
+	}
+	
 	public int selectCustomer_id() {
 		return mapper.selectCustomer_id();
+	}
+	
+	//담당자 수정
+	public void updateManager(CustomerVO customerVO) {
+		mapper.updateManager(customerVO);
+	}
+	public void updateSE(CustomerVO customerVO) {
+		mapper.updateSE(customerVO);
+	}
+	public void updateSales(CustomerVO customerVO) {
+		mapper.updateSales(customerVO);
+	}
+	
+	//담당자 이력
+	public List<ManagerVO> selectManager(int customer_id){
+		return mapper.selectManager(customer_id);
 	}
 }

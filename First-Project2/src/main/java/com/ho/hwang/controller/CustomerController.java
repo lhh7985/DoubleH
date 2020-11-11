@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,8 @@ import com.ho.hwang.vo.CustomerListVO;
 import com.ho.hwang.vo.CustomerVO;
 import com.ho.hwang.vo.DeliveryVO;
 import com.ho.hwang.vo.EmployeeVO;
+import com.ho.hwang.vo.ManagerHistoryVO;
+import com.ho.hwang.vo.ManagerVO;
 import com.ho.hwang.vo.OsVO;
 import com.ho.hwang.vo.SrVO;
 
@@ -63,7 +66,10 @@ public class CustomerController {
 	}
 
 	@GetMapping("/manager")
-	public String manager(Model model) {
+	public String manager(Model model, HttpServletRequest req) {
+		int customer_id = Integer.parseInt(req.getParameter("customer_id"));
+		List<ManagerVO> list = customerService.selectManager(customer_id);
+		model.addAttribute("list", list);
 		return "customer/manager";
 	}
 
@@ -105,27 +111,45 @@ public class CustomerController {
 
 	@PostMapping(value = "/modify")
 	public String customer_modify() {
-		return "/modify";
+		return "/customer/modify";
 	}
 
 	@PostMapping(value = "/modify.do")
 	public void modify(CustomerVO customerVO) {
 		if (customerVO.getEmployee_id_manager() != 0) {
 			// 오늘날짜 현재 담당자 endDate에 찍기
-			// 현재 고객사ID를 통해서 UPDATE 실행
-			System.out.println("고객담당자 변경");
+			ManagerHistoryVO manager = new ManagerHistoryVO(customerVO.getCustomer_id());
+			manager.setManagerHistory_type(19);
+			customerService.updateEnddate(manager);
+
 			// 새로운 담당자를 오늘 날짜로 Start에 추가하기
+			manager.setEmployee_id(customerVO.getEmployee_id_manager());
+			customerService.insertManagerHistory(manager);
+			customerService.updateManager(customerVO);
 		}
+		
 		if (customerVO.getEmployee_id_se() != 0) {
 			// 오늘날짜 현재 담당자 endDate에 찍기
+			ManagerHistoryVO se = new ManagerHistoryVO(customerVO.getCustomer_id());
+			se.setManagerHistory_type(20);
+			customerService.updateEnddate(se);
+
 			// 새로운 담당자를 오늘 날짜로 Start에 추가하기
-			System.out.println("SE담당자 변경");
+			se.setEmployee_id(customerVO.getEmployee_id_se());
+			customerService.insertManagerHistory(se);
+			customerService.updateSE(customerVO);
 		}
 
 		if (customerVO.getEmployee_id_sales() != 0) {
 			// 오늘날짜 현재 담당자 endDate에 찍기
+			ManagerHistoryVO sales = new ManagerHistoryVO(customerVO.getCustomer_id());
+			sales.setManagerHistory_type(21);
+			customerService.updateEnddate(sales);
+
 			// 새로운 담당자를 오늘 날짜로 Start에 추가하기
-			System.out.println("영업담당자 변경");
+			sales.setEmployee_id(customerVO.getEmployee_id_sales());
+			customerService.insertManagerHistory(sales);
+			customerService.updateSales(customerVO);
 		}
 	}
 
@@ -148,11 +172,30 @@ public class CustomerController {
 	}
 
 	// 고객사 등록부분
+	@Transactional
 	@PostMapping("/enroll")
 	public void customer_enroll(CustomerVO customerVO) {
 		customerService.insertCustomer(customerVO);
 		int x = customerService.selectCustomer_id();
 		customerVO.setCustomer_id(x);
 		userService.insertAddress(customerVO);
+		
+		// 매니저 이력 삽입
+		ManagerHistoryVO mhvo = new ManagerHistoryVO(x);
+
+		// manager
+		mhvo.setEmployee_id(customerVO.getEmployee_id_manager());
+		mhvo.setManagerHistory_type(19);
+		customerService.insertManagerHistory(mhvo);
+
+		// se
+		mhvo.setEmployee_id(customerVO.getEmployee_id_se());
+		mhvo.setManagerHistory_type(20);
+		customerService.insertManagerHistory(mhvo);
+
+		// sales
+		mhvo.setEmployee_id(customerVO.getEmployee_id_sales());
+		mhvo.setManagerHistory_type(21);
+		customerService.insertManagerHistory(mhvo);
 	}
 }

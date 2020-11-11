@@ -175,7 +175,10 @@
 		employee_ID_manager)
 		VALUES( #{customer_name},#{employee_id_sales}, #{employee_id_se},
 		#{employee_id_manager} );
-
+	</insert>
+	<insert id="insertManagerHistory">
+		INSERT INTO ManagerHistory(customer_id, employee_id, managerHistory_type ,managerHistory_startDate)
+		values(#{customer_id},#{employee_id}, #{managerHistory_type}, NOW())
 	</insert>
 
 	<insert id="insertSR">
@@ -475,25 +478,42 @@
 	</delete>
 
 	<!-- 고객사 정보 수정 -->
+	<!-- 날짜 업데이트 -->
+	<update id="updateEnddate">
+		UPDATE managerhistory
+		SET managerhistory_enddate = NOW()
+		WHERE customer_id = #{customer_id} and managerHistory_type = #{managerHistory_type} and managerHistory_endDate IS NULL;
+	</update>
 	<!-- 고객사 담당자 수정 -->
 	<update id="updateManager">
 		UPDATE customer
-		SET employe_id_manager = #{employee_id_manager}
+		SET employee_id_manager = #{employee_id_manager}
 		WHERE customer_id = #{customer_id}
 	</update>
 	
 	<!-- SE담당자 수정 -->
 	<update id="updateSE">
 		UPDATE customer
-		SET employe_id_se = #{employee_id_se}
+		SET employee_id_se = #{employee_id_se}
 		WHERE customer_id = #{customer_id}
 	</update>
 	
 	<!-- 영업담당자 수정 -->
 	<update id="updateSales">
 		UPDATE customer
-		SET employe_id_sales = #{employee_id_sales}
+		SET employee_id_sales = #{employee_id_sales}
 		WHERE customer_id = #{customer_id}
 	</update>
+	
+	<!-- 담당자이력  -->
+	<select id="selectManager" resultType="ManagerVO">
+		SELECT c.customer_name, co.code_name ,e.employee_name,e.employee_contact , h.managerHistory_startDate, h.managerHistory_endDate
+		FROM managerhistory h
+		INNER JOIN customer c ON c.customer_id = h.Customer_ID
+		INNER JOIN employee e ON e.Employee_ID = h.Employee_ID
+		INNER JOIN code co ON co.Code_id = h.ManagerHistory_Type
+		WHERE c.customer_id = #{customer_id}
+		ORDER BY co.Code_Name, h.ManagerHistory_startDate ASC;
+	</select>
 
 </mapper>

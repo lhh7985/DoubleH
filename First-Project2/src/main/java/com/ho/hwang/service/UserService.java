@@ -150,7 +150,7 @@ public class UserService {
 	
 	//고객사 정보 수정
 	public void updateManager(CustomerVO customerVO) {
-		mapper.updateManaer(customerVO);
+		mapper.updateManager(customerVO);
 	}
 	public void updateSE(CustomerVO customerVO) {
 		mapper.updateSE(customerVO);
