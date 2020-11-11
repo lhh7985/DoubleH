@@ -123,5 +123,11 @@ public interface UserMapper {
 	
 	//직원 삭제
 	void deleteEmployee(int employee_id);
+	
+	
+	//고객사 정보 수정
+	void updateManaer(CustomerVO customerVO);
+	void updateSE(CustomerVO customerVO);
+	void updateSales(CustomerVO customerVO);
 
 }

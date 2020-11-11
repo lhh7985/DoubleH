@@ -254,7 +254,7 @@ label {
 		<!-- 몸통 -->
 		<div style="margin: 20px;" class="row">
 			<label class="col-md-1" >고객</label> 
-			<input name="customer_name" class="col-md-2 fhttps://github.com/lhh7985/SpringWebProject/pullsorm-control" id="customer_name" style="width:20%;"  readonly/>
+			<input name="customer_name" class="col-md-2 form-control" id="customer_name" style="width:20%;"  readonly/>
 			<button class="col-md-1 btn btn-default" type="button" onclick='customer_search()'>고객검색</button>
 			
 			<label class="col-md-1 " style="margin-left: 70px; width: 80px;">제품</label> 

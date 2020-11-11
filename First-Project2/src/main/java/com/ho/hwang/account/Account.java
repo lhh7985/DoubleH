@@ -17,7 +17,6 @@ import lombok.Setter;
 @Getter @Setter
 public class Account implements UserDetails{
 	
-	
 	private String user_id;
 	private String user_pw;
 	private boolean enabled;
@@ -29,7 +28,6 @@ public class Account implements UserDetails{
 		ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
         auth.add(new SimpleGrantedAuthority(authority_name));
         return auth;
-
 	}
 
 	@Override
