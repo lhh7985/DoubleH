@@ -22,7 +22,7 @@ public class AdminController {
 	private final UserService userService;
 
 	@GetMapping("/codetable")
-	public String admin_code(Model model) {
+	public String getCodeList(Model model) {
 		List<CodeVO> list = userService.selectCodeList();
 		model.addAttribute("list", list);
 		return "admin/codetable";
@@ -42,12 +42,12 @@ public class AdminController {
 	}
 	
 	@GetMapping("/enroll")
-	public String codetable() {
+	public String enrollCode() {
 		return "admin/enroll";
 	}
 	
 	@PostMapping("/enroll")
-	public void codetable(CodeVO codevo) {
+	public void enrollCode(CodeVO codevo) {
 		userService.insertCode(codevo);
 	}
 

@@ -29,7 +29,7 @@ public class SrController {
 	private final ActivityService activityService;
 
 	@GetMapping("/list")
-	public String SR(Model model) {
+	public String getSrList(Model model) {
 		List<SrVO> srList = srService.selectSR();
 		model.addAttribute("srList", srList);
 
@@ -38,12 +38,12 @@ public class SrController {
 
 	// ============================등록 활동 sr
 	@GetMapping("/enroll")
-	public String SR_enroll() {
+	public String enrollSr() {
 		return "sr/enroll";
 	}
 
 	@PostMapping("/enroll")
-	public String SR_enroll2(Model model, SrVO srvo, Principal principal) {
+	public String enrollSr(Model model, SrVO srvo, Principal principal) {
 		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date time = new Date();
 
@@ -66,7 +66,7 @@ public class SrController {
 
 	// =================================SR디테일
 	@GetMapping("/detail")
-	public String sr_detail(Model model, int sr_id) {
+	public String getSrDetail(Model model, int sr_id) {
 		SrVO srvo = srService.selectSRDetail(sr_id);
 		List<ActivityVO> acvo = activityService.selectCustomerActivity(sr_id);
 

@@ -30,7 +30,7 @@ public class ActivityController {
 
 	//// 활동 검색 및 개발 완료 버튼
 	@GetMapping("/list")
-	public String activity(Model model) {
+	public String getList(Model model) {
 		List<selectActivityDTO> activity = activityService.selectActivity();
 		model.addAttribute("activity", activity);
 		return "activity/list";
@@ -38,28 +38,28 @@ public class ActivityController {
 
 	@PostMapping("/list")
 	@ResponseBody
-	public String activity_complete(Model model, int activity_id) {
+	public String setListComplete(Model model, int activity_id) {
 		activityService.updateComplete(activity_id);
 		return "redirect:/activity/list";
 	}
 
 	@PostMapping("detail")
 	@ResponseBody
-	public String activity_complete2(Model model, int activity_id) {
+	public String setDetailComplete(Model model, int activity_id) {
 		activityService.updateComplete(activity_id);
 		return "redirect:/activity/detail";
 	}
 
 	// 고객사별 SR에대한 활동 추가
 	@GetMapping("/enroll-sr")
-	public String enroll_activity(Model model, HttpServletRequest req) {
+	public String enrollSr(Model model, HttpServletRequest req) {
 		int sr_id = Integer.parseInt(req.getParameter("sr_id"));
 		model.addAttribute("sr_id", sr_id);
 		return "/activity/enroll-sr";
 	}
 
 	@PostMapping("/enroll-sr")
-	public void enroll_act(insertCustomerActivityDTO activityVO, Principal principal) {
+	public void enrollSr(insertCustomerActivityDTO activityVO, Principal principal) {
 		String name = userService.selectName(principal.getName());
 		activityVO.setActivity_registrant(name);
 		int activity_type = userService.selectCode(activityVO.getType());
@@ -69,7 +69,7 @@ public class ActivityController {
 
 	// 활동 등록
 	@PostMapping("/enroll-employee")
-	public String activity_enroll(insertActivityDTO activityVO, Principal principal) {
+	public String enrollEmployee(insertActivityDTO activityVO, Principal principal) {
 		String name = userService.selectName(principal.getName());
 		activityVO.setActivity_registrant(name);
 		int type = userService.selectCode(activityVO.getType());
@@ -79,7 +79,7 @@ public class ActivityController {
 	}
 
 	@GetMapping("/enroll-employee")
-	public String activity_enroll(Model model) {
+	public String enrollEmployee(Model model) {
 		return "activity/enroll-employee";
 	}
 }

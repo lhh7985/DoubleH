@@ -23,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
 	private final UserService userService;
-	private final CustomerService customerService;
 
 	@GetMapping("/main")
 	public String main() {
@@ -31,68 +30,20 @@ public class UserController {
 	}
 
 	@GetMapping("/patch")
-	public String patch() {
+	public String getPatchList() {
 		return "patch";
 	}
 
 	// ==================================팝업창 매핑
-	@GetMapping("/search/customer-search")
-	public String co_search(Model model) {
-		List<CustomerListVO> customerSearch = customerService.selectCustomer();
-		model.addAttribute("customerSearch", customerSearch);
-		
-		return "search/customer_search";
-	}
-
-	@GetMapping("/search/product-search")
-	public String product_search(Model model, int customer_id) {
-		List<DeliveryVO> deliverylist = customerService.selectCustomerProduct(customer_id);
-		model.addAttribute("deliverylist", deliverylist);
-
-		return "search/product_search";
-	}
-
-	@GetMapping("/search/employee-search-secuve")
-	public String employee_search_secuve(Model model) {
-		List<EmployeeVO> list = userService.selectEmployee_secuve();
-		model.addAttribute("list", list);
-		
-		return "search/employee_search";
-	}
-
-	@GetMapping("/search/employee-search-secuve2")
-	public String employee_search_secuve2(Model model) {
-		List<EmployeeVO> list = userService.selectEmployee_secuve();
-		model.addAttribute("list", list);
-		
-		return "search/employee_search2";
-	}
-
-	@GetMapping("/search/employee-searchOther")
-	public String employee_search(Model model) {
-		List<EmployeeVO> list = userService.selectEmployee_other();
-		model.addAttribute("list", list);
-		
-		return "search/employee_searchOther";
-	}
-
-	// 모든 제품 검색창
-	@GetMapping("/search/product-search2")
-	public String product_search2(Model model) {
-		List<ProductVO> list = userService.selectSearchProduct2();
-		model.addAttribute("list", list);
-		
-		return "search/product_search2";
-	}
-
+	
 	// ==================================사원
 	@GetMapping("/employee/list")
-	public String employee(Model model) {
+	public String getEmployeeList(Model model) {
 		return "employee/list";
 	}
 
 	@GetMapping("/employee/secuve")
-	public String secuve(Model model) {
+	public String getSecuveEmployee(Model model) {
 		List<EmployeeVO> empvo = userService.selectEmployee_secuve();
 		model.addAttribute("list", empvo);
 
@@ -100,21 +51,21 @@ public class UserController {
 	}
 
 	@GetMapping("/employee/others")
-	public String others(Model model) {
+	public String getOtherEmployee(Model model) {
 		List<EmployeeVO> empvo = userService.selectEmployee_other();
 		model.addAttribute("list", empvo);
 
 		return "employee/others";
 	}
 
-	@GetMapping("/employee/add")
-	public String employee_add(Model model) {
+	@GetMapping("/employee/enroll")
+	public String enrollEmployee(Model model) {
 		List<String> list = userService.selectEmployee_type();
 		List<String> deptName = userService.selectDept_name();
 		model.addAttribute("type", list);
 		model.addAttribute("dept", deptName);
 		
-		return "employee/add";
+		return "employee/enroll";
 	}
 
 	@PostMapping("/employee/delete")
@@ -131,8 +82,8 @@ public class UserController {
 	}
 
 	// 사원 등록 부분
-	@PostMapping("/employee/add")
-	public void employee_add(EmployeeVO employeeVO) {
+	@PostMapping("/employee/enroll")
+	public void enrollEmployee(EmployeeVO employeeVO) {
 		int type = userService.selectCode(employeeVO.getType());
 		employeeVO.setEmployee_type(type);
 		int dept = userService.selectDept(employeeVO.getDept());

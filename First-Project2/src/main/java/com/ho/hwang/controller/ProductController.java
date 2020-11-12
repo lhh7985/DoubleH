@@ -25,7 +25,7 @@ public class ProductController {
 	private final UserService userService;
 
 	@GetMapping("/list")
-	public String product(Model model) {
+	public String getProductList(Model model) {
 		List<ProductVO> productList = userService.selectProduct();
 		model.addAttribute("productList", productList);
 
@@ -34,7 +34,7 @@ public class ProductController {
 
 	// 납품정보
 	@GetMapping("/delivery")
-	public String delivery(Model model) {
+	public String getDeliveryList(Model model) {
 		List<DeliveryVO> deliveryList = userService.selectTotalDelivery();
 		model.addAttribute("deliveryList", deliveryList);
 		List<OsVO> osList = userService.selectTotalOS();
@@ -44,12 +44,12 @@ public class ProductController {
 	}
 
 	@GetMapping("/delivery/enroll")
-	public String delivery_add(Model model) {
+	public String enrollDelivery(Model model) {
 		return "product/delivery_enroll";
 	}
 
 	@PostMapping(value = "/delivery/enroll")
-	public String enroll_delivery(DeliveryVO deliveryVO) {
+	public String enrollDelivery(DeliveryVO deliveryVO) {
 		userService.insertDelivery(deliveryVO);
 		int delivery_id = userService.selectLast();
 		OsVO osvo = new OsVO();

@@ -39,8 +39,8 @@ public class CustomerController {
 	private final SrService srService;
 	private final ActivityService activityService;
 
-	@GetMapping("/info")
-	public String thymeleaf(int customer_id, Model model) {
+	@GetMapping("/detail")
+	public String getDetail(int customer_id, Model model) {
 		CustomerVO vo = customerService.selectCustomerDetail(customer_id);
 		EmployeeVO empvo = userService.selectEmployee(vo.getEmployee_id_manager());
 		EmployeeVO se = userService.selectEmployee(vo.getEmployee_id_se());
@@ -51,22 +51,22 @@ public class CustomerController {
 		model.addAttribute("se", se);
 		model.addAttribute("sales", sales);
 
-		return "customer/info";
+		return "customer/detail";
 	}
 
-	@GetMapping("/OS")
-	public String OS(Model model, HttpServletRequest req) {
+	@GetMapping("/delivery")
+	public String getDelivery(Model model, HttpServletRequest req) {
 		int customer_id = Integer.parseInt(req.getParameter("customer_id"));
 		List<DeliveryVO> list = userService.selectDelivery(customer_id);
 		model.addAttribute("list", list);
 		List<OsVO> list2 = userService.selectOS(customer_id);
 		model.addAttribute("list2", list2);
 
-		return "customer/OS";
+		return "customer/delivery";
 	}
 
 	@GetMapping("/manager")
-	public String manager(Model model, HttpServletRequest req) {
+	public String getManagerHistory(Model model, HttpServletRequest req) {
 		int customer_id = Integer.parseInt(req.getParameter("customer_id"));
 		List<ManagerVO> list = customerService.selectManager(customer_id);
 		model.addAttribute("list", list);
@@ -74,7 +74,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/list")
-	public String tab1(Model model) {
+	public String getCustomerList(Model model) {
 		List<CustomerListVO> list = customerService.selectCustomerList();
 		model.addAttribute("list", list);
 
@@ -82,7 +82,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/sr")
-	public String customer_sr(Model model, HttpServletRequest req) {
+	public String getSrList(Model model, HttpServletRequest req) {
 		int customer_id = Integer.parseInt(req.getParameter("customer_id"));
 		List<SrVO> srList = srService.selectSRList(customer_id);
 		model.addAttribute("srList", srList);
@@ -91,7 +91,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/sr-detail")
-	public String sr_detail(Model model, int sr_id) {
+	public String getSrDetail(Model model, int sr_id) {
 		SrVO srvo = srService.selectSRDetail(sr_id);
 		List<ActivityVO> acvo = activityService.selectCustomerActivity(sr_id);
 		model.addAttribute("srvo", srvo);
@@ -101,7 +101,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/activity")
-	public String customer_activity(Model model, HttpServletRequest req) {
+	public String getCustomerActivity(Model model, HttpServletRequest req) {
 		int customer_id = Integer.parseInt(req.getParameter("customer_id"));
 		List<ActivityVO> list = activityService.selectVisit(customer_id);
 		model.addAttribute("list", list);
@@ -109,13 +109,13 @@ public class CustomerController {
 		return "/customer/activity";
 	}
 
-	@PostMapping(value = "/modify")
-	public String customer_modify() {
+	@GetMapping(value = "/modify")
+	public String modifyCustomerDetail() {
 		return "/customer/modify";
 	}
 
-	@PostMapping(value = "/modify.do")
-	public void modify(CustomerVO customerVO) {
+	@PostMapping(value = "/modify")
+	public void modifyCustomerDetail(CustomerVO customerVO) {
 		if (customerVO.getEmployee_id_manager() != 0) {
 			// 오늘날짜 현재 담당자 endDate에 찍기
 			ManagerHistoryVO manager = new ManagerHistoryVO(customerVO.getCustomer_id());
@@ -167,14 +167,14 @@ public class CustomerController {
 	}
 
 	@GetMapping("/enroll")
-	public String custoemr_enroll(Model model) {
+	public String enrollCustomer(Model model) {
 		return "/customer/enroll";
 	}
 
 	// 고객사 등록부분
 	@Transactional
 	@PostMapping("/enroll")
-	public void customer_enroll(CustomerVO customerVO) {
+	public void enrollCustomer(CustomerVO customerVO) {
 		customerService.insertCustomer(customerVO);
 		int x = customerService.selectCustomer_id();
 		customerVO.setCustomer_id(x);
