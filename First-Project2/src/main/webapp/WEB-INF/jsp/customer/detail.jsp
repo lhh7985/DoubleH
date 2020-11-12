@@ -189,7 +189,7 @@ function goModify(){
 			<div class="panel with-nav-tabs panel-default" style="margin-top: 10px;">
 				   <div class="panel-heading">
                         <ul class="nav nav-tabs">
-                            <li data-tab='OS' class=" tabmenu"><a style="cursor: pointer; font-weight: bold;" data-toggle="tab" >납품정보</a></li>
+                            <li data-tab='delivery' class=" tabmenu"><a style="cursor: pointer; font-weight: bold;" data-toggle="tab" >납품정보</a></li>
                             <li data-tab='manager' class="tabmenu"><a style="cursor: pointer; font-weight: bold;" data-toggle="tab">담당자이력</a></li>
                             <li data-tab='sr' class="tabmenu"><a style="cursor: pointer; font-weight: bold;" data-toggle="tab">SR</a></li>
                             <li data-tab='activity' class="tabmenu"><a style="cursor: pointer; font-weight: bold;" data-toggle="tab">방문내역</a></li>

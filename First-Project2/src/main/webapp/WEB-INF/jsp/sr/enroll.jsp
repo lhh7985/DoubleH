@@ -98,7 +98,7 @@
 	
 	var winRef;
 	function customer_search() {
-		href = "http://localhost:8080/search/customer-search";
+		href = "http://localhost:8080/search/customer";
 		if(!winRef){
 			winRef=window.open(href, "customer",'width=800px, height=600px,toolbars=no,scrollbars=no');
 		}else{
@@ -115,11 +115,11 @@
 	
 	function product_search() {
 		var customer_id = document.getElementById('customer_id').value;
-		href = "http://localhost:8080/search/product-search?customer_id=" + customer_id;
+		href = "http://localhost:8080/search/product?customer_id=" + customer_id;
 		if(!winRef){
 				$.ajax({
 					type : 'GET',
-					url : '/search/product-search?customer_id=' + customer_id,
+					url : '/search/product?customer_id=' + customer_id,
 					error : function(request, status, error) {
 						alert("code:" + request.status + "\n" + "message:"
 								+ request.responseText + "\n" + "error:"
@@ -137,7 +137,7 @@
 	        }else{
 	        	$.ajax({
 					type : 'GET',
-					url : '/search/product-search?customer_id=' + customer_id,
+					url : '/search/product?customer_id=' + customer_id,
 					error : function(request, status, error) {
 						alert("code:" + request.status + "\n" + "message:"
 								+ request.responseText + "\n" + "error:"

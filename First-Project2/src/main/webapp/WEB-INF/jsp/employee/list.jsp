@@ -96,7 +96,7 @@ function selectDelete(){
 	});
 	
 	function employee_enroll(){
-		href="http://localhost:8080/employee/add";
+		href="http://localhost:8080/employee/enroll";
 		
 		window.open(this.href,'_blank', 'width=1000px, height=600px,toolbars=no,scrollbars=no');
 		return false;

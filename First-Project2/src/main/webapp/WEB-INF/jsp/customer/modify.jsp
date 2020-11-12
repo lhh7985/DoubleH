@@ -45,7 +45,7 @@
 			
 			var forms = $("#modify_customer").serialize();
 			$.ajax({
-				url: "/customer/modify.do",
+				url: "/customer/modify",
 				type:"POST",
 				data:forms,
 				success:function(data){
@@ -119,7 +119,7 @@
 	var winRef;
 
 	function search_emp_secuve() {
-		href = "http://localhost:8080/search/employee-search-secuve";
+		href = "http://localhost:8080/search/se";
 		if(!winRef){
 			winRef=window.open(href, "se_manager",'width=800px, height=600px,toolbars=no,scrollbars=no');
 		}else{
@@ -134,7 +134,7 @@
 	
 	function search_emp_secuve2() {
 		
-		href = "http://localhost:8080/search/employee-search-secuve2";
+		href = "http://localhost:8080/search/sales";
 		if(!winRef){
 			winRef=window.open(href, "sales",'width=800px, height=600px,toolbars=no,scrollbars=no');
 		}else{
@@ -147,7 +147,7 @@
 	}
 	
 	function search_emp() {
-		href = "http://localhost:8080/search/employee-searchOther";
+		href = "http://localhost:8080/search/other";
 		if(!winRef){
 			winRef=window.open(href, '_blank','width=800px, height=600px,toolbars=no,scrollbars=no');
 		}else{

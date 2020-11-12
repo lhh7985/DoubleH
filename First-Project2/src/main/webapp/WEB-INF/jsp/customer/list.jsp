@@ -54,7 +54,7 @@ function selectDelete(){
 	
 }
 function goCustomerDetail(customer_id){
-	location.href = "/customer/info?customer_id=" + customer_id;
+	location.href = "/customer/detail?customer_id=" + customer_id;
 }
 
 var winRef;

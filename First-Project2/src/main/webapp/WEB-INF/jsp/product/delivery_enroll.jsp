@@ -20,7 +20,7 @@
 var winRef;
 
 	function customer_search() {
-		href = "http://localhost:8080/search/customer-search";
+		href = "http://localhost:8080/search/customer";
 		if(!winRef){
 			winRef=window.open(href, "customer2",'width=800px, height=600px,toolbars=no,scrollbars=no');
 		}else{
@@ -43,7 +43,7 @@ var winRef;
 
 	
 	function product_search() {
-		href = "http://localhost:8080/search/product-search2";
+		href = "http://localhost:8080/search/product2";
 		if(!winRef){
 			winRef=window.open(href, "product2",'width=800px, height=600px,toolbars=no,scrollbars=no');
 		}else{
