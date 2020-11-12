@@ -37,7 +37,7 @@ public class CustomerController {
 	private final UserService userService;
 	private final CustomerService customerService;
 	private final SrService srService;
-	private final ActivityService actService;
+	private final ActivityService activityService;
 
 	@GetMapping("/info")
 	public String thymeleaf(int customer_id, Model model) {
@@ -93,7 +93,7 @@ public class CustomerController {
 	@GetMapping("/sr-detail")
 	public String sr_detail(Model model, int sr_id) {
 		SrVO srvo = srService.selectSRDetail(sr_id);
-		List<ActivityVO> acvo = actService.selectCustomerActivity(sr_id);
+		List<ActivityVO> acvo = activityService.selectCustomerActivity(sr_id);
 		model.addAttribute("srvo", srvo);
 		model.addAttribute("acvo", acvo);
 
@@ -103,7 +103,7 @@ public class CustomerController {
 	@GetMapping("/activity")
 	public String customer_activity(Model model, HttpServletRequest req) {
 		int customer_id = Integer.parseInt(req.getParameter("customer_id"));
-		List<ActivityVO> list = actService.selectVisit(customer_id);
+		List<ActivityVO> list = activityService.selectVisit(customer_id);
 		model.addAttribute("list", list);
 
 		return "/customer/activity";

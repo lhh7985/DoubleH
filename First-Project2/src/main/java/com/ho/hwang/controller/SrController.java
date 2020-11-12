@@ -26,7 +26,7 @@ public class SrController {
 
 	private final UserService userService;
 	private final SrService srService;
-	private final ActivityService actService;
+	private final ActivityService activityService;
 
 	@GetMapping("/list")
 	public String SR(Model model) {
@@ -68,7 +68,7 @@ public class SrController {
 	@GetMapping("/detail")
 	public String sr_detail(Model model, int sr_id) {
 		SrVO srvo = srService.selectSRDetail(sr_id);
-		List<ActivityVO> acvo = actService.selectCustomerActivity(sr_id);
+		List<ActivityVO> acvo = activityService.selectCustomerActivity(sr_id);
 
 		model.addAttribute("srvo", srvo);
 		model.addAttribute("acvo", acvo);

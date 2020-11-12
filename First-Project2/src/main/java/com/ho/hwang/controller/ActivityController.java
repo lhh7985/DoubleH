@@ -26,12 +26,12 @@ import lombok.RequiredArgsConstructor;
 public class ActivityController {
 
 	private final UserService userService;
-	private final ActivityService actService;
+	private final ActivityService activityService;
 
 	//// 활동 검색 및 개발 완료 버튼
 	@GetMapping("/list")
 	public String activity(Model model) {
-		List<selectActivityDTO> activity = actService.selectActivity();
+		List<selectActivityDTO> activity = activityService.selectActivity();
 		model.addAttribute("activity", activity);
 		return "activity/list";
 	}
@@ -39,14 +39,14 @@ public class ActivityController {
 	@PostMapping("/list")
 	@ResponseBody
 	public String activity_complete(Model model, int activity_id) {
-		actService.updateComplete(activity_id);
+		activityService.updateComplete(activity_id);
 		return "redirect:/activity/list";
 	}
 
 	@PostMapping("detail")
 	@ResponseBody
 	public String activity_complete2(Model model, int activity_id) {
-		actService.updateComplete(activity_id);
+		activityService.updateComplete(activity_id);
 		return "redirect:/activity/detail";
 	}
 
@@ -64,7 +64,7 @@ public class ActivityController {
 		activityVO.setActivity_registrant(name);
 		int activity_type = userService.selectCode(activityVO.getType());
 		activityVO.setActivity_type(activity_type);
-		actService.insertCustomerActivity(activityVO);
+		activityService.insertCustomerActivity(activityVO);
 	}
 
 	// 활동 등록
@@ -74,7 +74,7 @@ public class ActivityController {
 		activityVO.setActivity_registrant(name);
 		int type = userService.selectCode(activityVO.getType());
 		activityVO.setActivity_type(type);
-		actService.insertActivity(activityVO);
+		activityService.insertActivity(activityVO);
 		return "redirect:/activity/list";
 	}
 
