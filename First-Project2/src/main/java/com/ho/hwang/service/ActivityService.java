@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.ho.hwang.dto.ActivityDTO.insertActivityDTO;
-import com.ho.hwang.dto.ActivityDTO.insertCustomerActivityDTO;
-import com.ho.hwang.dto.ActivityDTO.selectActivityDTO;
+import com.ho.hwang.dto.ActivityDTO.InsertActivityDTO;
+import com.ho.hwang.dto.ActivityDTO.InsertCustomerActivityDTO;
+import com.ho.hwang.dto.ActivityDTO.SelectActivityDTO;
 import com.ho.hwang.mappers.UserMapper;
 import com.ho.hwang.vo.ActivityVO;
 
@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class ActivityService {
 	private final UserMapper mapper;
 
-	public void insertActivity(insertActivityDTO activityVO) {
+	public void insertActivity(InsertActivityDTO activityVO) {
 		mapper.insertActivity(activityVO);
 	}
 
@@ -27,7 +27,7 @@ public class ActivityService {
 	}
 
 	// 모든 활동 확인
-	public List<selectActivityDTO> selectActivity() {
+	public List<SelectActivityDTO> selectActivity() {
 		return mapper.selectActivity();
 	}
 
@@ -39,7 +39,7 @@ public class ActivityService {
 	}
 
 	// 각 고객별 활동 등록 및 검색
-	public void insertCustomerActivity(insertCustomerActivityDTO activityVO) {
+	public void insertCustomerActivity(InsertCustomerActivityDTO activityVO) {
 		mapper.insertCustomerActivity(activityVO);
 	}
 

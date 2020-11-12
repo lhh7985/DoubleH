@@ -11,7 +11,7 @@ public class ActivityDTO {
 	
 	@Getter @Setter
 	@AllArgsConstructor
-	public static class selectActivityDTO{
+	public static class SelectActivityDTO{
 		private String code_name;
 		private String activity_title;
 		private String activity_registrant;
@@ -22,7 +22,7 @@ public class ActivityDTO {
 	}
 	
 	@Getter @Setter
-	public static class insertCustomerActivityDTO{
+	public static class InsertCustomerActivityDTO{
 		private int sr_id;
 		private int activity_type;
 		private String activity_status;
@@ -36,7 +36,7 @@ public class ActivityDTO {
 	}
 	
 	@Getter @Setter
-	public static class insertActivityDTO{
+	public static class InsertActivityDTO{
 		private int activity_type;
 		private String activity_status;
 		private String activity_title;

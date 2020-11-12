@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ho.hwang.dto.ActivityDTO.insertActivityDTO;
-import com.ho.hwang.dto.ActivityDTO.insertCustomerActivityDTO;
-import com.ho.hwang.dto.ActivityDTO.selectActivityDTO;
+import com.ho.hwang.dto.ActivityDTO.InsertActivityDTO;
+import com.ho.hwang.dto.ActivityDTO.InsertCustomerActivityDTO;
+import com.ho.hwang.dto.ActivityDTO.SelectActivityDTO;
 import com.ho.hwang.service.ActivityService;
 import com.ho.hwang.service.UserService;
 
@@ -31,7 +31,7 @@ public class ActivityController {
 	//// 활동 검색 및 개발 완료 버튼
 	@GetMapping("/list")
 	public String getList(Model model) {
-		List<selectActivityDTO> activity = activityService.selectActivity();
+		List<SelectActivityDTO> activity = activityService.selectActivity();
 		model.addAttribute("activity", activity);
 		return "activity/list";
 	}
@@ -59,22 +59,22 @@ public class ActivityController {
 	}
 
 	@PostMapping("/enroll-sr")
-	public void enrollSr(insertCustomerActivityDTO activityVO, Principal principal) {
+	public void enrollSr(InsertCustomerActivityDTO insertCustomerActivityDTO, Principal principal) {
 		String name = userService.selectName(principal.getName());
-		activityVO.setActivity_registrant(name);
-		int activity_type = userService.selectCode(activityVO.getType());
-		activityVO.setActivity_type(activity_type);
-		activityService.insertCustomerActivity(activityVO);
+		insertCustomerActivityDTO.setActivity_registrant(name);
+		int activity_type = userService.selectCode(insertCustomerActivityDTO.getType());
+		insertCustomerActivityDTO.setActivity_type(activity_type);
+		activityService.insertCustomerActivity(insertCustomerActivityDTO);
 	}
 
 	// 활동 등록
 	@PostMapping("/enroll-employee")
-	public String enrollEmployee(insertActivityDTO activityVO, Principal principal) {
+	public String enrollEmployee(InsertActivityDTO insertActivityDTO, Principal principal) {
 		String name = userService.selectName(principal.getName());
-		activityVO.setActivity_registrant(name);
-		int type = userService.selectCode(activityVO.getType());
-		activityVO.setActivity_type(type);
-		activityService.insertActivity(activityVO);
+		insertActivityDTO.setActivity_registrant(name);
+		int type = userService.selectCode(insertActivityDTO.getType());
+		insertActivityDTO.setActivity_type(type);
+		activityService.insertActivity(insertActivityDTO);
 		return "redirect:/activity/list";
 	}
 
