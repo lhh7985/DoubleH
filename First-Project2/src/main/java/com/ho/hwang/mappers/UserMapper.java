@@ -2,6 +2,7 @@ package com.ho.hwang.mappers;
 
 import java.util.List;
 
+import com.ho.hwang.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +10,9 @@ import com.ho.hwang.account.Account;
 import com.ho.hwang.dto.ActivityDTO.InsertActivityDTO;
 import com.ho.hwang.dto.ActivityDTO.InsertCustomerActivityDTO;
 import com.ho.hwang.dto.ActivityDTO.SelectActivityDTO;
+import com.ho.hwang.dto.EmployeeDTO.InsertEmployeeDTO;
+import com.ho.hwang.dto.EmployeeDTO.SelectEmployeeOtherDTO;
+import com.ho.hwang.dto.EmployeeDTO.SelectEmployeeSecuveDTO;
 import com.ho.hwang.vo.ActivityVO;
 import com.ho.hwang.vo.CodeVO;
 import com.ho.hwang.vo.CustomerListVO;
@@ -30,24 +34,24 @@ public interface UserMapper {
 	
 
 	List<CustomerListVO> selectCustomer();
-	List<CustomerListVO> selectCustomerList();
+	List<CustomerDTO.SelectCustomerListDTO> selectCustomerList();
 	
-	List<DeliveryVO> selectDelivery(int co_id);
+	List<ProductDTO.SelectDeliveryDTO> selectDelivery(int co_id);
 	
 	List<OsVO> selectOS(int co_id);
-	List<OsVO> selectTotalOS();
+	List<ProductDTO.SelectTotalOsDTO> selectTotalOS();
+
+
+	CustomerDTO.SelectCustomerDetail selectCustomerDetail(int co_id);
+	EmployeeDTO.SelectEmployeeDTO selectEmployee(int employee_id);
+	
+	List<ProductDTO.SelectCustomerProductDTO> selectCustomerProduct(int customer_id);
 	
 	
-	CustomerVO selectCustomerDetail(int co_id);
-	EmployeeVO selectEmployee(int employee_id);
-	
-	List<DeliveryVO> selectCustomerProduct(int customer_id);
 	
 	
-	
-	
-	void insertEmployee(EmployeeVO employeeVO);
-	void insertSR(SrVO srVO);
+	void insertEmployee(InsertEmployeeDTO insertEmployeeDTO);
+	void insertSR(SrDTO.InsertSrDTO insertSrDTO);
 	
 	//이름으로 아이디값 찾기
 	int selectCode(String name);
@@ -63,9 +67,9 @@ public interface UserMapper {
 	
 	
 	
-	List<EmployeeVO> selectEmployee_secuve();
+	List<SelectEmployeeSecuveDTO> selectEmployee_secuve();
 	
-	List<EmployeeVO> selectEmployee_other();
+	List<SelectEmployeeOtherDTO> selectEmployee_other();
 	
 	List<String> selectEmployee_type();
 	List<String> selectDept_name();
@@ -73,26 +77,26 @@ public interface UserMapper {
 	
 	
 	
-	void insertCustomer(CustomerVO customerVO);
-	void insertManagerHistory(ManagerHistoryVO managerHistoryVO);
+	void insertCustomer(CustomerDTO.InsertCustomerDTO insertCustomerDTO);
+	void insertManagerHistory(ManagerHistoryDTO.UpdateManagerHistoryDTO updateManagerHistoryDTO);
 	
 	int selectCustomer_id();
 	
-	void insertAddress(CustomerVO customerVO);
+	void insertAddress(CustomerDTO.InsertCustomerDTO insertCustomerDTO);
 	void insertActivity(InsertActivityDTO activityVO);
 	
 	
 	
-	List<SrVO> selectSR();
-	List<SrVO> selectSRList(int customer_id);
-	SrVO selectSRDetail(int sr_id);
-	
-	
+	List<SrDTO.SelectSrDTO> selectSR();
+	List<SrDTO.SelectSrListDTO> selectSRList(int customer_id);
+	SrDTO.SelectSrDetailDTO selectSRDetail(int sr_id);
+
+
 	//고객사 방문내역확인
-	List<ActivityVO> selectVisit(int customer_id);
-	
+	List<ActivityDTO.SelectVisitDTO> selectVisit(int customer_id);
+
 	//모든 회사 납품정보 확인
-	List<DeliveryVO> selectTotalDelivery();
+	List<ProductDTO.SelectTotalDeliveryDTO> selectTotalDelivery();
 	
 	//모든 활동 확인
 	List<SelectActivityDTO> selectActivity();
@@ -103,15 +107,15 @@ public interface UserMapper {
 	
 	//각 고객사별 활동 등록 과 검색
 	void insertCustomerActivity(InsertCustomerActivityDTO activityVO);
-	List<ActivityVO> selectCustomerActivity(int sr_id);
+	List<ActivityDTO.SelectCustomerActivityDTO> selectCustomerActivity(int sr_id);
 	
 	
 	//제품 페이지 제품 검색
-	List<ProductVO> selectProduct();
-	List<ProductVO> selectSearchProduct2();
-	void insertDelivery(DeliveryVO deliveryVO);
-	int selectLast();
-	void insertOS(OsVO osvo);
+	List<ProductDTO.SelectProductDTO> selectProduct();
+	List<ProductDTO.SelectProductDTO> selectSearchAllProduct();
+	void insertDelivery(ProductDTO.InsertDeliveryDTO insertDeliveryDTO);
+	int selectDelivery_id();
+	void insertOS(ProductDTO.InsertDeliveryDTO insertDeliveryDTO);
 	
 	
 	//관리자 페이지
@@ -132,10 +136,10 @@ public interface UserMapper {
 	
 	
 	//고객사 정보 수정
-	void updateEnddate(ManagerHistoryVO managerHistoryVO);
-	void updateManager(CustomerVO customerVO);
-	void updateSE(CustomerVO customerVO);
-	void updateSales(CustomerVO customerVO);
+	void updateEnddate(ManagerHistoryDTO.UpdateManagerHistoryDTO updateManagerHistoryDTO);
+	void updateManager(CustomerDTO.UpdateCustomerDetailDTO updateCustomerDetailDTO);
+	void updateSE(CustomerDTO.UpdateCustomerDetailDTO updateCustomerDetailDTO);
+	void updateSales(CustomerDTO.UpdateCustomerDetailDTO updateCustomerDetailDTO);
 	
 	//담당자이력
 	List<ManagerVO> selectManager(int customer_id);

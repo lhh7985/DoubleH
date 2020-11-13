@@ -165,7 +165,7 @@
 </head>
 <style>
 .my {
-	font: bold;
+	font-weight: bold;
 	font-size: 20px;
 	margin-bottom: 30px;
 }
@@ -194,8 +194,8 @@
 	display: block;
 	width: 100%;
 	height: 42px;
-	padding: 6px 12px;
-	font-size: 18px;
+	padding: 2px 10px;
+	font-size: 16px;
 	line-height: 2.567;
 }
 
@@ -244,14 +244,14 @@
 			<div>
 				<!-- 몸통 -->
 				<div class="row text-center form-group" style="margin: 5px;">
-					<label class="col-md-2 label1 font1" style=" text-align width: 130px;">고객사명</label> 
-					<input id="customer_name" name="customer_name" class="col-md-3 form-control" style="height: 42px; width: 60%" type="text" id="customer" 
+					<label class="col-md-2 label1 text-left" style=" width: 130px;">고객사명</label>
+					<input id="customer_name"  class="col-md-3 form-control" style="height: 42px; width: 60%" type="text" id="customer"
 						value="<%= request.getParameter("customer_name") %>"/>
 					<input id="customer_id" name="customer_id" style="visibility: hidden;" value="<%= request.getParameter("customer_id") %>"/>
 				</div>
 
 				<div class="row text-center form-group" style="margin: 5px;">
-					<label class="col-md-2 label1"	style="text-align width: 130px;">고객사담당자</label> 
+					<label class="col-md-2 label1 text-left"	style="width: 130px;">고객사담당자</label>
 					<input	id="manager" class="col-md-4 form-control" style="height: 42px; width: 60%"	readonly
 						value="<%= request.getParameter("manager") %>"/>
 					<button style="margin-left:5px; height: 42px; width:40px;" type="button" class="col-md-1 btn glyphicon glyphicon-search" onclick="search_emp()"></button>
@@ -262,7 +262,7 @@
 				</div>
 
 				<div class="row text-center" style="margin: 5px;">
-					<label class="col-md-2 margins label1" style="text-align width: 130px;">SE담당자</label>
+					<label class="col-md-2 label1 text-left" style="width: 130px;">SE담당자</label>
 					<input id="se" class="col-md-3 form-control"	style="height: 42px; width: 60%" readonly 
 						value="<%= request.getParameter("se") %>"/>
 					<button style="margin-left:5px; height: 42px; width:40px;" type="button" class="col-md-1  btn  glyphicon glyphicon-search"onclick="search_emp_secuve();"></button>
@@ -273,7 +273,7 @@
 				
 				
 				<div class="row text-center" style="margin: 5px;">
-					<label class="col-md-2 label1"	style="text-align width: 130px;">영업담당자</label> 
+					<label class="col-md-2 label1 text-left"	style="width: 130px;">영업담당자</label>
 					<input	id="sales" class="col-md-3 form-control" style=" height: 42px;width: 60%;" readonly
 						value="<%= request.getParameter("sales") %>"/>
 					<button style="margin-left:5px; height: 42px; width:40px;" type="button" class="col-md-1  btn  glyphicon glyphicon-search" onclick="search_emp_secuve2();"></button>
@@ -287,7 +287,7 @@
 
 
 				<div  class="row text-center form-group" style="margin: 5px;">
-					<label class="col-md-2 label1" style="text-align width: 130px;">주소</label>
+					<label class="col-md-2 label1 text-left" style="width: 130px;">주소</label>
 
 					<input class="col-md-2 form-control" style="height: 42px; width: 30%; display: inline;" placeholder="우편번호" name="address_post" id="address_post"
 							type="text" readonly="readonly" value="<%= request.getParameter("addr_post") %>" />
@@ -298,14 +298,14 @@
 				
 				
 				<div  class="row text-center form-group" style="margin: 5px;">
-					<label class="col-md-2 label1" style="height: 42px; text-align width: 130px;"></label>
+					<label class="col-md-2 label1" style="height: 42px;width: 130px;"></label>
 					<input class="form-control" style="height: 42px; width: 60%;" placeholder="도로명 주소"	name="address_address" id="address_address" type="text"
 							readonly="readonly" value="<%= request.getParameter("address") %>"/>
 				</div>
 				
 				
 				<div  class="row text-center form-group" style="margin: 5px;">
-					<label class="col-md-2 label1" style="text-align width: 130px;"></label>
+					<label class="col-md-2 label1" style="width: 130px;"></label>
 					<input class="form-control" placeholder="상세주소" style="height: 42px; width: 60%;"name="address_detail" id="address_detail" type="text" 
 						value="<%= request.getParameter("addr_detail") %>"/>
 				</div>
