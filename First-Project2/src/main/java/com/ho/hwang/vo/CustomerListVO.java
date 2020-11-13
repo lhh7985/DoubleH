@@ -10,6 +10,7 @@ public class CustomerListVO {
 	private int customer_id;
 	private String customer_name;
 	private String address_address;
+	private String address_detail;
 	private String employee_name;
 	private String department_name;
 	private String employee_phone;
