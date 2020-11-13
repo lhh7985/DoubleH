@@ -42,15 +42,12 @@
 	<select id="selectCustomerList" resultType="CustomerListVO">
 		SELECT
 		a.employee_name manager, b.employee_name se, c.employee_name sales,
-		s.Customer_ID, s.Customer_Name, d.address_address
+		s.Customer_ID, s.Customer_Name, d.address_address, d.address_detail
 		FROM customer s
 		INNER JOIN employee a ON a.Employee_ID = s.Employee_ID_Manager
-		INNER JOIN
-		employee b ON b.employee_id = s.Employee_ID_SE
-		INNER JOIN employee c ON
-		c.Employee_ID = s.Employee_ID_Sales
-		INNER JOIN address d ON
-		d.Customer_ID = s.Customer_ID AND d.Address_Type = 1;
+		INNER JOIN employee b ON b.employee_id = s.Employee_ID_SE
+		INNER JOIN employee c ON c.Employee_ID = s.Employee_ID_Sales
+		INNER JOIN address d ON	d.Customer_ID = s.Customer_ID AND d.Address_Type = 1;
 	</select>
 
 
@@ -218,7 +215,7 @@
 		delivery_date, delivery_businessNum)
 		VALUES(#{customer_id},#{product_id},#{delivery_quantity},#{delivery_date},#{delivery_businessNum})
 	</insert>
-	<select id="selectLast" resultType="int">
+	<select id="selectDelivery_id" resultType="int">
 		SELECT LAST_INSERT_ID()
 	</select>
 	
@@ -358,7 +355,7 @@
 		INNER JOIN sr s ON s.sr_id = a.sr_id AND s.customer_id
 		= #{customer_id}
 		INNER JOIN code co ON co.code_id = a.activity_type
-		WHERE a.activity_type = 0;
+		WHERE a.activity_type = 7;
 		<!-- where절에 0대신 코드테이블에 있는 값 넣기 방문내역 -->
 
 	</select>
@@ -417,7 +414,7 @@
 	</select>
 
 	<!-- 제품 검색 -->
-	<select id="selectSearchProduct2" resultType="ProductVO">
+	<select id="selectSearchAllProduct" resultType="ProductVO">
 		SELECT
 		product_name, product_content, product_id
 		FROM product
@@ -456,8 +453,7 @@
 		INSERT INTO code(code_group,code_upper,code_name,code_status)
 		VALUES(#{code_group},#{code_upper},#{code_name},#{code_status})
 	</insert>
-	
-	
+
 
 	<!-- 고객 리스트 삭제 -->
 	<delete id="deleteCustomer">
@@ -515,5 +511,4 @@
 		WHERE c.customer_id = #{customer_id}
 		ORDER BY co.Code_Name, h.ManagerHistory_startDate ASC;
 	</select>
-
 </mapper>
