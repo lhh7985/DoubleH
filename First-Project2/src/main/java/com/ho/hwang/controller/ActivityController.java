@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/activity/*")
 public class ActivityController {
 
-	private final UserService userService;
 	private final ActivityService activityService;
 
 	//// 활동 검색 및 개발 완료 버튼
@@ -60,21 +60,14 @@ public class ActivityController {
 
 	@PostMapping("/enroll-sr")
 	public void enrollSr(InsertCustomerActivityDTO insertCustomerActivityDTO, Principal principal) {
-		String name = userService.selectName(principal.getName());
-		insertCustomerActivityDTO.setActivity_registrant(name);
-		int activity_type = userService.selectCode(insertCustomerActivityDTO.getType());
-		insertCustomerActivityDTO.setActivity_type(activity_type);
-		activityService.insertCustomerActivity(insertCustomerActivityDTO);
+
+		activityService.insertCustomerActivity(insertCustomerActivityDTO, principal);
 	}
 
 	// 활동 등록
 	@PostMapping("/enroll-employee")
-	public String enrollEmployee(InsertActivityDTO insertActivityDTO, Principal principal) {
-		String name = userService.selectName(principal.getName());
-		insertActivityDTO.setActivity_registrant(name);
-		int type = userService.selectCode(insertActivityDTO.getType());
-		insertActivityDTO.setActivity_type(type);
-		activityService.insertActivity(insertActivityDTO);
+	public String enrollEmployee(InsertActivityDTO insertActivityDTO, Principal principal) {		
+		activityService.insertActivity(insertActivityDTO, principal);
 		return "redirect:/activity/list";
 	}
 
