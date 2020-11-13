@@ -9,12 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ho.hwang.service.CustomerService;
+import com.ho.hwang.dto.EmployeeDTO.InsertEmployeeDTO;
+import com.ho.hwang.dto.EmployeeDTO.SelectEmployeeOtherDTO;
+import com.ho.hwang.dto.EmployeeDTO.SelectEmployeeSecuveDTO;
 import com.ho.hwang.service.UserService;
-import com.ho.hwang.vo.CustomerListVO;
-import com.ho.hwang.vo.DeliveryVO;
-import com.ho.hwang.vo.EmployeeVO;
-import com.ho.hwang.vo.ProductVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,8 +32,6 @@ public class UserController {
 		return "patch";
 	}
 
-	// ==================================팝업창 매핑
-	
 	// ==================================사원
 	@GetMapping("/employee/list")
 	public String getEmployeeList(Model model) {
@@ -44,7 +40,7 @@ public class UserController {
 
 	@GetMapping("/employee/secuve")
 	public String getSecuveEmployee(Model model) {
-		List<EmployeeVO> empvo = userService.selectEmployee_secuve();
+		List<SelectEmployeeSecuveDTO> empvo = userService.selectEmployee_secuve();
 		model.addAttribute("list", empvo);
 
 		return "employee/secuve";
@@ -52,7 +48,7 @@ public class UserController {
 
 	@GetMapping("/employee/others")
 	public String getOtherEmployee(Model model) {
-		List<EmployeeVO> empvo = userService.selectEmployee_other();
+		List<SelectEmployeeOtherDTO> empvo = userService.selectEmployee_other();
 		model.addAttribute("list", empvo);
 
 		return "employee/others";
@@ -71,24 +67,14 @@ public class UserController {
 	@PostMapping("/employee/delete")
 	@ResponseBody
 	public int deleteCode(@RequestParam(value = "chbox[]") List<Integer> charr) throws Exception {
-		int result = 0;
-		if (charr != null) {
-			for (int i : charr) {
-				userService.deleteEmployee(i);
-			}
-			result = 1;
-		}
+		int result = userService.deleteEmployee(charr);
 		return result;
 	}
 
 	// 사원 등록 부분
 	@PostMapping("/employee/enroll")
-	public void enrollEmployee(EmployeeVO employeeVO) {
-		int type = userService.selectCode(employeeVO.getType());
-		employeeVO.setEmployee_type(type);
-		int dept = userService.selectDept(employeeVO.getDept());
-		employeeVO.setDepartment_id(dept);
-		userService.insertEmployee(employeeVO);
+	public void enrollEmployee(InsertEmployeeDTO insertEmployeeDTO) {
+		userService.insertEmployee(insertEmployeeDTO);
 	}
 
 }
