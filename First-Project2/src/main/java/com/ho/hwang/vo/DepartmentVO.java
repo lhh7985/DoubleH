@@ -6,7 +6,7 @@ import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
 public class DepartmentVO {
 	private int department_id;
 	private String department_name;
