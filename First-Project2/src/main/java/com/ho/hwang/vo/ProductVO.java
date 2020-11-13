@@ -4,7 +4,7 @@ import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
 public class ProductVO {
 	private int product_id;
 	private String product_name;
