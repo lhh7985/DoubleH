@@ -23,12 +23,21 @@ public class ProductService {
 
     //납품정보 삭제
     public int deleteDelivery(List<Integer> charr) {
-        int result = 0;
+        int result=0;
         if (charr != null) {
+            String delivery_id="";
+            int index=0;
+
             for (int i : charr) {
-                mapper.deleteDelivery(i);
+                index++;
+                if(index < charr.size()){
+                    delivery_id= delivery_id + i + ",";
+                }else{
+                    delivery_id = delivery_id+ i;
+                }
             }
-            result = 1;
+            mapper.deleteCustomer(delivery_id);
+            result=1;
         }
         return result;
     }

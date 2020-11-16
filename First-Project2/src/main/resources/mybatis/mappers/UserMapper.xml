@@ -444,9 +444,11 @@
 		FROM code;
 	</select>
 	<!-- 코트테이블 삭제 -->
-	<delete id="deleteCode">
+	<delete id="deleteCode" parameterType="String">
 		DELETE FROM code
-		WHERE code_id = #{code_id}
+		<where>
+			FIND_IN_SET(code_id, #{code_id})
+		</where>
 	</delete>
 	<!-- 코드테이블 추가 -->
 	<insert id="insertCode">
@@ -456,21 +458,25 @@
 
 
 	<!-- 고객 리스트 삭제 -->
-	<delete id="deleteCustomer">
+	<delete id="deleteCustomer" parameterType="String">
 		DELETE FROM customer
-		WHERE customer_id = #{customer_id}
+		<where>
+			FIND_IN_SET(customer_id, #{customer_id})
+		</where>
 	</delete>
 	<!-- 납품정보 삭제 -->
-	<delete id="deleteDelivery">
+	<delete id="deleteDelivery" parameterType="String">
 		DELETE FROM delivery
-		WHERE delivery_id =
-		#{delivery_id}
+		<where>
+			FIND_IN_SET(delivery_id, #{delivery_id})
+		</where>
 	</delete>
 	<!-- 직원 삭제 -->
-	<delete id="deleteEmployee">
+	<delete id="deleteEmployee" parameterType="String">
 		DELETE FROM employee
-		WHERE employee_id =
-		#{employee_id}
+		<where>
+			FIND_IN_SET(employee_id, #{employee_id})
+		</where>
 	</delete>
 
 	<!-- 고객사 정보 수정 -->

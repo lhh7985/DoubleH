@@ -119,12 +119,21 @@ public class UserService {
 
 	//직원 삭제
 	public int deleteEmployee(List<Integer> charr) {
-		int result = 0;
+		int result=0;
 		if (charr != null) {
+			String employee_id="";
+			int index=0;
+
 			for (int i : charr) {
-				mapper.deleteEmployee(i);
+				index++;
+				if(index < charr.size()){
+					employee_id= employee_id + i + ",";
+				}else{
+					employee_id = employee_id+ i;
+				}
 			}
-			result = 1;
+			mapper.deleteCustomer(employee_id);
+			result =1;
 		}
 		return result;
 	}

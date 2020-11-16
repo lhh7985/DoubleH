@@ -48,17 +48,17 @@ public class CustomerService {
 		ManagerHistoryDTO.UpdateManagerHistoryDTO managerHistory = new ManagerHistoryDTO.UpdateManagerHistoryDTO(x);
 
 		//manager
-		managerHistory.setEmployee_id(insertCustomerDTO.getEmployee_ID_manager());
+		managerHistory.setEmployee_id(insertCustomerDTO.getEmployee_id_manager());
 		managerHistory.setManagerHistory_type(19);
 		mapper.insertManagerHistory(managerHistory);
 
 		//se
-		managerHistory.setEmployee_id(insertCustomerDTO.getEmployee_ID_se());
+		managerHistory.setEmployee_id(insertCustomerDTO.getEmployee_id_se());
 		managerHistory.setManagerHistory_type(20);
 		mapper.insertManagerHistory(managerHistory);
 
 		//sales
-		managerHistory.setEmployee_id(insertCustomerDTO.getEmployee_ID_sales());
+		managerHistory.setEmployee_id(insertCustomerDTO.getEmployee_id_sales());
 		managerHistory.setManagerHistory_type(21);
 		mapper.insertManagerHistory(managerHistory);
 	}
@@ -109,10 +109,19 @@ public class CustomerService {
 	public int deleteCustomer(List<Integer> charr) {
 		int result=0;
 		if (charr != null) {
+			String customer_id="";
+			int index=0;
+
 			for (int i : charr) {
-				mapper.deleteCustomer(i);
+				index++;
+				if(index < charr.size()){
+					customer_id= customer_id + i + ",";
+				}else{
+					customer_id = customer_id+ i;
+				}
 			}
-			result = 1;
+			mapper.deleteCustomer(customer_id);
+			result =1;
 		}
 		return result;
 	}

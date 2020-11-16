@@ -121,18 +121,18 @@ public interface UserMapper {
 	//관리자 페이지
 	List<CodeVO> selectCodeList();
 	//코드테이블 삭제
-	void deleteCode(int code_id);
+	void deleteCode(String code_id);
 	//코드테이블 추가
 	void insertCode(CodeVO codevo);
 	
 	//고객사 리스트 삭제
-	void deleteCustomer(int customer_id);
+	void deleteCustomer(String customer_id);
 	
 	//납품정보 삭제
-	void deleteDelivery(int delivery_id);
+	void deleteDelivery(String delivery_id);
 	
 	//직원 삭제
-	void deleteEmployee(int employee_id);
+	void deleteEmployee(String employee_id);
 	
 	
 	//고객사 정보 수정

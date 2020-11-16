@@ -115,8 +115,7 @@ public class CustomerController {
 	@PostMapping("/delete")
 	@ResponseBody
 	public int deleteCustomer(@RequestParam(value = "chbox[]") List<Integer> charr) throws Exception {
-		int result = 0;
-		customerService.deleteCustomer(charr);
+		int result = customerService.deleteCustomer(charr);
 		return result;
 	}
 
