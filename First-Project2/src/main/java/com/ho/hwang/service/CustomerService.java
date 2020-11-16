@@ -1,16 +1,13 @@
 package com.ho.hwang.service;
 
-import java.time.Clock;
 import java.util.List;
-import java.util.logging.Logger;
 
-import com.ho.hwang.dto.CustomerDTO;
-import com.ho.hwang.dto.ManagerHistoryDTO;
-import com.ho.hwang.dto.ProductDTO;
+import com.ho.hwang.dto.Customer.*;
+import com.ho.hwang.dto.ManagerHistory.UpdateManagerHistoryDTO;
+import com.ho.hwang.dto.Product.SelectCustomerProductDTO;
 import com.ho.hwang.vo.*;
 import org.springframework.stereotype.Service;
 
-import com.ho.hwang.dto.CustomerDTO.UpdateCustomerDetailDTO;
 import com.ho.hwang.mappers.UserMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -26,26 +23,26 @@ public class CustomerService {
 	}
 
 	
-	public List<CustomerDTO.SelectCustomerListDTO> selectCustomerList(){
+	public List<SelectCustomerListDTO> selectCustomerList(){
 		return mapper.selectCustomerList();
 	}
 
-	public CustomerDTO.SelectCustomerDetail selectCustomerDetail(int co_id) {
+	public SelectCustomerDetailDTO selectCustomerDetail(int co_id) {
 		return mapper.selectCustomerDetail(co_id);
 	}
 
-	public List<ProductDTO.SelectCustomerProductDTO> selectCustomerProduct(int customer_id) {
+	public List<SelectCustomerProductDTO> selectCustomerProduct(int customer_id) {
 		return mapper.selectCustomerProduct(customer_id);
 	}
 	
-	public void insertCustomer(CustomerDTO.InsertCustomerDTO insertCustomerDTO) {
+	public void insertCustomer(InsertCustomerDTO insertCustomerDTO) {
 		mapper.insertCustomer(insertCustomerDTO);
 		int x = mapper.selectCustomer_id();
 		insertCustomerDTO.setCustomer_id(x);
 		mapper.insertAddress(insertCustomerDTO);
 
 		//매니저 이력 삽입
-		ManagerHistoryDTO.UpdateManagerHistoryDTO managerHistory = new ManagerHistoryDTO.UpdateManagerHistoryDTO(x);
+		UpdateManagerHistoryDTO managerHistory = new UpdateManagerHistoryDTO(x);
 
 		//manager
 		managerHistory.setEmployee_id(insertCustomerDTO.getEmployee_id_manager());
@@ -63,9 +60,9 @@ public class CustomerService {
 		mapper.insertManagerHistory(managerHistory);
 	}
 	
-	//담당자 수정
+	//담당자 수정e
 	public void updateCustomerDetail(UpdateCustomerDetailDTO updateCustomerDetailDTO) {
-		ManagerHistoryDTO.UpdateManagerHistoryDTO manager = new ManagerHistoryDTO.UpdateManagerHistoryDTO(updateCustomerDetailDTO.getCustomer_id());
+		UpdateManagerHistoryDTO manager = new UpdateManagerHistoryDTO(updateCustomerDetailDTO.getCustomer_id());
 
 		if(updateCustomerDetailDTO.getEmployee_id_manager() !=0){
 			// 오늘날짜 현재 담당자 endDate에 찍기

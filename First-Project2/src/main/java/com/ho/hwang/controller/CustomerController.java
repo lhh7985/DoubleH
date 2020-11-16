@@ -4,10 +4,15 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.ho.hwang.dto.*;
+import com.ho.hwang.dto.Activity.SelectCustomerActivityDTO;
+import com.ho.hwang.dto.Activity.SelectVisitDTO;
+import com.ho.hwang.dto.Customer.*;
+import com.ho.hwang.dto.Employee.SelectEmployeeDTO;
+import com.ho.hwang.dto.Product.SelectDeliveryDTO;
+import com.ho.hwang.dto.Sr.SelectSrDetailDTO;
+import com.ho.hwang.dto.Sr.SelectSrListDTO;
 import com.ho.hwang.service.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,10 +39,10 @@ public class CustomerController {
 
 	@GetMapping("/detail")
 	public String getDetail(int customer_id, Model model) {
-		CustomerDTO.SelectCustomerDetail customerDetail = customerService.selectCustomerDetail(customer_id);
-		EmployeeDTO.SelectEmployeeDTO empvo = userService.selectEmployee(customerDetail.getEmployee_ID_Manager());
-		EmployeeDTO.SelectEmployeeDTO se = userService.selectEmployee(customerDetail.getEmployee_ID_SE());
-		EmployeeDTO.SelectEmployeeDTO sales = userService.selectEmployee(customerDetail.getEmployee_ID_Sales());
+		SelectCustomerDetailDTO customerDetail = customerService.selectCustomerDetail(customer_id);
+		SelectEmployeeDTO empvo = userService.selectEmployee(customerDetail.getEmployee_ID_Manager());
+		SelectEmployeeDTO se = userService.selectEmployee(customerDetail.getEmployee_ID_SE());
+		SelectEmployeeDTO sales = userService.selectEmployee(customerDetail.getEmployee_ID_Sales());
 
 		model.addAttribute("customer", customerDetail);
 		model.addAttribute("manager", empvo);
@@ -50,7 +55,7 @@ public class CustomerController {
 	@GetMapping("/delivery")
 	public String getDelivery(Model model, HttpServletRequest req) {
 		int customer_id = Integer.parseInt(req.getParameter("customer_id"));
-		List<ProductDTO.SelectDeliveryDTO> list = productService.selectDelivery(customer_id);
+		List<SelectDeliveryDTO> list = productService.selectDelivery(customer_id);
 		model.addAttribute("list", list);
 		List<OsVO> list2 = productService.selectOS(customer_id);
 		model.addAttribute("list2", list2);
@@ -68,7 +73,7 @@ public class CustomerController {
 
 	@GetMapping("/list")
 	public String getCustomerList(Model model) {
-		List<CustomerDTO.SelectCustomerListDTO> list = customerService.selectCustomerList();
+		List<SelectCustomerListDTO> list = customerService.selectCustomerList();
 		model.addAttribute("list", list);
 
 		return "customer/list";
@@ -77,7 +82,7 @@ public class CustomerController {
 	@GetMapping("/sr")
 	public String getSrList(Model model, HttpServletRequest req) {
 		int customer_id = Integer.parseInt(req.getParameter("customer_id"));
-		List<SrDTO.SelectSrListDTO> srList = srService.selectSRList(customer_id);
+		List<SelectSrListDTO> srList = srService.selectSRList(customer_id);
 		model.addAttribute("srList", srList);
 
 		return "customer/sr";
@@ -85,8 +90,8 @@ public class CustomerController {
 
 	@GetMapping("/sr-detail")
 	public String getSrDetail(Model model, int sr_id) {
-		SrDTO.SelectSrDetailDTO selectSrDetailDTO = srService.selectSRDetail(sr_id);
-		List<ActivityDTO.SelectCustomerActivityDTO> selectCustomerActivityDTO = activityService.selectCustomerActivity(sr_id);
+		SelectSrDetailDTO selectSrDetailDTO = srService.selectSRDetail(sr_id);
+		List<SelectCustomerActivityDTO> selectCustomerActivityDTO = activityService.selectCustomerActivity(sr_id);
 		model.addAttribute("srvo", selectSrDetailDTO);
 		model.addAttribute("acvo", selectCustomerActivityDTO);
 
@@ -96,7 +101,7 @@ public class CustomerController {
 	@GetMapping("/activity")
 	public String getCustomerActivity(Model model, HttpServletRequest req) {
 		int customer_id = Integer.parseInt(req.getParameter("customer_id"));
-		List<ActivityDTO.SelectVisitDTO> list = activityService.selectVisit(customer_id);
+		List<SelectVisitDTO> list = activityService.selectVisit(customer_id);
 		model.addAttribute("list", list);
 
 		return "/customer/activity";
@@ -108,7 +113,7 @@ public class CustomerController {
 	}
 
 	@PostMapping(value = "/modify")
-	public void modifyCustomerDetail(CustomerDTO.UpdateCustomerDetailDTO updateCustomerDetailDTO) {
+	public void modifyCustomerDetail(UpdateCustomerDetailDTO updateCustomerDetailDTO) {
 		customerService.updateCustomerDetail(updateCustomerDetailDTO);
 	}
 
@@ -126,7 +131,7 @@ public class CustomerController {
 
 	// 고객사 등록부분
 	@PostMapping("/enroll")
-	public void enrollCustomer(CustomerDTO.InsertCustomerDTO insertCustomerDTO) {
+	public void enrollCustomer(InsertCustomerDTO insertCustomerDTO) {
 		customerService.insertCustomer(insertCustomerDTO);
 	}
 }

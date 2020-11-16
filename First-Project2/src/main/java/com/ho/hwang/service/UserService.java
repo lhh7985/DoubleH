@@ -2,13 +2,10 @@ package com.ho.hwang.service;
 
 import java.util.List;
 
-import com.ho.hwang.dto.EmployeeDTO;
+import com.ho.hwang.dto.Employee.*;
 import org.springframework.stereotype.Service;
 
 import com.ho.hwang.account.Account;
-import com.ho.hwang.dto.EmployeeDTO.InsertEmployeeDTO;
-import com.ho.hwang.dto.EmployeeDTO.SelectEmployeeOtherDTO;
-import com.ho.hwang.dto.EmployeeDTO.SelectEmployeeSecuveDTO;
 import com.ho.hwang.mappers.UserMapper;
 import com.ho.hwang.vo.CodeVO;
 
@@ -29,7 +26,7 @@ public class UserService {
 		mapper.save(account);
 	}
 
-	public EmployeeDTO.SelectEmployeeDTO selectEmployee(int employee_id) {
+	public SelectEmployeeDTO selectEmployee(int employee_id) {
 		return mapper.selectEmployee(employee_id);
 	}
 	

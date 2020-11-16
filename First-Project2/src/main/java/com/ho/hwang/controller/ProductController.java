@@ -2,7 +2,10 @@ package com.ho.hwang.controller;
 
 import java.util.List;
 
-import com.ho.hwang.dto.ProductDTO;
+import com.ho.hwang.dto.Product.InsertDeliveryDTO;
+import com.ho.hwang.dto.Product.SelectProductDTO;
+import com.ho.hwang.dto.Product.SelectTotalDeliveryDTO;
+import com.ho.hwang.dto.Product.SelectTotalOsDTO;
 import com.ho.hwang.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.ho.hwang.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +26,7 @@ public class ProductController {
 
 	@GetMapping("/list")
 	public String getProductList(Model model) {
-		List<ProductDTO.SelectProductDTO> productList = productService.selectProduct();
+		List<SelectProductDTO> productList = productService.selectProduct();
 		model.addAttribute("productList", productList);
 
 		return "product/list";
@@ -34,9 +35,9 @@ public class ProductController {
 	// 납품정보
 	@GetMapping("/delivery")
 	public String getDeliveryList(Model model) {
-		List<ProductDTO.SelectTotalDeliveryDTO> deliveryList = productService.selectTotalDelivery();
+		List<SelectTotalDeliveryDTO> deliveryList = productService.selectTotalDelivery();
 		model.addAttribute("deliveryList", deliveryList);
-		List<ProductDTO.SelectTotalOsDTO> osList = productService.selectTotalOS();
+		List<SelectTotalOsDTO> osList = productService.selectTotalOS();
 		model.addAttribute("osList", osList);
 
 		return "product/delivery";
@@ -48,7 +49,7 @@ public class ProductController {
 	}
 
 	@PostMapping("/delivery/enroll")
-	public void enrollDelivery(ProductDTO.InsertDeliveryDTO insertDeliveryDTO) {
+	public void enrollDelivery(InsertDeliveryDTO insertDeliveryDTO) {
 		productService.insertDelivery(insertDeliveryDTO);
 	}
 

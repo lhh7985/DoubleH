@@ -2,15 +2,16 @@ package com.ho.hwang.controller;
 
 import java.util.List;
 
-import com.ho.hwang.dto.ProductDTO;
+import com.ho.hwang.dto.Employee.SelectEmployeeOtherDTO;
+import com.ho.hwang.dto.Employee.SelectEmployeeSecuveDTO;
+import com.ho.hwang.dto.Product.SelectCustomerProductDTO;
+import com.ho.hwang.dto.Product.SelectProductDTO;
 import com.ho.hwang.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ho.hwang.dto.EmployeeDTO.SelectEmployeeOtherDTO;
-import com.ho.hwang.dto.EmployeeDTO.SelectEmployeeSecuveDTO;
 import com.ho.hwang.service.CustomerService;
 import com.ho.hwang.service.UserService;
 import com.ho.hwang.vo.CustomerListVO;
@@ -37,7 +38,7 @@ public class SearchController {
 
 	@GetMapping("/product")
 	public String searchProduct(Model model, int customer_id) {
-		List<ProductDTO.SelectCustomerProductDTO> deliverylist = customerService.selectCustomerProduct(customer_id);
+		List<SelectCustomerProductDTO> deliverylist = customerService.selectCustomerProduct(customer_id);
 		model.addAttribute("deliverylist", deliverylist);
 
 		return "search/product";
@@ -70,7 +71,7 @@ public class SearchController {
 	// 모든 제품 검색창
 	@GetMapping("/allproduct")
 	public String searchAllProduct(Model model) {
-		List<ProductDTO.SelectProductDTO> list = productService.selectSearchAllProduct();
+		List<SelectProductDTO> list = productService.selectSearchAllProduct();
 		model.addAttribute("list", list);
 		
 		return "search/AllProduct";

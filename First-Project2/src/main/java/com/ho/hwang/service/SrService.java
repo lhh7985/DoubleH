@@ -5,11 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import com.ho.hwang.dto.SrDTO;
+import com.ho.hwang.dto.Sr.InsertSrDTO;
+import com.ho.hwang.dto.Sr.SelectSrDTO;
+import com.ho.hwang.dto.Sr.SelectSrDetailDTO;
+import com.ho.hwang.dto.Sr.SelectSrListDTO;
 import org.springframework.stereotype.Service;
 
 import com.ho.hwang.mappers.UserMapper;
-import com.ho.hwang.vo.SrVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,7 +21,7 @@ public class SrService {
 	private final UserMapper mapper;
 	public final static SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-	public void insertSR(SrDTO.InsertSrDTO insertSrDTO, Principal principal) {
+	public void insertSR(InsertSrDTO insertSrDTO, Principal principal) {
 		Date time = new Date();
 
 		String name = mapper.selectName(principal.getName());
@@ -40,17 +42,17 @@ public class SrService {
 	}
 
 	// SR 리스트 확인
-	public List<SrDTO.SelectSrDTO> selectSR() {
+	public List<SelectSrDTO> selectSR() {
 		return mapper.selectSR();
 	}
 
 	// 각 고객사의 sr확인
-	public List<SrDTO.SelectSrListDTO> selectSRList(int customer_id) {
+	public List<SelectSrListDTO> selectSRList(int customer_id) {
 		return mapper.selectSRList(customer_id);
 	}
 
 	// SR 내용확인
-	public SrDTO.SelectSrDetailDTO selectSRDetail(int sr_id) {
+	public SelectSrDetailDTO selectSRDetail(int sr_id) {
 		return mapper.selectSRDetail(sr_id);
 	}
 

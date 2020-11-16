@@ -1,6 +1,6 @@
 package com.ho.hwang.service;
 
-import com.ho.hwang.dto.ProductDTO;
+import com.ho.hwang.dto.Product.*;
 import com.ho.hwang.mappers.UserMapper;
 import com.ho.hwang.vo.OsVO;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +14,10 @@ public class ProductService {
 
     private final UserMapper mapper;
 
-    public List<ProductDTO.SelectProductDTO> selectProduct(){
+    public List<SelectProductDTO> selectProduct(){
         return mapper.selectProduct();
     }
-    public List<ProductDTO.SelectProductDTO> selectSearchAllProduct(){
+    public List<SelectProductDTO> selectSearchAllProduct(){
         return mapper.selectSearchAllProduct();
     }
 
@@ -42,7 +42,7 @@ public class ProductService {
         return result;
     }
 
-    public void insertDelivery(ProductDTO.InsertDeliveryDTO insertDeliveryDTO) {
+    public void insertDelivery(InsertDeliveryDTO insertDeliveryDTO) {
 
         mapper.insertDelivery(insertDeliveryDTO);
         int delivery_id = mapper.selectDelivery_id();
@@ -71,15 +71,15 @@ public class ProductService {
 
     }
 
-    public List<ProductDTO.SelectTotalDeliveryDTO> selectTotalDelivery(){
+    public List<SelectTotalDeliveryDTO> selectTotalDelivery(){
         return mapper.selectTotalDelivery();
     }
 
-    public List<ProductDTO.SelectTotalOsDTO> selectTotalOS(){
+    public List<SelectTotalOsDTO> selectTotalOS(){
         return mapper.selectTotalOS();
     }
 
-    public List<ProductDTO.SelectDeliveryDTO> selectDelivery(int co_id){
+    public List<SelectDeliveryDTO> selectDelivery(int co_id){
         return mapper.selectDelivery(co_id);
     }
 

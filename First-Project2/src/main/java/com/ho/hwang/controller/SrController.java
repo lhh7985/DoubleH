@@ -1,12 +1,12 @@
 package com.ho.hwang.controller;
 
 import java.security.Principal;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
-import com.ho.hwang.dto.ActivityDTO;
-import com.ho.hwang.dto.SrDTO;
+import com.ho.hwang.dto.Activity.SelectCustomerActivityDTO;
+import com.ho.hwang.dto.Sr.InsertSrDTO;
+import com.ho.hwang.dto.Sr.SelectSrDTO;
+import com.ho.hwang.dto.Sr.SelectSrDetailDTO;
 import com.ho.hwang.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +32,7 @@ public class SrController {
 
 	@GetMapping("/list")
 	public String getSrList(Model model) {
-		List<SrDTO.SelectSrDTO> srList = srService.selectSR();
+		List<SelectSrDTO> srList = srService.selectSR();
 		model.addAttribute("srList", srList);
 
 		return "sr/list";
@@ -45,15 +45,15 @@ public class SrController {
 	}
 
 	@PostMapping("/enroll")
-	public void enrollSr(SrDTO.InsertSrDTO insertSrDTO, Principal principal) {
+	public void enrollSr(InsertSrDTO insertSrDTO, Principal principal) {
 		srService.insertSR(insertSrDTO, principal);
 	}
 
 	// =================================SR디테일
 	@GetMapping("/detail")
 	public String getSrDetail(Model model, int sr_id) {
-		SrDTO.SelectSrDetailDTO selectSrDetailDTO = srService.selectSRDetail(sr_id);
-		List<ActivityDTO.SelectCustomerActivityDTO> selectCustomerActivityDTO = activityService.selectCustomerActivity(sr_id);
+		SelectSrDetailDTO selectSrDetailDTO = srService.selectSRDetail(sr_id);
+		List<SelectCustomerActivityDTO> selectCustomerActivityDTO = activityService.selectCustomerActivity(sr_id);
 
 		model.addAttribute("srvo", selectSrDetailDTO);
 		model.addAttribute("acvo", selectCustomerActivityDTO);

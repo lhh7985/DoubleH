@@ -3,14 +3,10 @@ package com.ho.hwang.service;
 import java.security.Principal;
 import java.util.List;
 
-import com.ho.hwang.dto.ActivityDTO;
+import com.ho.hwang.dto.Activity.*;
 import org.springframework.stereotype.Service;
 
-import com.ho.hwang.dto.ActivityDTO.InsertActivityDTO;
-import com.ho.hwang.dto.ActivityDTO.InsertCustomerActivityDTO;
-import com.ho.hwang.dto.ActivityDTO.SelectActivityDTO;
 import com.ho.hwang.mappers.UserMapper;
-import com.ho.hwang.vo.ActivityVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +22,7 @@ public class ActivityService {
 	}
 
 	// 고객사 방문내역 확인
-	public List<ActivityDTO.SelectVisitDTO> selectVisit(int customer_id) {
+	public List<SelectVisitDTO> selectVisit(int customer_id) {
 		return mapper.selectVisit(customer_id);
 	}
 
@@ -43,13 +39,13 @@ public class ActivityService {
 	}
 
 	// 각 고객별 활동 등록 및 검색
-	public void insertCustomerActivity(InsertCustomerActivityDTO insertCustomerActivityDTO,Principal principal) {
+	public void insertCustomerActivity(InsertCustomerActivityDTO insertCustomerActivityDTO, Principal principal) {
 		insertCustomerActivityDTO.setActivity_registrant(mapper.selectName(principal.getName()));
 		insertCustomerActivityDTO.setActivity_type(mapper.selectCode(insertCustomerActivityDTO.getType()));
 		mapper.insertCustomerActivity(insertCustomerActivityDTO);
 	}
 
-	public List<ActivityDTO.SelectCustomerActivityDTO> selectCustomerActivity(int sr_id) {
+	public List<SelectCustomerActivityDTO> selectCustomerActivity(int sr_id) {
 		return mapper.selectCustomerActivity(sr_id);
 	}
 

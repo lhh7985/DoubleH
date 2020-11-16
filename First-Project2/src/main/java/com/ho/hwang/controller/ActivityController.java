@@ -5,7 +5,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import com.ho.hwang.dto.Activity.InsertActivityDTO;
+import com.ho.hwang.dto.Activity.InsertCustomerActivityDTO;
+import com.ho.hwang.dto.Activity.SelectActivityDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ho.hwang.dto.ActivityDTO.InsertActivityDTO;
-import com.ho.hwang.dto.ActivityDTO.InsertCustomerActivityDTO;
-import com.ho.hwang.dto.ActivityDTO.SelectActivityDTO;
 import com.ho.hwang.service.ActivityService;
-import com.ho.hwang.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -66,7 +64,7 @@ public class ActivityController {
 
 	// 활동 등록
 	@PostMapping("/enroll-employee")
-	public String enrollEmployee(InsertActivityDTO insertActivityDTO, Principal principal) {		
+	public String enrollEmployee(InsertActivityDTO insertActivityDTO, Principal principal) {
 		activityService.insertActivity(insertActivityDTO, principal);
 		return "redirect:/activity/list";
 	}
