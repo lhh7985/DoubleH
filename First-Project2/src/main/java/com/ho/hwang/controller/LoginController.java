@@ -22,16 +22,6 @@ public class LoginController {
 	public String login() {
 		return "loginForm";
 	}
-//	
-//	@GetMapping(value = "/loginForm")
-//	  public String login(@AuthenticationPrincipal User user){
-//	    if(user != null) {
-//	      if(user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_USER"))) {
-//	        return "redirect:/main";
-//	      }
-//	    }
-//	    return "loginForm";
-//	  }
 	
 	@PostMapping(value="/register")
 	public String register(Account account) {
@@ -48,7 +38,7 @@ public class LoginController {
 	
 
 	@GetMapping("/user/logout")
-	public String dispLogout() {
+	public String Logout() {
         return "/main";
     }
 	

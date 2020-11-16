@@ -1,23 +1,20 @@
 package com.ho.hwang.vo;
 
 import java.sql.Date;
-
 import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter
+@Getter
 public class ActivityVO {
 	
+	private String code_name;
+	private String activity_title;
 	private int activity_id;
 	private int sr_id;
-	private String code_name;
 	private int activity_type;
-	private String activity_title;
 	private String activity_content;
 	private String activity_status;
 	
 	private Date activity_estimatedDate = null;
-	
 	private Date activity_completionDate = null;
 	
 	private String activity_registrant;
@@ -27,8 +24,4 @@ public class ActivityVO {
 	
 	
 	private String type;
-	
-	
-	
-	
 }

@@ -4,7 +4,7 @@ import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
 public class PackageVO {
 	private int package_id;
 	private int employee_id_developer;

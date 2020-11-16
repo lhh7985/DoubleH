@@ -24,33 +24,25 @@
 
 
 	<select id="selectCustomer" resultType="CustomerListVO">
-		SELECT c.Customer_ID,
-		c.Customer_Name, a.address_address, d.Department_Name ,
-		e.employee_name, e.employee_phone, e.employee_email,
-		e.employee_contact, c.employee_id_se, c.employee_id_sales
-		FROM customer
-		c
-		INNER JOIN address a ON c.Customer_ID = a.Customer_ID AND
-		address_type = 1
-		INNER JOIN employee e ON e.Employee_ID =
-		c.Employee_ID_Manager
-		INNER JOIN department d ON d.Department_ID =
-		e.Department_ID;
+		SELECT c.customer_id,
+		c.customer_name, a.address_address, d.department_name ,
+		e.employee_name,e.employee_contact, a.address_detail
+		FROM customer	c
+		INNER JOIN address a ON c.Customer_ID = a.Customer_ID AND	address_type = 1
+		INNER JOIN employee e ON e.Employee_ID = c.Employee_ID_Manager
+		INNER JOIN department d ON d.Department_ID = e.Department_ID;
 	</select>
 
 	<!-- 고객사 리스트 -->
 	<select id="selectCustomerList" resultType="CustomerListVO">
 		SELECT
 		a.employee_name manager, b.employee_name se, c.employee_name sales,
-		s.Customer_ID, s.Customer_Name, d.address_address
+		s.Customer_ID, s.Customer_Name, d.address_address, d.address_detail
 		FROM customer s
 		INNER JOIN employee a ON a.Employee_ID = s.Employee_ID_Manager
-		INNER JOIN
-		employee b ON b.employee_id = s.Employee_ID_SE
-		INNER JOIN employee c ON
-		c.Employee_ID = s.Employee_ID_Sales
-		INNER JOIN address d ON
-		d.Customer_ID = s.Customer_ID AND d.Address_Type = 1;
+		INNER JOIN employee b ON b.employee_id = s.Employee_ID_SE
+		INNER JOIN employee c ON c.Employee_ID = s.Employee_ID_Sales
+		INNER JOIN address d ON	d.Customer_ID = s.Customer_ID AND d.Address_Type = 1;
 	</select>
 
 
@@ -175,7 +167,10 @@
 		employee_ID_manager)
 		VALUES( #{customer_name},#{employee_id_sales}, #{employee_id_se},
 		#{employee_id_manager} );
-
+	</insert>
+	<insert id="insertManagerHistory">
+		INSERT INTO ManagerHistory(customer_id, employee_id, managerHistory_type ,managerHistory_startDate)
+		values(#{customer_id},#{employee_id}, #{managerHistory_type}, NOW())
 	</insert>
 
 	<insert id="insertSR">
@@ -203,8 +198,10 @@
 	<insert id="insertActivity">
 		INSERT INTO activity (activity_type, activity_status,
 		activity_title, activity_content, activity_estimatedDate,
-		activity_completionDate)
-		VALUES(#{activity_type},#{activity_status},#{activity_title},#{activity_content},#{activity_estimatedDate},#{activity_completionDate})
+		activity_completionDate, activity_registrant, activity_registrationDate)
+		VALUES(#{activity_type},#{activity_status},#{activity_title},#{activity_content},#{activity_estimatedDate},#{activity_completionDate}
+			,#{activity_registrant}, NOW()
+		)
 	</insert>
 
 	<!-- 납품하기 -->
@@ -213,7 +210,7 @@
 		delivery_date, delivery_businessNum)
 		VALUES(#{customer_id},#{product_id},#{delivery_quantity},#{delivery_date},#{delivery_businessNum})
 	</insert>
-	<select id="selectLast" resultType="int">
+	<select id="selectDelivery_id" resultType="int">
 		SELECT LAST_INSERT_ID()
 	</select>
 	
@@ -353,7 +350,7 @@
 		INNER JOIN sr s ON s.sr_id = a.sr_id AND s.customer_id
 		= #{customer_id}
 		INNER JOIN code co ON co.code_id = a.activity_type
-		WHERE a.activity_type = 0;
+		WHERE a.activity_type = 7;
 		<!-- where절에 0대신 코드테이블에 있는 값 넣기 방문내역 -->
 
 	</select>
@@ -412,7 +409,7 @@
 	</select>
 
 	<!-- 제품 검색 -->
-	<select id="selectSearchProduct2" resultType="ProductVO">
+	<select id="selectSearchAllProduct" resultType="ProductVO">
 		SELECT
 		product_name, product_content, product_id
 		FROM product
@@ -442,56 +439,77 @@
 		FROM code;
 	</select>
 	<!-- 코트테이블 삭제 -->
-	<delete id="deleteCode">
+	<delete id="deleteCode" parameterType="String">
 		DELETE FROM code
-		WHERE code_id = #{code_id}
+		<where>
+			FIND_IN_SET(code_id, #{code_id})
+		</where>
 	</delete>
 	<!-- 코드테이블 추가 -->
 	<insert id="insertCode">
 		INSERT INTO code(code_group,code_upper,code_name,code_status)
 		VALUES(#{code_group},#{code_upper},#{code_name},#{code_status})
 	</insert>
-	
-	
+
 
 	<!-- 고객 리스트 삭제 -->
-	<delete id="deleteCustomer">
+	<delete id="deleteCustomer" parameterType="String">
 		DELETE FROM customer
-		WHERE customer_id = #{customer_id}
+		<where>
+			FIND_IN_SET(customer_id, #{customer_id})
+		</where>
 	</delete>
 	<!-- 납품정보 삭제 -->
-	<delete id="deleteDelivery">
+	<delete id="deleteDelivery" parameterType="String">
 		DELETE FROM delivery
-		WHERE delivery_id =
-		#{delivery_id}
+		<where>
+			FIND_IN_SET(delivery_id, #{delivery_id})
+		</where>
 	</delete>
 	<!-- 직원 삭제 -->
-	<delete id="deleteEmployee">
+	<delete id="deleteEmployee" parameterType="String">
 		DELETE FROM employee
-		WHERE employee_id =
-		#{employee_id}
+		<where>
+			FIND_IN_SET(employee_id, #{employee_id})
+		</where>
 	</delete>
 
 	<!-- 고객사 정보 수정 -->
+	<!-- 날짜 업데이트 -->
+	<update id="updateEnddate">
+		UPDATE managerhistory
+		SET managerhistory_enddate = NOW()
+		WHERE customer_id = #{customer_id} and managerHistory_type = #{managerHistory_type} and managerHistory_endDate IS NULL;
+	</update>
 	<!-- 고객사 담당자 수정 -->
 	<update id="updateManager">
 		UPDATE customer
-		SET employe_id_manager = #{employee_id_manager}
+		SET employee_id_manager = #{employee_id_manager}
 		WHERE customer_id = #{customer_id}
 	</update>
 	
 	<!-- SE담당자 수정 -->
 	<update id="updateSE">
 		UPDATE customer
-		SET employe_id_se = #{employee_id_se}
+		SET employee_id_se = #{employee_id_se}
 		WHERE customer_id = #{customer_id}
 	</update>
 	
 	<!-- 영업담당자 수정 -->
 	<update id="updateSales">
 		UPDATE customer
-		SET employe_id_sales = #{employee_id_sales}
+		SET employee_id_sales = #{employee_id_sales}
 		WHERE customer_id = #{customer_id}
 	</update>
-
+	
+	<!-- 담당자이력  -->
+	<select id="selectManager" resultType="ManagerVO">
+		SELECT c.customer_name, co.code_name ,e.employee_name,e.employee_contact , h.managerHistory_startDate, h.managerHistory_endDate
+		FROM managerhistory h
+		INNER JOIN customer c ON c.customer_id = h.Customer_ID
+		INNER JOIN employee e ON e.Employee_ID = h.Employee_ID
+		INNER JOIN code co ON co.Code_id = h.ManagerHistory_Type
+		WHERE c.customer_id = #{customer_id}
+		ORDER BY co.Code_Name, h.ManagerHistory_startDate ASC;
+	</select>
 </mapper>

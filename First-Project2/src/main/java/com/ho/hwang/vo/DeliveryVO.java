@@ -6,7 +6,7 @@ import java.sql.Date;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
 public class DeliveryVO {
 	private int delivery_id;
 	private int customer_id;

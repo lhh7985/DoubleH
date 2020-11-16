@@ -20,7 +20,7 @@
 var winRef;
 
 	function customer_search() {
-		href = "http://localhost:8080/search/customer_search";
+		href = "http://localhost:8080/search/customer";
 		if(!winRef){
 			winRef=window.open(href, "customer2",'width=800px, height=600px,toolbars=no,scrollbars=no');
 		}else{
@@ -43,7 +43,7 @@ var winRef;
 
 	
 	function product_search() {
-		href = "http://localhost:8080/search/product_search2";
+		href = "http://localhost:8080/search/allproduct";
 		if(!winRef){
 			winRef=window.open(href, "product2",'width=800px, height=600px,toolbars=no,scrollbars=no');
 		}else{
@@ -71,9 +71,9 @@ var winRef;
 	
 	function delivery_enroll(){
 		var add = document.add;
-		var customer_name =add.customer_name.value;
-		
-		var product_name = add.product_name.value;
+		var customer_name =add.customer_id.value;
+
+		var product_name = add.product_id.value;
 		var delivery_date = add.delivery_date.value;
 		var delivery_quantity = add.delivery_quantity.value;
 		
@@ -85,11 +85,11 @@ var winRef;
 		} else {
 			var forms = $("#add").serialize();
 			$.ajax({
-				url: "/delivery/enroll",
+				url: "/product/delivery/enroll",
 				type:"POST",
 				data:forms,
 				success:function(data){
-					location.href="http://localhost:8080/product/delivery"
+					location.href="http://localhost:8080/product/delivery";
 				}
 			});
 		}
@@ -132,14 +132,14 @@ label {
 		<input name="customer_id" id="customer_id" value="0" style="display: none"/>
 		
 			<label class="col-md-1">고객</label> 
-			<input name="customer_name" class="col-md-2 form-control" id="customer_name" style="width:20%;"  readonly/>
+			<input class="col-md-2 form-control" id="customer_name" style="width:20%;"  readonly/>
 			<button class="col-md-1 btn btn-default" type="button" onclick='customer_search()'>고객검색</button>
 		
 		
 		<input name="product_id" id="product_id" value="0" style="display: none"/>
 	
 			<label class="col-md-1" style="margin-left: 50px;">제품</label> 
-			<input name="product_name" class="col-md-2 form-control" id="product_name"  style="width:20%;" readonly>
+			<input class="col-md-2 form-control" id="product_name"  style="width:20%;" readonly>
 			<button class="col-md-1 btn btn-default" type="button" onclick="product_search()">제품검색</button>
 		</div>
 		
@@ -152,10 +152,10 @@ label {
 			<input type="date" name="delivery_date" id="delivery_date" class="col-md-2 form-control" style="width:20%;" >
 			
 			
-			<label class="col-md-2" style="margin-left:30px; width: 80px;"">총수량</label> 
+			<label class="col-md-2" style="margin-left:30px; width: 80px;">총수량</label>
 			<input type="text" name="delivery_quantity" id="delivery_quantity" class="col-md-2 form-control" style="width:15%;" >
 			
-			<label class="col-md-2" style="margin-left:30px; width: 110px;"">사업건번호</label> 
+			<label class="col-md-2" style="margin-left:30px; width: 110px;">사업건번호</label>
 			<input type="text" name="delivery_businessNum" id="delivery_businessNum" class="col-md-2 form-control" style="width:15%;" >
 			
 		</div>

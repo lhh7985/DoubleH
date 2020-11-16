@@ -153,14 +153,14 @@ tr.hide {
 
 
 	<div class="container">
-	<form id="add" name="add" action="http://localhost:8080/activity/enroll-sr" method="POST">
+	<form id="add" name="add"  method="POST">
 		<div>
 			<h1 class="font2">활동 추가</h1>
 		</div>
 		<!-- 몸통 -->
 		<div class="row" style="margin-left:20px;">
 			<label class="col-md-2 my" style="width: 120px;">유형</label>
-			<select name="type" id="type"	style="height: 30px;" class="col-md-2">
+			<select name="type" id="type" style="height: 30px;" class="col-md-2">
 				<option>신규</option>
 				<option>이슈</option>
 			</select>
@@ -197,8 +197,6 @@ tr.hide {
 			<textarea name="activity_content" id="activity_content" rows="12" cols="100"></textarea>
 			
 		</div>
-
-
 
 		<div style="margin-left: 400px; margin-top: 30px;">
 			<input class="btn btn-default" type="button" onclick="activity1()"   value="등록">

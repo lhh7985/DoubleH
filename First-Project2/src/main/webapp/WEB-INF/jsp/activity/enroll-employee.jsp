@@ -159,7 +159,7 @@ label {
 
 	<div class="container">
 	
-	<form name="add" method="post">
+	<form name="add" action="http://localhost:8080/activity/enroll-employee"  method="post">
 		<div>
 			<h1 class="font2">활동 등록</h1>
 		</div>
@@ -212,7 +212,7 @@ label {
 
 
 		<div style="margin-left: 500px; margin-top: 30px;">
-			<input class="btn btn-default" type = "button" onclick="Activity_add()" value = "등록"/>
+			<input class="btn btn-default" type = "submit"  value = "등록"/>
             <input class="btn btn-default" type = "reset" value = "취소"/>
 		</div>
 		

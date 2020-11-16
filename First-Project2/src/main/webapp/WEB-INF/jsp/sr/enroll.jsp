@@ -98,7 +98,7 @@
 	
 	var winRef;
 	function customer_search() {
-		href = "http://localhost:8080/search/customer_search";
+		href = "http://localhost:8080/search/customer";
 		if(!winRef){
 			winRef=window.open(href, "customer",'width=800px, height=600px,toolbars=no,scrollbars=no');
 		}else{
@@ -115,11 +115,11 @@
 	
 	function product_search() {
 		var customer_id = document.getElementById('customer_id').value;
-		href = "http://localhost:8080/search/product_search?customer_id=" + customer_id;
+		href = "http://localhost:8080/search/product?customer_id=" + customer_id;
 		if(!winRef){
 				$.ajax({
 					type : 'GET',
-					url : '/search/product_search?customer_id=' + customer_id,
+					url : '/search/product?customer_id=' + customer_id,
 					error : function(request, status, error) {
 						alert("code:" + request.status + "\n" + "message:"
 								+ request.responseText + "\n" + "error:"
@@ -137,7 +137,7 @@
 	        }else{
 	        	$.ajax({
 					type : 'GET',
-					url : '/search/product_search?customer_id=' + customer_id,
+					url : '/search/product?customer_id=' + customer_id,
 					error : function(request, status, error) {
 						alert("code:" + request.status + "\n" + "message:"
 								+ request.responseText + "\n" + "error:"
@@ -160,9 +160,8 @@
 		
 		var product_name = add.product_name.value;
 		var type = add.type.value;
-		var importance = add.importance.value;
 		
-		var requestDate = add.requestDate.value;
+		var requestDate = add.sr_requestDate.value;
 		var title = add.sr_title.value;
 		var content = add.sr_content.value;
 				
@@ -172,11 +171,11 @@
 		} else {
 			var forms = $("#add").serialize();
 			$.ajax({
-				url: "/enroll/sr",
+				url: "/sr/enroll",
 				type:"POST",
 				data:forms,
 				success:function(data){
-				   	location.href="http://localhost:8080/sr"
+				   	location.href="http://localhost:8080/sr/list";
 				}
 			});
 		}
@@ -280,7 +279,7 @@ label {
 
 		<div style="margin: 20px;" class="row">
 			<label class="col-md-1 label1" >신규여부</label> 
-			<select name="code_name" id="type" class="col-md-2 form-control" style="width:7%;">
+			<select name="type" id="type" class="col-md-2 form-control" style="width:7%;">
 				<option>신규</option>
 				<option>이슈</option>
 			</select>

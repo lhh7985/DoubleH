@@ -99,7 +99,7 @@
 	var winRef;
 
 	function search_emp_secuve() {
-		href = "http://localhost:8080/search/employee_search_secuve";
+		href = "http://localhost:8080/search/se";
 		if(!winRef){
 			winRef=window.open(href, "se_manager",'width=800px, height=600px,toolbars=no,scrollbars=no');
 		}else{
@@ -114,7 +114,7 @@
 	
 	function search_emp_secuve2() {
 		
-		href = "http://localhost:8080/search/employee_search_secuve2";
+		href = "http://localhost:8080/search/sales";
 		if(!winRef){
 			winRef=window.open(href, "sales",'width=800px, height=600px,toolbars=no,scrollbars=no');
 		}else{
@@ -127,7 +127,7 @@
 	}
 	
 	function search_emp() {
-		href = "http://localhost:8080/search/employee_searchOther";
+		href = "http://localhost:8080/search/other";
 		if(!winRef){
 			winRef=window.open(href, '_blank','width=800px, height=600px,toolbars=no,scrollbars=no');
 		}else{
@@ -156,9 +156,9 @@
 		if (!customer_name || !employee_id_manager || !employee_id_se|| !employee_id_sales || !address_post) {
 			alert("정보를 입력해주세요.");
 		} else {
-			var forms = $("#add").serialize();
+			var forms = $("#customer_add").serialize();
 			$.ajax({
-				url: "/enroll/customer",
+				url: "/customer/enroll",
 				type:"POST",
 				data:forms,
 				success:function(data){
@@ -227,17 +227,9 @@ tr.hide {
 }
 </style>
 <body>
-
-	<%-- <div>
-		<div>
-			<jsp:include page="../header.jsp" />
-		</div>
-	</div> --%>
-
-
 	<div class="container">
 
-		<form id="add" name="customer_add" method="post">
+		<form id="customer_add" name="customer_add" method="post">
 			<div>
 				<h1 class="col-md-11 text-center font2">고객사 등록</h1>
 			</div>
@@ -254,7 +246,7 @@ tr.hide {
 				<input id="manager" 	class="col-md-2 form-control" style="width: 15%" readonly>
 				<button type="button" class="col-md-1 margins btn btn-default"
 					onclick="search_emp()">직원검색</button>
-				<input type="text" id="manager_id" name="employee_id_manager"; style="visibility: hidden;"/>
+				<input type="text" id="manager_id" name="employee_id_manager" style="visibility: hidden;"/>
 
 			</div>
 
@@ -263,14 +255,14 @@ tr.hide {
 				<input id="se_name"  class="col-md-2 form-control" style="width: 15%" readonly />
 				<button type="button" class="col-md-1 margins btn btn-default"
 					onclick="search_emp_secuve();">직원검색</button>
-				<input type="text" id="se_id" name="employee_id_se"; style="visibility: hidden;"/>
+				<input type="text" id="se_id" name="employee_id_se" style="visibility: hidden;"/>
 
 
 				<label class="col-md-1 label1" style="margin-left: 40px; width: 120px;">영업담당자</label> 
 				<input id="sales_name" class="col-md-2 form-control" style="width: 15%" readonly>
 				<button type="button" class="col-md-1 margins btn btn-default"
 					onclick="search_emp_secuve2();">직원검색</button>
-				<input type="text" id="sales_id" name="employee_id_sales"; style="visibility: hidden;"/>
+				<input type="text" id="sales_id" name="employee_id_sales" style="visibility: hidden;"/>
 
 			</div>
 

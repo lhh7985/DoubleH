@@ -2,6 +2,7 @@ package com.ho.hwang.controller;
 
 import java.util.List;
 
+import com.ho.hwang.dto.Code.CodeDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +23,8 @@ public class AdminController {
 	private final UserService userService;
 
 	@GetMapping("/codetable")
-	public String admin_code(Model model) {
-		List<CodeVO> list = userService.selectCodeList();
+	public String getCodeList(Model model) {
+		List<CodeDTO> list = userService.selectCodeList();
 		model.addAttribute("list", list);
 		return "admin/codetable";
 	}
@@ -31,24 +32,18 @@ public class AdminController {
 	@PostMapping("/codetable/delete")
 	@ResponseBody
 	public int deleteCode(@RequestParam(value = "chbox[]") List<Integer> charr) throws Exception {
-		int result = 0;
-		if (charr != null) {
-			for (int i : charr) {
-				userService.deleteCode(i);
-			}
-			result=1;
-		}
+		int result = userService.deleteCode(charr);
 		return result;
 	}
 	
 	@GetMapping("/enroll")
-	public String codetable() {
+	public String enrollCode() {
 		return "admin/enroll";
 	}
 	
 	@PostMapping("/enroll")
-	public void codetable(CodeVO codevo) {
-		userService.insertCode(codevo);
+	public void enrollCode(CodeDTO codeDTO) {
+		userService.insertCode(codeDTO);
 	}
 
 }

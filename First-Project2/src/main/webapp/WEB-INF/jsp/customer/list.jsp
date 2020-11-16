@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -42,7 +43,7 @@ function selectDelete(){
 			data:{chbox:checkarr},
 			success: function(result){
 				if(result==1){
-					location.href="/customer";
+					location.href="/customer/list";
 				}else{
 					alert("삭제 실패");
 				}
@@ -53,7 +54,7 @@ function selectDelete(){
 	
 }
 function goCustomerDetail(customer_id){
-	location.href = "/customer/info?customer_id=" + customer_id;
+	location.href = "/customer/detail?customer_id=" + customer_id;
 }
 
 var winRef;
@@ -153,7 +154,9 @@ function reloadPage() {
 					<th width="120">담당자</th>
 					<th width="120">영업담당자</th>
 					<th width="120">SE담당자</th>
-					<th width="3%"><input type="checkbox" name="checkAll" id="th_checkAll" onclick="checkAll()"></th>
+					<sec:authorize access="hasRole('ADMIN')">
+						<th width="3%"><input type="checkbox" name="checkAll" id="th_checkAll" onclick="checkAll()"></th>
+					</sec:authorize>
 				</tr>
 			</thead>
 
@@ -166,6 +169,7 @@ function reloadPage() {
 						<td>${item.manager}</td>
 						<td>${item.sales}</td>
 						<td>${item.se}</td>
+						<sec:authorize access="hasRole('ADMIN')">
 						<td><input type="checkbox" name="chBox" class="chBox" data-customerNum="${item.customer_id}" />
 							<script type="text/javascript">
 							$(".chBox").click(function(){
@@ -184,6 +188,7 @@ function reloadPage() {
 						    });
 							</script>
 						</td>
+						</sec:authorize>
 						
 					</tr>
 

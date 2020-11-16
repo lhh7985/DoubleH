@@ -32,7 +32,7 @@
 		else{
 			var forms = $("#add").serialize();
 			$.ajax({
-				url: "/employee/add",
+				url: "/employee/enroll",
 				type:"POST",
 				data:forms,
 				success:function(data){
@@ -51,7 +51,7 @@
 		
 		
 		<!-- 몸통 -->
-		<form id="add" name="add" action="http://localhost:8080/employee/add" method = "POST">
+		<form id="add" name="add" method = "POST">
 		<div class="row" style="margin-left:20px;">
 			<label class="col-md-2 my" style="width: 120px;">직원구분</label>
 			<select	name = "type" style="height: 30px;" class="col-md-2">

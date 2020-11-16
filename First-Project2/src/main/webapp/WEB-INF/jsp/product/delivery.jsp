@@ -42,7 +42,7 @@ function selectDelete(){
 			data:{chbox:checkarr},
 			success: function(result){
 				if(result==1){
-					location.href="/delivery";
+					location.href="/product/delivery";
 				}else{
 					alert("삭제 실패");
 				}

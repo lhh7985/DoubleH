@@ -4,7 +4,7 @@ import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
 public class PatchHistoryVO {
 	private int delivery_id;
 	private int package_id;
