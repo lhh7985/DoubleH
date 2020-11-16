@@ -24,18 +24,13 @@
 
 
 	<select id="selectCustomer" resultType="CustomerListVO">
-		SELECT c.Customer_ID,
-		c.Customer_Name, a.address_address, d.Department_Name ,
-		e.employee_name, e.employee_phone, e.employee_email,
-		e.employee_contact, c.employee_id_se, c.employee_id_sales
-		FROM customer
-		c
-		INNER JOIN address a ON c.Customer_ID = a.Customer_ID AND
-		address_type = 1
-		INNER JOIN employee e ON e.Employee_ID =
-		c.Employee_ID_Manager
-		INNER JOIN department d ON d.Department_ID =
-		e.Department_ID;
+		SELECT c.customer_id,
+		c.customer_name, a.address_address, d.department_name ,
+		e.employee_name,e.employee_contact, a.address_detail
+		FROM customer	c
+		INNER JOIN address a ON c.Customer_ID = a.Customer_ID AND	address_type = 1
+		INNER JOIN employee e ON e.Employee_ID = c.Employee_ID_Manager
+		INNER JOIN department d ON d.Department_ID = e.Department_ID;
 	</select>
 
 	<!-- 고객사 리스트 -->

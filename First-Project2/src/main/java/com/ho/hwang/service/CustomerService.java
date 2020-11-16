@@ -3,6 +3,7 @@ package com.ho.hwang.service;
 import java.util.List;
 
 import com.ho.hwang.dto.Customer.*;
+import com.ho.hwang.dto.ManagerHistory.SelectManagerDTO;
 import com.ho.hwang.dto.ManagerHistory.UpdateManagerHistoryDTO;
 import com.ho.hwang.dto.Product.SelectCustomerProductDTO;
 import com.ho.hwang.vo.*;
@@ -18,7 +19,7 @@ public class CustomerService {
 
 	private final UserMapper mapper;
 	
-	public List<CustomerListVO> selectCustomer(){
+	public List<SelectCustomerSearchDTO> selectCustomer(){
 		return mapper.selectCustomer();
 	}
 
@@ -98,7 +99,7 @@ public class CustomerService {
 
 	
 	//담당자 이력
-	public List<ManagerVO> selectManager(int customer_id){
+	public List<SelectManagerDTO> selectManager(int customer_id){
 		return mapper.selectManager(customer_id);
 	}
 

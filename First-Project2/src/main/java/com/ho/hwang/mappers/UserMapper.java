@@ -3,8 +3,10 @@ package com.ho.hwang.mappers;
 import java.util.List;
 
 import com.ho.hwang.dto.Activity.*;
+import com.ho.hwang.dto.Code.CodeDTO;
 import com.ho.hwang.dto.Customer.*;
 import com.ho.hwang.dto.Employee.*;
+import com.ho.hwang.dto.ManagerHistory.SelectManagerDTO;
 import com.ho.hwang.dto.ManagerHistory.UpdateManagerHistoryDTO;
 import com.ho.hwang.dto.Product.*;
 import com.ho.hwang.dto.Sr.InsertSrDTO;
@@ -15,10 +17,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import com.ho.hwang.account.Account;
-import com.ho.hwang.vo.CodeVO;
-import com.ho.hwang.vo.CustomerListVO;
-import com.ho.hwang.vo.ManagerVO;
-import com.ho.hwang.vo.OsVO;
+
 
 @Repository
 @Mapper
@@ -28,12 +27,12 @@ public interface UserMapper {
 	void save(Account account);
 	
 
-	List<CustomerListVO> selectCustomer();
+	List<SelectCustomerSearchDTO> selectCustomer();
 	List<SelectCustomerListDTO> selectCustomerList();
 	
 	List<SelectDeliveryDTO> selectDelivery(int co_id);
 	
-	List<OsVO> selectOS(int co_id);
+	List<SelectTotalOsDTO> selectOS(int co_id);
 	List<SelectTotalOsDTO> selectTotalOS();
 
 
@@ -78,7 +77,7 @@ public interface UserMapper {
 	int selectCustomer_id();
 	
 	void insertAddress(InsertCustomerDTO insertCustomerDTO);
-	void insertActivity(InsertActivityDTO activityVO);
+	void insertActivity(InsertActivityDTO insertActivityDTO);
 	
 	
 	
@@ -101,7 +100,7 @@ public interface UserMapper {
 	String selectComplete(int activity_id);
 	
 	//각 고객사별 활동 등록 과 검색
-	void insertCustomerActivity(InsertCustomerActivityDTO activityVO);
+	void insertCustomerActivity(InsertCustomerActivityDTO insertCustomerActivityDTO);
 	List<SelectCustomerActivityDTO> selectCustomerActivity(int sr_id);
 	
 	
@@ -114,11 +113,11 @@ public interface UserMapper {
 	
 	
 	//관리자 페이지
-	List<CodeVO> selectCodeList();
+	List<CodeDTO> selectCodeList();
 	//코드테이블 삭제
 	void deleteCode(String code_id);
 	//코드테이블 추가
-	void insertCode(CodeVO codevo);
+	void insertCode(CodeDTO codeDTO);
 	
 	//고객사 리스트 삭제
 	void deleteCustomer(String customer_id);
@@ -137,6 +136,6 @@ public interface UserMapper {
 	void updateSales(UpdateCustomerDetailDTO updateCustomerDetailDTO);
 	
 	//담당자이력
-	List<ManagerVO> selectManager(int customer_id);
+	List<SelectManagerDTO> selectManager(int customer_id);
 
 }

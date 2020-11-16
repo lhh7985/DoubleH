@@ -2,6 +2,7 @@ package com.ho.hwang.controller;
 
 import java.util.List;
 
+import com.ho.hwang.dto.Code.CodeDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,7 @@ public class AdminController {
 
 	@GetMapping("/codetable")
 	public String getCodeList(Model model) {
-		List<CodeVO> list = userService.selectCodeList();
+		List<CodeDTO> list = userService.selectCodeList();
 		model.addAttribute("list", list);
 		return "admin/codetable";
 	}
@@ -41,8 +42,8 @@ public class AdminController {
 	}
 	
 	@PostMapping("/enroll")
-	public void enrollCode(CodeVO codevo) {
-		userService.insertCode(codevo);
+	public void enrollCode(CodeDTO codeDTO) {
+		userService.insertCode(codeDTO);
 	}
 
 }

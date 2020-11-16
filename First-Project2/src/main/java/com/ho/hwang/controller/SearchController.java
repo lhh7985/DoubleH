@@ -2,6 +2,7 @@ package com.ho.hwang.controller;
 
 import java.util.List;
 
+import com.ho.hwang.dto.Customer.SelectCustomerSearchDTO;
 import com.ho.hwang.dto.Employee.SelectEmployeeOtherDTO;
 import com.ho.hwang.dto.Employee.SelectEmployeeSecuveDTO;
 import com.ho.hwang.dto.Product.SelectCustomerProductDTO;
@@ -30,7 +31,7 @@ public class SearchController {
 	
 	@GetMapping("/customer")
 	public String searchCustomer(Model model) {
-		List<CustomerListVO> customerSearch = customerService.selectCustomer();
+		List<SelectCustomerSearchDTO> customerSearch = customerService.selectCustomer();
 		model.addAttribute("customerSearch", customerSearch);
 		
 		return "search/customer";

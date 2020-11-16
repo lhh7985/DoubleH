@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
 public class SrVO {
 	private int sr_id;
 	private int customer_id;

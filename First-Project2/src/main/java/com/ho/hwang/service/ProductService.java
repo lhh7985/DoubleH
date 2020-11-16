@@ -2,7 +2,7 @@ package com.ho.hwang.service;
 
 import com.ho.hwang.dto.Product.*;
 import com.ho.hwang.mappers.UserMapper;
-import com.ho.hwang.vo.OsVO;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -83,7 +83,7 @@ public class ProductService {
         return mapper.selectDelivery(co_id);
     }
 
-    public List<OsVO> selectOS(int co_id){
+    public List<SelectTotalOsDTO> selectOS(int co_id){
         return mapper.selectOS(co_id);
     }
 }

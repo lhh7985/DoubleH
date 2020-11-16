@@ -8,7 +8,9 @@ import com.ho.hwang.dto.Activity.SelectCustomerActivityDTO;
 import com.ho.hwang.dto.Activity.SelectVisitDTO;
 import com.ho.hwang.dto.Customer.*;
 import com.ho.hwang.dto.Employee.SelectEmployeeDTO;
+import com.ho.hwang.dto.ManagerHistory.SelectManagerDTO;
 import com.ho.hwang.dto.Product.SelectDeliveryDTO;
+import com.ho.hwang.dto.Product.SelectTotalOsDTO;
 import com.ho.hwang.dto.Sr.SelectSrDetailDTO;
 import com.ho.hwang.dto.Sr.SelectSrListDTO;
 import com.ho.hwang.service.*;
@@ -22,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import com.ho.hwang.vo.ManagerVO;
-import com.ho.hwang.vo.OsVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -57,7 +58,7 @@ public class CustomerController {
 		int customer_id = Integer.parseInt(req.getParameter("customer_id"));
 		List<SelectDeliveryDTO> list = productService.selectDelivery(customer_id);
 		model.addAttribute("list", list);
-		List<OsVO> list2 = productService.selectOS(customer_id);
+		List<SelectTotalOsDTO> list2 = productService.selectOS(customer_id);
 		model.addAttribute("list2", list2);
 
 		return "customer/delivery";
@@ -66,7 +67,7 @@ public class CustomerController {
 	@GetMapping("/manager")
 	public String getManagerHistory(Model model, HttpServletRequest req) {
 		int customer_id = Integer.parseInt(req.getParameter("customer_id"));
-		List<ManagerVO> list = customerService.selectManager(customer_id);
+		List<SelectManagerDTO> list = customerService.selectManager(customer_id);
 		model.addAttribute("list", list);
 		return "customer/manager";
 	}

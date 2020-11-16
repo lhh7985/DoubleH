@@ -2,6 +2,7 @@ package com.ho.hwang.service;
 
 import java.util.List;
 
+import com.ho.hwang.dto.Code.CodeDTO;
 import com.ho.hwang.dto.Employee.*;
 import org.springframework.stereotype.Service;
 
@@ -84,7 +85,7 @@ public class UserService {
 	
 	
 	//관리자 페이지 
-	public List<CodeVO> selectCodeList(){
+	public List<CodeDTO> selectCodeList(){
 		return mapper.selectCodeList();
 	}
 	//코드테이블 삭제
@@ -108,8 +109,8 @@ public class UserService {
 		return result;
 	}
 	//코드테이블 추가
-	public void insertCode(CodeVO codevo) {
-		mapper.insertCode(codevo);
+	public void insertCode(CodeDTO codeDTO) {
+		mapper.insertCode(codeDTO);
 	}
 
 

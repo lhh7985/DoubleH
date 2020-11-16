@@ -4,7 +4,7 @@ import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
 public class OsVO {
 	private int os_id;
 	private int delivery_id;
@@ -15,8 +15,5 @@ public class OsVO {
 	private Date os_registrationDate;
 	private String os_modifier;
 	private Date os_modifiedDate;
-	
-	
-	
-	
+
 }
