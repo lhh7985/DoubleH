@@ -17,9 +17,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SrService {
 	private final UserMapper mapper;
+	public final static SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public void insertSR(SrDTO.InsertSrDTO insertSrDTO, Principal principal) {
-		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date time = new Date();
 
 		String name = mapper.selectName(principal.getName());
