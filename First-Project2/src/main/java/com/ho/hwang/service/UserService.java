@@ -91,8 +91,24 @@ public class UserService {
 		return mapper.selectCodeList();
 	}
 	//코드테이블 삭제
-	public void deleteCode(int code_id) {
-		mapper.deleteCode(code_id);
+	public int deleteCode(List<Integer> charr) {
+		int result=0;
+		if (charr != null) {
+			String code_id="";
+			int index=0;
+
+			for (int i : charr) {
+				index++;
+				if(index < charr.size()){
+					code_id= code_id + i + ",";
+				}else{
+					code_id = code_id+ i;
+				}
+			}
+			mapper.deleteCustomer(code_id);
+			result =1;
+		}
+		return result;
 	}
 	//코드테이블 추가
 	public void insertCode(CodeVO codevo) {

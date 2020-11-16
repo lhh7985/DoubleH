@@ -31,13 +31,7 @@ public class AdminController {
 	@PostMapping("/codetable/delete")
 	@ResponseBody
 	public int deleteCode(@RequestParam(value = "chbox[]") List<Integer> charr) throws Exception {
-		int result = 0;
-		if (charr != null) {
-			for (int i : charr) {
-				userService.deleteCode(i);
-			}
-			result=1;
-		}
+		int result = userService.deleteCode(charr);
 		return result;
 	}
 	
