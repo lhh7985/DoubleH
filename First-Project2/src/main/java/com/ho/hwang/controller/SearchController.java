@@ -68,7 +68,7 @@ public class SearchController {
 	}
 
 	// 모든 제품 검색창
-	@GetMapping("/AllProduct")
+	@GetMapping("/allproduct")
 	public String searchAllProduct(Model model) {
 		List<ProductDTO.SelectProductDTO> list = productService.selectSearchAllProduct();
 		model.addAttribute("list", list);

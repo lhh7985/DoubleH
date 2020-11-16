@@ -43,7 +43,7 @@ var winRef;
 
 	
 	function product_search() {
-		href = "http://localhost:8080/search/AllProduct";
+		href = "http://localhost:8080/search/allproduct";
 		if(!winRef){
 			winRef=window.open(href, "product2",'width=800px, height=600px,toolbars=no,scrollbars=no');
 		}else{
