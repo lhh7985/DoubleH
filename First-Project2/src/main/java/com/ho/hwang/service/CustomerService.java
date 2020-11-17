@@ -110,17 +110,8 @@ public class CustomerService {
 
 	//고객 목록 삭제
 	public int deleteCustomer(List<Integer> charr) {
-		int result=0;
-
-		Optional<List<Integer>> op = Optional.ofNullable(charr);
-		if(op.isPresent()) {
-			String customer_id = charr.stream()
-					.map(n -> n.toString())
-					.collect(Collectors.joining(","));
-
-			mapper.deleteCode(customer_id);
-			result = 1;
-		}
-		return result;
+		String deleteList = charr.stream().map(n -> n.toString()).collect(Collectors.joining(","));
+		Optional<String> op = Optional.ofNullable(deleteList);
+		return mapper.deleteCustomer(op.orElse(""));
 	}
 }

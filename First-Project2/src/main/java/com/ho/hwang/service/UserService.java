@@ -80,54 +80,30 @@ public class UserService {
 		return mapper.selectDept_name();
 	}
 
-	//모든회사 납품정보 확인
-
-	
-	//제품페이지 제품 검색
-
 	
 	
 	//관리자 페이지 
 	public List<CodeDTO> selectCodeList(){
 		return mapper.selectCodeList();
 	}
+
 	//코드테이블 삭제
 	public int deleteCode(List<Integer> charr) {
-		int result = 0;
-
-		Optional<List<Integer>> op = Optional.ofNullable(charr);
-		if(op.isPresent()) {
-			String code_id = charr.stream()
-					.map(n -> n.toString())
-					.collect(Collectors.joining(","));
-
-			mapper.deleteCode(code_id);
-			result = 1;
-		}
-		return result;
-
+		String deleteList = charr.stream().map(n -> n.toString()).collect(Collectors.joining(","));
+		Optional<String> op = Optional.ofNullable(deleteList);
+		return mapper.deleteCode(op.orElse(""));
 	}
+
 	//코드테이블 추가
 	public void insertCode(InsertCodeDTO insertCodeDTO) {
 		mapper.insertCode(insertCodeDTO);
 	}
 
-
-
 	//직원 삭제
 	public int deleteEmployee(List<Integer> charr) {
-		int result=0;
-
-		Optional<List<Integer>> op = Optional.ofNullable(charr);
-		if(op.isPresent()){
-			String employee_id = charr.stream()
-					.map(n->n.toString())
-					.collect(Collectors.joining(","));
-
-			mapper.deleteCode(employee_id);
-			result = 1;
-		}
-		return result;
+		String deleteList = charr.stream().map(n -> n.toString()).collect(Collectors.joining(","));
+		Optional<String> op = Optional.ofNullable(deleteList);
+		return mapper.deleteEmployee(op.orElse(""));
 	}
 
 }

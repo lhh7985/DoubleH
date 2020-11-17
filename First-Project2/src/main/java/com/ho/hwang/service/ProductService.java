@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,23 +25,9 @@ public class ProductService {
 
     //납품정보 삭제
     public int deleteDelivery(List<Integer> charr) {
-        int result=0;
-        if (charr != null) {
-            String delivery_id="";
-            int index=0;
-
-            for (int i : charr) {
-                index++;
-                if(index < charr.size()){
-                    delivery_id= delivery_id + i + ",";
-                }else{
-                    delivery_id = delivery_id+ i;
-                }
-            }
-            mapper.deleteCustomer(delivery_id);
-            result=1;
-        }
-        return result;
+        String deleteList = charr.stream().map(n -> n.toString()).collect(Collectors.joining(","));
+        Optional<String> op = Optional.ofNullable(deleteList);
+        return mapper.deleteDelivery(op.orElse(""));
     }
 
     public void insertDelivery(InsertDeliveryDTO insertDeliveryDTO) {
