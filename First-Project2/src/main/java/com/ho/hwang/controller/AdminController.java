@@ -3,6 +3,10 @@ package com.ho.hwang.controller;
 import java.util.List;
 
 import com.ho.hwang.dto.Code.CodeDTO;
+import com.ho.hwang.dto.Code.InsertCodeDTO;
+import com.ho.hwang.responseEntity.Message;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ho.hwang.service.UserService;
-import com.ho.hwang.vo.CodeVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -42,8 +45,16 @@ public class AdminController {
 	}
 	
 	@PostMapping("/enroll")
-	public void enrollCode(CodeDTO codeDTO) {
-		userService.insertCode(codeDTO);
+	public ResponseEntity enrollCode(InsertCodeDTO insertCodeDTO) {
+		int result = userService.insertCode(insertCodeDTO);
+		Message mg;
+		if(result !=0){
+			mg = new Message("success", 200, result);
+			return new ResponseEntity<>(mg, HttpStatus.OK);
+		}else{
+			mg = new Message("fail",500,result);
+			return new ResponseEntity<>(mg, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 }

@@ -95,8 +95,8 @@ public class UserService {
 	}
 
 	//코드테이블 추가
-	public void insertCode(InsertCodeDTO insertCodeDTO) {
-		mapper.insertCode(insertCodeDTO);
+	public int insertCode(InsertCodeDTO insertCodeDTO) {
+		return mapper.insertCode(insertCodeDTO);
 	}
 
 	//직원 삭제
