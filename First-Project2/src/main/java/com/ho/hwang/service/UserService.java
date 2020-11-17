@@ -1,14 +1,17 @@
 package com.ho.hwang.service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import com.ho.hwang.dto.Code.CodeDTO;
+import com.ho.hwang.dto.Code.InsertCodeDTO;
 import com.ho.hwang.dto.Employee.*;
 import org.springframework.stereotype.Service;
 
 import com.ho.hwang.account.Account;
 import com.ho.hwang.mappers.UserMapper;
-import com.ho.hwang.vo.CodeVO;
 
 
 
@@ -90,27 +93,23 @@ public class UserService {
 	}
 	//코드테이블 삭제
 	public int deleteCode(List<Integer> charr) {
-		int result=0;
-		if (charr != null) {
-			String code_id="";
-			int index=0;
+		int result = 0;
 
-			for (int i : charr) {
-				index++;
-				if(index < charr.size()){
-					code_id= code_id + i + ",";
-				}else{
-					code_id = code_id+ i;
-				}
-			}
-			mapper.deleteCustomer(code_id);
-			result =1;
+		Optional<List<Integer>> op = Optional.ofNullable(charr);
+		if(op.isPresent()) {
+			String code_id = charr.stream()
+					.map(n -> n.toString())
+					.collect(Collectors.joining(","));
+
+			mapper.deleteCode(code_id);
+			result = 1;
 		}
 		return result;
+
 	}
 	//코드테이블 추가
-	public void insertCode(CodeDTO codeDTO) {
-		mapper.insertCode(codeDTO);
+	public void insertCode(InsertCodeDTO insertCodeDTO) {
+		mapper.insertCode(insertCodeDTO);
 	}
 
 
@@ -118,20 +117,15 @@ public class UserService {
 	//직원 삭제
 	public int deleteEmployee(List<Integer> charr) {
 		int result=0;
-		if (charr != null) {
-			String employee_id="";
-			int index=0;
 
-			for (int i : charr) {
-				index++;
-				if(index < charr.size()){
-					employee_id= employee_id + i + ",";
-				}else{
-					employee_id = employee_id+ i;
-				}
-			}
-			mapper.deleteCustomer(employee_id);
-			result =1;
+		Optional<List<Integer>> op = Optional.ofNullable(charr);
+		if(op.isPresent()){
+			String employee_id = charr.stream()
+					.map(n->n.toString())
+					.collect(Collectors.joining(","));
+
+			mapper.deleteCode(employee_id);
+			result = 1;
 		}
 		return result;
 	}

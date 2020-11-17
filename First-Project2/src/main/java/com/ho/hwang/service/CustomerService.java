@@ -1,6 +1,9 @@
 package com.ho.hwang.service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.ho.hwang.dto.Customer.*;
 import com.ho.hwang.dto.ManagerHistory.SelectManagerDTO;
@@ -12,6 +15,8 @@ import org.springframework.stereotype.Service;
 import com.ho.hwang.mappers.UserMapper;
 
 import lombok.RequiredArgsConstructor;
+
+import static java.util.stream.Collectors.joining;
 
 @Service
 @RequiredArgsConstructor
@@ -106,20 +111,15 @@ public class CustomerService {
 	//고객 목록 삭제
 	public int deleteCustomer(List<Integer> charr) {
 		int result=0;
-		if (charr != null) {
-			String customer_id="";
-			int index=0;
 
-			for (int i : charr) {
-				index++;
-				if(index < charr.size()){
-					customer_id= customer_id + i + ",";
-				}else{
-					customer_id = customer_id+ i;
-				}
-			}
-			mapper.deleteCustomer(customer_id);
-			result =1;
+		Optional<List<Integer>> op = Optional.ofNullable(charr);
+		if(op.isPresent()) {
+			String customer_id = charr.stream()
+					.map(n -> n.toString())
+					.collect(Collectors.joining(","));
+
+			mapper.deleteCode(customer_id);
+			result = 1;
 		}
 		return result;
 	}
