@@ -33,8 +33,8 @@ public class CustomerService {
 		return mapper.selectCustomerList();
 	}
 
-	public SelectCustomerDetailDTO selectCustomerDetail(int co_id) {
-		return mapper.selectCustomerDetail(co_id);
+	public CustomerVO selectCustomerDetail(int customer_id) {
+		return mapper.selectCustomerDetail(customer_id);
 	}
 
 	public List<SelectCustomerProductDTO> selectCustomerProduct(int customer_id) {
@@ -111,7 +111,6 @@ public class CustomerService {
 	//고객 목록 삭제
 	public int deleteCustomer(List<Integer> charr) {
 		String deleteList = charr.stream().map(n -> n.toString()).collect(Collectors.joining(","));
-		Optional<String> op = Optional.ofNullable(deleteList);
-		return mapper.deleteCustomer(op.orElse(""));
+		return mapper.deleteCustomer(deleteList);
 	}
 }

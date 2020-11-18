@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import com.ho.hwang.dto.Code.CodeDTO;
 import com.ho.hwang.dto.Code.InsertCodeDTO;
 import com.ho.hwang.dto.Employee.*;
+import com.ho.hwang.vo.EmployeeVO;
 import org.springframework.stereotype.Service;
 
 import com.ho.hwang.account.Account;
@@ -30,7 +31,7 @@ public class UserService {
 		mapper.save(account);
 	}
 
-	public SelectEmployeeDTO selectEmployee(int employee_id) {
+	public EmployeeVO selectEmployee(int employee_id) {
 		return mapper.selectEmployee(employee_id);
 	}
 	
@@ -89,9 +90,8 @@ public class UserService {
 
 	//코드테이블 삭제
 	public int deleteCode(List<Integer> charr) {
-		String deleteList = charr.stream().map(n -> n.toString()).collect(Collectors.joining(","));
-		Optional<String> op = Optional.ofNullable(deleteList);
-		return mapper.deleteCode(op.orElse(""));
+		String deleteList = charr.stream().map(n->n.toString()).collect(Collectors.joining(","));
+		return mapper.deleteCode(deleteList);
 	}
 
 	//코드테이블 추가
@@ -102,8 +102,7 @@ public class UserService {
 	//직원 삭제
 	public int deleteEmployee(List<Integer> charr) {
 		String deleteList = charr.stream().map(n -> n.toString()).collect(Collectors.joining(","));
-		Optional<String> op = Optional.ofNullable(deleteList);
-		return mapper.deleteEmployee(op.orElse(""));
+		return mapper.deleteEmployee(deleteList);
 	}
 
 }
