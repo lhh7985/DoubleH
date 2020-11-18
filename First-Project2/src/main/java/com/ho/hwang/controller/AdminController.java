@@ -1,10 +1,13 @@
 package com.ho.hwang.controller;
 
+import java.nio.file.OpenOption;
 import java.util.List;
+import java.util.Optional;
 
 import com.ho.hwang.dto.Code.CodeDTO;
 import com.ho.hwang.dto.Code.InsertCodeDTO;
 import com.ho.hwang.responseEntity.Message;
+import com.ho.hwang.vo.CodeVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,16 +30,23 @@ public class AdminController {
 
 	@GetMapping("/codetable")
 	public String getCodeList(Model model) {
-		List<CodeDTO> list = userService.selectCodeList();
+		List<CodeVO> list = userService.selectCodeList();
 		model.addAttribute("list", list);
 		return "admin/codetable";
 	}
 
 	@PostMapping("/codetable/delete")
 	@ResponseBody
-	public int deleteCode(@RequestParam(value = "chbox[]") List<Integer> charr) throws Exception {
+	public ResponseEntity<Message> deleteCode(@RequestParam(value = "chbox[]") List<Integer> charr) throws Exception {
 		int result = userService.deleteCode(charr);
-		return result;
+		Message deleteMessage;
+		if(result !=0){
+			deleteMessage = new Message("success", 200, result);
+			return new ResponseEntity<>(deleteMessage, HttpStatus.OK);
+		}else{
+			deleteMessage = new Message("fail",500,result);
+			return new ResponseEntity<>(deleteMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	@GetMapping("/enroll")
@@ -45,15 +55,17 @@ public class AdminController {
 	}
 	
 	@PostMapping("/enroll")
-	public ResponseEntity enrollCode(InsertCodeDTO insertCodeDTO) {
-		int result = userService.insertCode(insertCodeDTO);
-		Message mg;
-		if(result !=0){
-			mg = new Message("success", 200, result);
-			return new ResponseEntity<>(mg, HttpStatus.OK);
+	public ResponseEntity<Message> enrollCode(InsertCodeDTO insertCodeDTO) {
+		InsertCodeDTO result = userService.insertCode(insertCodeDTO);
+
+		Message insertMessage;
+		//키값이 존재하면 성공 존재하지않으면 실패
+		if(result.getCode_id() != 0){
+			insertMessage = new Message("success", 200, result);
+			return new ResponseEntity<>(insertMessage, HttpStatus.OK);
 		}else{
-			mg = new Message("fail",500,result);
-			return new ResponseEntity<>(mg, HttpStatus.INTERNAL_SERVER_ERROR);
+			insertMessage = new Message("fail",500,result);
+			return new ResponseEntity<>(insertMessage, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
