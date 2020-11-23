@@ -1,25 +1,16 @@
 package com.ho.hwang.account;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-
-import javax.security.sasl.AuthenticationException;
-import javax.websocket.Session;
-
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
 
 import com.ho.hwang.mappers.UserMapper;
 
 import lombok.RequiredArgsConstructor;
-
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +18,9 @@ public class AccountService implements UserDetailsService {
 	
 	private final UserMapper mapper;
 
-	
+	BCryptPasswordEncoder passwordEncoder;
+
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Account user = mapper.selectUser(username);
@@ -38,7 +31,7 @@ public class AccountService implements UserDetailsService {
 		return user;
 	}
 	
-	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 
 	public void save(Account account) {
 		String pw = passwordEncoder.encode(account.getPassword());
@@ -47,6 +40,7 @@ public class AccountService implements UserDetailsService {
 		mapper.save(account);
 		
 	}
+
 
 
 }

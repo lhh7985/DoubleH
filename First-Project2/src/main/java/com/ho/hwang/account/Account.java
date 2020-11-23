@@ -65,55 +65,6 @@ public class Account implements UserDetails{
 		// TODO Auto-generated method stub
 		return enabled;
 	}
-//	private String id;	
-//	private String password;
-//	private int employee_id;
-//	private String authority;
-//	private boolean enabled;
-//
-//	@Override
-//	public Collection<? extends GrantedAuthority> getAuthorities() {
-//		Set<GrantedAuthority> roles = new HashSet<>();
-//	    for (String role : authority.split(",")) {
-//	      roles.add(new SimpleGrantedAuthority(role));
-//	    }
-//	    return roles;
-//	}
-//
-//	@Override
-//	public String getPassword() {
-//		// TODO Auto-generated method stub
-//		return this.password;
-//	}
-//
-//	@Override
-//	public String getUsername() {
-//		// TODO Auto-generated method stub
-//		return this.id;
-//	}
-//
-//	@Override
-//	public boolean isAccountNonExpired() {
-//		// TODO Auto-generated method stub
-//		return true;
-//	}
-//
-//	@Override
-//	public boolean isAccountNonLocked() {
-//		// TODO Auto-generated method stub
-//		return true;
-//	}
-//
-//	@Override
-//	public boolean isCredentialsNonExpired() {
-//		// TODO Auto-generated method stub
-//		return true;
-//	}
-//
-//	@Override
-//	public boolean isEnabled() {
-//		// TODO Auto-generated method stub
-//		return this.enabled;
-//	}
+
 
 }
