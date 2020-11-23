@@ -29,8 +29,8 @@ public class CustomerService {
 	}
 
 	
-	public List<SelectCustomerListDTO> selectCustomerList(){
-		return mapper.selectCustomerList();
+	public List<SelectCustomerListDTO> selectCustomerList(int start, int cntPerPage){
+		return mapper.selectCustomerList(start, cntPerPage);
 	}
 
 	public CustomerVO selectCustomerDetail(int customer_id) {
@@ -112,5 +112,10 @@ public class CustomerService {
 	public int deleteCustomer(List<Integer> charr) {
 		String deleteList = charr.stream().map(n -> n.toString()).collect(Collectors.joining(","));
 		return mapper.deleteCustomer(deleteList);
+	}
+	
+	//총 고객사 수
+	public int selectCustomerTotalCount(){
+		return mapper.selectCustomerTotalCount();
 	}
 }

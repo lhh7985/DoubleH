@@ -6,6 +6,7 @@ import com.ho.hwang.dto.Product.InsertDeliveryDTO;
 import com.ho.hwang.dto.Product.SelectProductDTO;
 import com.ho.hwang.dto.Product.SelectTotalDeliveryDTO;
 import com.ho.hwang.dto.Product.SelectTotalOsDTO;
+import com.ho.hwang.paging.Page;
 import com.ho.hwang.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +27,7 @@ public class ProductController {
 
 	@GetMapping("/list")
 	public String getProductList(Model model) {
+
 		List<SelectProductDTO> productList = productService.selectProduct();
 		model.addAttribute("productList", productList);
 
@@ -34,11 +36,16 @@ public class ProductController {
 
 	// 납품정보
 	@GetMapping("/delivery")
-	public String getDeliveryList(Model model) {
-		List<SelectTotalDeliveryDTO> deliveryList = productService.selectTotalDelivery();
+	public String getDeliveryList(@RequestParam(defaultValue = "1") int page, Model model) {
+
+		int listCnt = productService.selectDeliveryTotalCount();
+		Page paging = new Page(listCnt, page);
+
+		List<SelectTotalDeliveryDTO> deliveryList = productService.selectTotalDelivery(paging.getStartIndex(), paging.getPageSize());
 		model.addAttribute("deliveryList", deliveryList);
 		List<SelectTotalOsDTO> osList = productService.selectTotalOS();
 		model.addAttribute("osList", osList);
+		model.addAttribute("paging", paging);
 
 		return "product/delivery";
 	}

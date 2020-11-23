@@ -43,6 +43,7 @@
 		INNER JOIN employee b ON b.employee_id = s.Employee_ID_SE
 		INNER JOIN employee c ON c.Employee_ID = s.Employee_ID_Sales
 		INNER JOIN address d ON	d.Customer_ID = s.Customer_ID AND d.Address_Type = 1;
+		LIMIT #{start}, #{cntPerPage};
 	</select>
 
 
@@ -258,6 +259,42 @@
 	</select>
 
 
+	<select id="selectAllEmployee" resultType="EmployeeVO">
+		SELECT e.employee_id, c.code_upper, code_name, d.department_name, e.employee_name, e.employee_contact, e.employee_phone, e.employee_email
+		FROM employee e
+		INNER JOIN code c ON e.Employee_Type = c.Code_ID
+		LEFT OUTER JOIN department d ON e.Department_ID = d.Department_ID
+		LIMIT #{start}, #{cntPerPage};
+	</select>
+
+<!--	<select id="selectAllEmployee" resultType="EmployeeVO">-->
+<!--		select aa.*-->
+<!--		from(select a.*,@rownum:=@rownum+1 as rnum, FLOOR((@rownum -1)/#{rows}+1) pageNumber-->
+<!--		from( SELECT @rownum := 0 )b , (select * from employee order by employee_id asc)a)aa-->
+<!--		where aa.pageNumber = #{page} order by aa.rnum-->
+<!--	</select>-->
+
+	<!-- 리스트 총 개수-->
+	<select id="selectEmployeeTotalCount" resultType="int">
+		SELECT COUNT(*)
+		FROM employee;
+	</select>
+	<select id="selectCustomerTotalCount" resultType="int">
+		SELECT COUNT(*)
+		FROM customer;
+	</select>
+	<select id="selectSrTotalCount" resultType="int">
+		SELECT COUNT(*)
+		FROM sr;
+	</select>
+	<select id="selectDeliveryTotalCount" resultType="int">
+		SELECT COUNT(*)
+		FROM delivery;
+	</select>
+	<select id="selectCodeTotalCount" resultType="int">
+		SELECT COUNT(*)
+		FROM code;
+	</select>
 
 
 
@@ -311,6 +348,7 @@
 		INNER JOIN code co ON
 		co.code_id = s.sr_type
 		ORDER BY SR_requestDate desc
+		LIMIT #{start}, #{cntPerPage};
 	</select>
 
 	<select id="selectSRList" resultType="SrVO">
@@ -363,8 +401,8 @@
 		INNER JOIN customer c ON c.customer_id = d.Customer_ID
 		INNER JOIN product p ON p.Product_ID = d.Product_ID
 		ORDER BY
-		d.delivery_businessNum;
-
+		d.delivery_businessNum
+		LIMIT #{start},#{cntPerPage};
 	</select>
 
 
@@ -436,7 +474,8 @@
 		SELECT code_id,
 		code_group, code_upper, code_name, code_status,code_registrant,
 		code_registrationDate, code_modifier, code_modifiedDate
-		FROM code;
+		FROM code
+		LIMIT #{start},#{cntPerPage}
 	</select>
 	<!-- 코트테이블 삭제 -->
 	<delete id="deleteCode" parameterType="String">
@@ -447,8 +486,8 @@
 	</delete>
 	<!-- 코드테이블 추가 -->
 	<insert id="insertCode">
-		INSERT INTO code(code_group,code_upper,code_name,code_status)
-		VALUES(#{code_group},#{code_upper},#{code_name},#{code_status})
+		INSERT INTO code(code_group,code_upper,code_name,code_status,code_registrationDate)
+		VALUES(#{code_group},#{code_upper},#{code_name},#{code_status}, #{code_registrationDate})
 	</insert>
 
 

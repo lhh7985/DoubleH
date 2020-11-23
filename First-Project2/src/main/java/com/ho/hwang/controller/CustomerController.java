@@ -13,7 +13,11 @@ import com.ho.hwang.dto.Product.SelectDeliveryDTO;
 import com.ho.hwang.dto.Product.SelectTotalOsDTO;
 import com.ho.hwang.dto.Sr.SelectSrDetailDTO;
 import com.ho.hwang.dto.Sr.SelectSrListDTO;
+import com.ho.hwang.paging.Page;
 import com.ho.hwang.service.*;
+import com.ho.hwang.vo.CustomerVO;
+import com.ho.hwang.vo.EmployeeVO;
+import com.ho.hwang.vo.SrVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,10 +44,10 @@ public class CustomerController {
 
 	@GetMapping("/detail")
 	public String getDetail(int customer_id, Model model) {
-		SelectCustomerDetailDTO customerDetail = customerService.selectCustomerDetail(customer_id);
-		SelectEmployeeDTO empvo = userService.selectEmployee(customerDetail.getEmployee_ID_Manager());
-		SelectEmployeeDTO se = userService.selectEmployee(customerDetail.getEmployee_ID_SE());
-		SelectEmployeeDTO sales = userService.selectEmployee(customerDetail.getEmployee_ID_Sales());
+		CustomerVO customerDetail = customerService.selectCustomerDetail(customer_id);
+		EmployeeVO empvo = userService.selectEmployee(customerDetail.getEmployee_id_manager());
+		EmployeeVO se = userService.selectEmployee(customerDetail.getEmployee_id_se());
+		EmployeeVO sales = userService.selectEmployee(customerDetail.getEmployee_id_sales());
 
 		model.addAttribute("customer", customerDetail);
 		model.addAttribute("manager", empvo);
@@ -73,9 +77,14 @@ public class CustomerController {
 	}
 
 	@GetMapping("/list")
-	public String getCustomerList(Model model) {
-		List<SelectCustomerListDTO> list = customerService.selectCustomerList();
+	public String getCustomerList(@RequestParam(defaultValue = "1") int page, Model model) {
+
+		int listCnt = customerService.selectCustomerTotalCount();
+		Page paging = new Page(listCnt, page);
+
+		List<SelectCustomerListDTO> list = customerService.selectCustomerList(paging.getStartIndex(),paging.getPageSize());
 		model.addAttribute("list", list);
+		model.addAttribute("paging", paging);
 
 		return "customer/list";
 	}
@@ -91,9 +100,9 @@ public class CustomerController {
 
 	@GetMapping("/sr-detail")
 	public String getSrDetail(Model model, int sr_id) {
-		SelectSrDetailDTO selectSrDetailDTO = srService.selectSRDetail(sr_id);
+		SrVO srvo = srService.selectSRDetail(sr_id);
 		List<SelectCustomerActivityDTO> selectCustomerActivityDTO = activityService.selectCustomerActivity(sr_id);
-		model.addAttribute("srvo", selectSrDetailDTO);
+		model.addAttribute("srvo", srvo);
 		model.addAttribute("acvo", selectCustomerActivityDTO);
 
 		return "customer/sr_detail";

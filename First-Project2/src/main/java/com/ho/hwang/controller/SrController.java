@@ -7,7 +7,9 @@ import com.ho.hwang.dto.Activity.SelectCustomerActivityDTO;
 import com.ho.hwang.dto.Sr.InsertSrDTO;
 import com.ho.hwang.dto.Sr.SelectSrDTO;
 import com.ho.hwang.dto.Sr.SelectSrDetailDTO;
+import com.ho.hwang.paging.Page;
 import com.ho.hwang.service.ProductService;
+import com.ho.hwang.vo.SrVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,7 @@ import com.ho.hwang.service.SrService;
 import com.ho.hwang.service.UserService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,9 +34,14 @@ public class SrController {
 	private final ProductService productService;
 
 	@GetMapping("/list")
-	public String getSrList(Model model) {
-		List<SelectSrDTO> srList = srService.selectSR();
+	public String getSrList(@RequestParam(defaultValue = "1") int page, Model model) {
+
+		int listCnt = srService.selectSrTotalCount();
+		Page paging = new Page(listCnt, page);
+
+		List<SelectSrDTO> srList = srService.selectSR(paging.getStartIndex(), paging.getPageSize());
 		model.addAttribute("srList", srList);
+		model.addAttribute("paging", paging);
 
 		return "sr/list";
 	}
@@ -52,10 +60,10 @@ public class SrController {
 	// =================================SR디테일
 	@GetMapping("/detail")
 	public String getSrDetail(Model model, int sr_id) {
-		SelectSrDetailDTO selectSrDetailDTO = srService.selectSRDetail(sr_id);
+		SrVO srvo = srService.selectSRDetail(sr_id);
 		List<SelectCustomerActivityDTO> selectCustomerActivityDTO = activityService.selectCustomerActivity(sr_id);
 
-		model.addAttribute("srvo", selectSrDetailDTO);
+		model.addAttribute("srvo", srvo);
 		model.addAttribute("acvo", selectCustomerActivityDTO);
 
 		return "sr/detail";

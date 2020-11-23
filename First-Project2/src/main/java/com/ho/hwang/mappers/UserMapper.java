@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ho.hwang.dto.Activity.*;
 import com.ho.hwang.dto.Code.CodeDTO;
+import com.ho.hwang.dto.Code.InsertCodeDTO;
 import com.ho.hwang.dto.Customer.*;
 import com.ho.hwang.dto.Employee.*;
 import com.ho.hwang.dto.ManagerHistory.SelectManagerDTO;
@@ -13,6 +14,11 @@ import com.ho.hwang.dto.Sr.InsertSrDTO;
 import com.ho.hwang.dto.Sr.SelectSrDTO;
 import com.ho.hwang.dto.Sr.SelectSrDetailDTO;
 import com.ho.hwang.dto.Sr.SelectSrListDTO;
+import com.ho.hwang.paging.Page;
+import com.ho.hwang.vo.CodeVO;
+import com.ho.hwang.vo.CustomerVO;
+import com.ho.hwang.vo.EmployeeVO;
+import com.ho.hwang.vo.SrVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -28,7 +34,7 @@ public interface UserMapper {
 	
 
 	List<SelectCustomerSearchDTO> selectCustomer();
-	List<SelectCustomerListDTO> selectCustomerList();
+	List<SelectCustomerListDTO> selectCustomerList(int start, int cntPerPage);
 	
 	List<SelectDeliveryDTO> selectDelivery(int co_id);
 	
@@ -36,8 +42,8 @@ public interface UserMapper {
 	List<SelectTotalOsDTO> selectTotalOS();
 
 
-	SelectCustomerDetailDTO selectCustomerDetail(int co_id);
-	SelectEmployeeDTO selectEmployee(int employee_id);
+	CustomerVO selectCustomerDetail(int co_id);
+	EmployeeVO selectEmployee(int employee_id);
 	
 	List<SelectCustomerProductDTO> selectCustomerProduct(int customer_id);
 	
@@ -60,7 +66,16 @@ public interface UserMapper {
 	
 	
 	
-	
+	//모든직원 검색
+	List<EmployeeVO> selectAllEmployee(int start, int cntPerPage);
+
+	//리스트 개수
+	int selectEmployeeTotalCount();
+	int selectCustomerTotalCount();
+	int selectSrTotalCount();
+	int selectDeliveryTotalCount();
+	int selectCodeTotalCount();
+
 	List<SelectEmployeeSecuveDTO> selectEmployee_secuve();
 	
 	List<SelectEmployeeOtherDTO> selectEmployee_other();
@@ -81,16 +96,16 @@ public interface UserMapper {
 	
 	
 	
-	List<SelectSrDTO> selectSR();
+	List<SelectSrDTO> selectSR(int start, int cntPerPage);
 	List<SelectSrListDTO> selectSRList(int customer_id);
-	SelectSrDetailDTO selectSRDetail(int sr_id);
+	SrVO selectSRDetail(int sr_id);
 
 
 	//고객사 방문내역확인
 	List<SelectVisitDTO> selectVisit(int customer_id);
 
 	//모든 회사 납품정보 확인
-	List<SelectTotalDeliveryDTO> selectTotalDelivery();
+	List<SelectTotalDeliveryDTO> selectTotalDelivery(int start, int cntPerPage);
 	
 	//모든 활동 확인
 	List<SelectActivityDTO> selectActivity();
@@ -106,27 +121,27 @@ public interface UserMapper {
 	
 	//제품 페이지 제품 검색
 	List<SelectProductDTO> selectProduct();
-	List<SelectProductDTO> selectSearchAllProduct();
+	List<SelectProductDTO> selectSearchAllProduct(int start, int cntPerPage);
 	void insertDelivery(InsertDeliveryDTO insertDeliveryDTO);
 	int selectDelivery_id();
 	void insertOS(InsertDeliveryDTO insertDeliveryDTO);
 	
 	
 	//관리자 페이지
-	List<CodeDTO> selectCodeList();
+	List<CodeVO> selectCodeList(int start, int cntPerPage);
 	//코드테이블 삭제
-	void deleteCode(String code_id);
+	int deleteCode(String code_id);
 	//코드테이블 추가
-	void insertCode(CodeDTO codeDTO);
+	void insertCode(CodeVO CodeVO);
 	
 	//고객사 리스트 삭제
-	void deleteCustomer(String customer_id);
+	int deleteCustomer(String customer_id);
 	
 	//납품정보 삭제
-	void deleteDelivery(String delivery_id);
+	int deleteDelivery(String delivery_id);
 	
 	//직원 삭제
-	void deleteEmployee(String employee_id);
+	int deleteEmployee(String employee_id);
 	
 	
 	//고객사 정보 수정

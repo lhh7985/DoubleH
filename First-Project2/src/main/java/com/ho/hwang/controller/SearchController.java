@@ -7,6 +7,7 @@ import com.ho.hwang.dto.Employee.SelectEmployeeOtherDTO;
 import com.ho.hwang.dto.Employee.SelectEmployeeSecuveDTO;
 import com.ho.hwang.dto.Product.SelectCustomerProductDTO;
 import com.ho.hwang.dto.Product.SelectProductDTO;
+import com.ho.hwang.paging.Page;
 import com.ho.hwang.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import com.ho.hwang.vo.CustomerListVO;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -71,8 +73,12 @@ public class SearchController {
 
 	// 모든 제품 검색창
 	@GetMapping("/allproduct")
-	public String searchAllProduct(Model model) {
-		List<SelectProductDTO> list = productService.selectSearchAllProduct();
+	public String searchAllProduct(@RequestParam(defaultValue = "1") int page, Model model) {
+
+		int listCnt = productService.selectDeliveryTotalCount();
+		Page paging = new Page(listCnt, page);
+
+		List<SelectProductDTO> list = productService.selectSearchAllProduct(paging.getStartIndex(), paging.getPageSize());
 		model.addAttribute("list", list);
 		
 		return "search/AllProduct";

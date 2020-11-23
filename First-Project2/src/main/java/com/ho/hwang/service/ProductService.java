@@ -19,8 +19,11 @@ public class ProductService {
     public List<SelectProductDTO> selectProduct(){
         return mapper.selectProduct();
     }
-    public List<SelectProductDTO> selectSearchAllProduct(){
-        return mapper.selectSearchAllProduct();
+    public List<SelectProductDTO> selectSearchAllProduct(int start, int cntPerPage){
+        return mapper.selectSearchAllProduct(start, cntPerPage);
+    }
+    public int selectDeliveryTotalCount(){
+        return mapper.selectDeliveryTotalCount();
     }
 
     //납품정보 삭제
@@ -59,8 +62,8 @@ public class ProductService {
 
     }
 
-    public List<SelectTotalDeliveryDTO> selectTotalDelivery(){
-        return mapper.selectTotalDelivery();
+    public List<SelectTotalDeliveryDTO> selectTotalDelivery(int start, int cntPerPage){
+        return mapper.selectTotalDelivery(start, cntPerPage);
     }
 
     public List<SelectTotalOsDTO> selectTotalOS(){

@@ -9,6 +9,7 @@ import com.ho.hwang.dto.Sr.InsertSrDTO;
 import com.ho.hwang.dto.Sr.SelectSrDTO;
 import com.ho.hwang.dto.Sr.SelectSrDetailDTO;
 import com.ho.hwang.dto.Sr.SelectSrListDTO;
+import com.ho.hwang.vo.SrVO;
 import org.springframework.stereotype.Service;
 
 import com.ho.hwang.mappers.UserMapper;
@@ -42,8 +43,12 @@ public class SrService {
 	}
 
 	// SR 리스트 확인
-	public List<SelectSrDTO> selectSR() {
-		return mapper.selectSR();
+	public List<SelectSrDTO> selectSR(int start, int cntPerPage) {
+		return mapper.selectSR(start, cntPerPage);
+	}
+	//SR 충 개수
+	public int selectSrTotalCount(){
+		return mapper.selectSrTotalCount();
 	}
 
 	// 각 고객사의 sr확인
@@ -52,7 +57,7 @@ public class SrService {
 	}
 
 	// SR 내용확인
-	public SelectSrDetailDTO selectSRDetail(int sr_id) {
+	public SrVO selectSRDetail(int sr_id) {
 		return mapper.selectSRDetail(sr_id);
 	}
 
