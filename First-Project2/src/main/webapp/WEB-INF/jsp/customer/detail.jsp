@@ -17,35 +17,84 @@
 
 <script type="text/javascript">
 
+
+$(document).ready(function(){
+	//납품정보
+	$.ajax({
+		type : 'GET',
+		url : '/customer/delivery',
+		data : {
+			customerId : "${customer.customerId}"
+		},
+		error : function(request, status, error) {
+			alert("code:" + request.status + "\n" + "message:"
+					+ request.responseText + "\n" + "error:"
+					+ error);
+		},
+		success : function(data) {
+			$('#delivery').html(data);
+		}
+	});
+
+	$.ajax({
+		type : 'GET',
+		url : '/customer/manager',
+		data : {
+			customerId : "${customer.customerId}"
+		},
+		error : function(request, status, error) {
+			alert("code:" + request.status + "\n" + "message:"
+					+ request.responseText + "\n" + "error:"
+					+ error);
+		},
+		success : function(data) {
+			$('#manager').html(data);
+		}
+	});
+
+	///sr
+	$.ajax({
+		type : 'GET',
+		url : '/customer/sr',
+		data : {
+			customerId : "${customer.customerId}"
+		},
+		error : function(request, status, error) {
+			alert("code:" + request.status + "\n" + "message:"
+					+ request.responseText + "\n" + "error:"
+					+ error);
+		},
+		success : function(data) {
+			$('#sr').html(data);
+		}
+	});
+
+	//activity
+	$.ajax({
+		type : 'GET',
+		url : '/customer/activity',
+		data : {
+			customerId : "${customer.customerId}"
+		},
+		error : function(request, status, error) {
+			alert("code:" + request.status + "\n" + "message:"
+					+ request.responseText + "\n" + "error:"
+					+ error);
+		},
+		success : function(data) {
+			$('#activity').html(data);
+		}
+	});
+
+});
+
+
 function goModify(){
 	location.href="http://localhost:8080/customer/modify";
 }
-	
-	$(function() {
-		$('.tabmenu').click(function() {
 
-					var activeTab = $(this).attr('data-tab');
-					
-					$.ajax({
-						type : 'GET',
-						url : '/customer/' + activeTab,
-						data : {
-							customer_id : "${customer.customer_id}"
-						},
-						error : function(request, status, error) {
-							alert("code:" + request.status + "\n" + "message:"
-									+ request.responseText + "\n" + "error:"
-									+ error);
-						},
-						success : function(data) {
-							$('#tabs').html(data);
-						}
-					});
-					
-				});
-			
-		
-	});
+
+
 
 
 </script>
@@ -63,16 +112,6 @@ function goModify(){
 	margin-bottom: 15px;
 }
 
-.font1 {
-	font-size: 15px;
-	font-weight: bold;
-	margin-top: 30px;
-}
-
-.font2 {
-	font-size: 20px;
-	font-weight: bold;
-}
 
 .inputsize{
 	float: left;
@@ -103,19 +142,19 @@ function goModify(){
 							<p class="myfont">회사명</p>
 						</div>
 						<div class="inputsize" style="width: 10%;">
-							<p>${customer.customer_name}</p>
-							<input name="customer_name" style="display: none" value="${customer.customer_name}"/>
-							<input name="customer_id" style="display: none" value="${customer.customer_id}" />
+							<p>${customer.customerName}</p>
+							<input name="customerName" style="display: none" value="${customer.customerName}"/>
+							<input name="customerId" style="display: none" value="${customer.customerId}" />
 						</div>
 						
 						<div class="inputsize" style="width: 8%;">
 							<p class="myfont">주소</p>
 						</div>
 						<div class="inputsize" >
-							<p>${customer.address_address}&nbsp;&nbsp;  ${customer.address_detail}&nbsp;&nbsp; (우:${customer.address_post}) </p>
-							<input name="address" style="display: none" value="${customer.address_address}"/>
-							<input name="addr_detail" style="display: none" value="${customer.address_detail}"/>
-							<input name="addr_post" style="display: none" value="${customer.address_post}"/>
+							<p>${customer.addressAddress}&nbsp;&nbsp;  ${customer.addressDetail}&nbsp;&nbsp; (우:${customer.addressPost}) </p>
+							<input name="address" style="display: none" value="${customer.addressAddress}"/>
+							<input name="addrDetail" style="display: none" value="${customer.addressDetail}"/>
+							<input name="addrPost" style="display: none" value="${customer.addressPost}"/>
 						</div>
 					</div>
 					
@@ -125,30 +164,30 @@ function goModify(){
 							<p class="myfont">담당자</p>
 						</div>
 						<div class="inputsize" style="width: 10%;">
-							<p>${manager.employee_name}</p>
-							<input name="manager" style="display: none" value="${manager.employee_name}"/>
-							<input name="manager_id" value="${manager.employee_id}" style="display:none "/>
+							<p>${manager.employeeName}</p>
+							<input name="manager" style="display: none" value="${manager.employeeName}"/>
+							<input name="managerId" value="${manager.employeeId}" style="display:none "/>
 						</div>
 						
 						<div class="inputsize" style="width: 8%;">
 							<p class="myfont">E-mail</p>
 						</div>
 						<div class="inputsize" style="width: 15%;">
-							<p>${manager.employee_email}</p>
+							<p>${manager.employeeEmail}</p>
 						</div>
 						
 						<div class="inputsize" style="width: 8%;">
 							<p class="myfont">연락처</p>
 						</div>
 						<div class="inputsize" style="width: 10%;">
-							<p>${manager.employee_contact}</p>
+							<p>${manager.employeeContact}</p>
 						</div>
 						
 						<div class="inputsize" style="width: 8%;">
 							<p class="myfont">휴대전화</p>
 						</div>
 						<div class="inputsize">
-							<p>${manager.employee_phone}</p>
+							<p>${manager.employeePhone}</p>
 						</div>
 					</div>
 					
@@ -164,18 +203,18 @@ function goModify(){
 							<p class="myfont" >SE담당자</p>
 						</div>
 						<div class="inputsize" style="width: 10%;">
-							<p>${se.employee_name}</p>
-							<input name="se" style="display: none" value="${se.employee_name}"/>
-							<input name="se_id" value="${se.employee_id}"style="display:none "/>
+							<p>${se.employeeName}</p>
+							<input name="se" style="display: none" value="${se.employeeName}"/>
+							<input name="seId" value="${se.employeeId}"style="display:none "/>
 						</div>
 						
 						<div class="inputsize" style="width: 8%;">
 							<p class="myfont">영업담당자</p>
 						</div>
 						<div class="inputsize">
-							<p>${sales.employee_name}</p>
-							<input name="sales" style="display: none" value="${sales.employee_name}"/>
-							<input name="sales_id" value="${sales.employee_id}" style="display:none "/>
+							<p>${sales.employeeName}</p>
+							<input name="sales" style="display: none" value="${sales.employeeName}"/>
+							<input name="salesId" value="${sales.employeeId}" style="display:none "/>
 						</div>
 						
 					</div>
@@ -186,20 +225,25 @@ function goModify(){
 			</div>
 
 	
-			<div class="panel with-nav-tabs panel-default" style="margin-top: 10px;">
+			<div class="panel with-nav-tabs panel-default" style="margin-top: 10px; min-height: 600px;">
 				   <div class="panel-heading">
                         <ul class="nav nav-tabs">
-                            <li data-tab='delivery' class=" tabmenu"><a style="cursor: pointer; font-weight: bold;" data-toggle="tab" >납품정보</a></li>
-                            <li data-tab='manager' class="tabmenu"><a style="cursor: pointer; font-weight: bold;" data-toggle="tab">담당자이력</a></li>
-                            <li data-tab='sr' class="tabmenu"><a style="cursor: pointer; font-weight: bold;" data-toggle="tab">SR</a></li>
-                            <li data-tab='activity' class="tabmenu"><a style="cursor: pointer; font-weight: bold;" data-toggle="tab">방문내역</a></li>
+                            <li data-tab='delivery' class="active tabmenu"><a href="#delivery" style="cursor: pointer; font-weight: bold;" data-toggle="tab" >납품정보</a></li>
+                            <li data-tab='manager' class="tabmenu"><a href="#manager" style="cursor: pointer; font-weight: bold;" data-toggle="tab">담당자이력</a></li>
+                            <li data-tab='sr' class="tabmenu"><a href="#sr" style="cursor: pointer; font-weight: bold;" data-toggle="tab">SR</a></li>
+                            <li data-tab='activity' class="tabmenu"><a href="#activity" style="cursor: pointer; font-weight: bold;" data-toggle="tab">방문내역</a></li>
                            
                         </ul>
                 </div>
                 <div class="panel-body">
                     <div class="tab-content">
                     
-                   		<div  id='tabs'></div>
+<%--                   		<div id='tabs'></div>--%>
+						<div class="tab-pane fade in active" id="delivery"></div>
+						<div class="tab-pane fade" id="manager"></div>
+						<div class="tab-pane fade" id="sr"></div>
+						<div class="tab-pane fade" id="activity"></div>
+
 
                     </div>
                 </div>
