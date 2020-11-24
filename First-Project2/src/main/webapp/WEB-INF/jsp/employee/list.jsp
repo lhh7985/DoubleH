@@ -1,211 +1,294 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Hello tabs</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Hello tabs</title>
 
-<link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.css">
-<link rel="stylesheet"
-	href="/resources/bootstrap/css/bootstrap-theme.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <%--  jquery  --%>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
-
-<style>
-.my {
-	font: bold;
-	font-size: 20px;
-	margin-bottom: 30px;
-}
-
-.myfont {
-	font-size: 15px;
-	font-weight: bold;
-}
-
-tr.hide {
-	display: none
-}
-
-.font1 {
-	text-align: center;
-	margin-left: 200px;
-}
-
-.font2 {
-	font-size: 15px;
-	font-weight: bold;
-}
-
-tr.hide {
-	display: none
-}
-</style>
-
-<script type="text/javascript">
+    <%--    <link rel="stylesheet" href="http://cdn.js.cloudflare.com/ajax/libs/jqgrid/4.6.0/css/ui.jqgrid.css"/>--%>
+    <%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqgrid/4.6.0/js/jquery.jqGrid.min.js"></script>--%>
+    <%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqgrid/4.6.0/js/i18n/grid.locale-en.js"></script>--%>
+    <%--    <script src="/js/util/paginate.js"></script>--%>
 
 
-function selectDelete(){
-	var confirm_val = confirm("¡§∏ª ªË¡¶«œΩ√∞⁄Ω¿¥œ±Ó?");
-	
-	if(confirm_val){
-		var checkarr = new Array();
-		
-		$("input[class='chBox']:checked").each(function(){
-			checkarr.push($(this).attr("data-employeeNum"));
-		});
-		
-		$.ajax({
-			url:"/employee/delete",
-			type:"POST",
-			data:{chbox:checkarr},
-			success: function(result){
-				if(result==1){
-					location.href="/employee/list";
-				}else{
-					alert("ªË¡¶ Ω«∆–");
-				}
-			}
-		})
-		
-	}
-	
-}
-	$(function() {
-		$('.tabmenu').click(
-				function() {
-					var activeTab = $(this).attr('data-tab');
+    <link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/resources/bootstrap/css/bootstrap-theme.css">
+    <%--   jqgrid --%>
+    <link rel="stylesheet" type="text/css" media="screen" href="/resources/jqgrid/jQueryUI/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/resources/jqgrid/css/ui.jqgrid.css"/>
 
-					$.ajax({
-						type : 'GET',
-						url : '/employee/' + activeTab,
-						error : function(request, status, error) {
-							alert("code:" + request.status + "\n" + "message:"
-									+ request.responseText + "\n" + "error:"
-									+ error);
-						},
-						success : function(data) {
-							$('#tabs').html(data);
-						}
-					});
-				});
-		$('#default').click();
-	});
-	
-	function employee_enroll(){
-		href="http://localhost:8080/employee/enroll";
-		
-		window.open(this.href,'_blank', 'width=1000px, height=600px,toolbars=no,scrollbars=no');
-		return false;
-	}
-	
-	
-	function myFunction() {
-		  var input, filter, table, tr, td, i, txtValue;
-		  input = document.getElementById("myInput");
-		  filter = input.value.toUpperCase();
-		  table = document.getElementById("myTable");
-		  tr = table.getElementsByTagName("tr");
-		  for (i = 0; i < tr.length; i++) {
-			    td = tr[i].getElementsByTagName("td")[2];	  
-		    if (td) {
-		      txtValue = td.textContent || td.innerText;
-		      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-		        tr[i].style.display = "";
-		      } else {
-		        tr[i].style.display = "none";
-		      }
-		    }       
-		  }
-		}
-	
-	function reloadPage() {
-	    location.reload();
-	}
-</script>
+    <script type="text/javascript" src="/resources/jqgrid/js/jquery-1.7.2.min.js"></script>
+
+    <%--sdf--%>
+    <script type="text/javascript" src="/resources/jqgrid/js/jquery.jqGrid.src.js"></script>
+    <script type="text/javascript" src="/resources/jqgrid/js/i18n/grid.locale-kr.js"></script>
+    <script type="text/javascript" src="/resources/jqgrid/js/jquery.jqGrid.min.js"></script>
+    <script type="text/javascript" src="/resources/jqgrid/jQueryUI/jquery-ui.js"></script>
+
+
+    <style>
+
+        .ui-jqgrid .ui-jqgrid-bdiv {
+            overflow-y: scroll
+        }
+
+        .my {
+            font: bold;
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        .myfont {
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        tr.hide {
+            display: none
+        }
+
+        .font1 {
+            text-align: center;
+            margin-left: 200px;
+        }
+
+        .font2 {
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        tr.hide {
+            display: none
+        }
+    </style>
+
+    <script type="text/javascript">
+
+
+        function selectDelete() {
+            var confirm_val = confirm("Ï†ïÎßê ÏÇ≠Ï†úÌïòÏãúÍ≤†ÏäµÎãàÍπå?");
+
+            if (confirm_val) {
+                var checkarr = new Array();
+
+                $("input[class='chBox']:checked").each(function () {
+                    checkarr.push($(this).attr("data-employeeNum"));
+                });
+
+                $.ajax({
+                    url: "/employee/delete",
+                    type: "POST",
+                    data: {chbox: checkarr},
+                    success: function (result) {
+                        if (result == 1) {
+                            location.href = "/employee/list";
+                        } else {
+                            alert("ÏÇ≠Ï†ú Ïã§Ìå®");
+                        }
+                    }
+                })
+
+            }
+
+        }
+
+
+        function employee_enroll() {
+            href = "http://localhost:8080/employee/enroll";
+
+            window.open(this.href, '_blank', 'width=1000px, height=600px,toolbars=no,scrollbars=no');
+            return false;
+        }
+
+
+        function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[2];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        function reloadPage() {
+            location.reload();
+        }
+
+        function fn_paging(page) {
+            location.href = "/employee/list?page=" + page;
+        }
+    </script>
 </head>
 
 <style>
 </style>
 <body>
 
-	<div>
-		<div>
-            <jsp:include page="../header.jsp" />
+<div>
+    <div>
+        <jsp:include page="../header.jsp"/>
+    </div>
+</div>
+
+<div class="container">
+
+
+    <div>
+        <h3 style="font-weight:bold;">ÏßÅÏõê Ï†ïÎ≥¥</h3>
+    </div>
+
+
+    <div>
+
+        <div class="panel with-nav-tabs panel-default" style="margin-top: 10px; min-height: 600px;">
+            <div class="panel-heading">
+                <ul class="nav nav-tabs">
+
+                    <form class="navbar-form col-md-2" role="search" style="width: 40%; margin-left: 200px;">
+                        <select class=" form-control" style="  width: 25%; font-size: 12px;" id="searchOption"
+                                name="searchOption">
+                            <option value="name">Ïù¥Î¶Ñ</option>
+
+                        </select>
+                        <div class="form-group">
+                            <input type="text" id="myInput" onkeyup="myFunction()" class="form-control"
+                                   placeholder="Search">
+                        </div>
+                    </form>
+
+
+                    <button class=" btn btn-default" id="btn1" onclick="selectDelete()" disabled="disabled"
+                            style="margin-left: 5px;  float: right;">ÏÇ≠Ï†ú
+                    </button>
+                    <button class=" btn btn-default" style="float: right;" onclick="employee_enroll()">Ï∂îÍ∞Ä
+                    </button>
+
+                </ul>
+            </div>
+            <div class="panel-body">
+                <form name="readForm" role="form" method="post">
+                    <input type="hidden" id="bno" name="bno" value="${employeeId}"/>
+                    <input type="hidden" id="page" name="page" value="${page.page}">
+                    <input type="hidden" id="perPageNum" name="perPageNum" value="${page.perPageNum}">
+                    <input type="hidden" id="searchType" name="searchType" value="${page.searchType}">
+                    <input type="hidden" id="keyword" name="keyword" value="${page.keyword}">
+                </form>
+
+                <table class="table" id="myTable" style="table-layout:fixed">
+                    <thead>
+                    <tr>
+                        <th width="8%">Íµ¨Î∂Ñ</th>
+                        <th width="12%">ÌöåÏÇ¨Î™Ö</th>
+                        <th width="12%">Î∂ÄÏÑú</th>
+                        <th width="12%">Ïù¥Î¶Ñ</th>
+                        <th width="20%">Ïó∞ÎùΩÏ≤ò</th>
+                        <th width="20%">Ìú¥ÎåÄÏ†ÑÌôî</th>
+                        <th width="20%">E-mail</th>
+                        <sec:authorize access="hasRole('ADMIN')">
+                            <th width="3%"><input type="checkbox" name="checkAll" id="th_checkAll" onclick="checkAll()">
+                            </th>
+                        </sec:authorize>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <c:forEach var="item" items="${employeeList}">
+                        <tr>
+                            <td>${item.codeUpper}</td>
+                            <td>${item.codeName}</td>
+                            <td>${item.departmentName}</td>
+                            <td>${item.employeeName}</td>
+                            <td>${item.employeeContact}</td>
+                            <td>${item.employeePhone}</td>
+                            <td>${item.employeeEmail}</td>
+                            <sec:authorize access="hasRole('ADMIN')">
+                            <td><input type="checkbox" name="chBox" class="chBox"
+                                       data-employeeNum="${item.employeeId}"/>
+                                <script type="text/javascript">
+                                    $(".chBox").click(function () {
+                                        $("#th_checkAll").prop("checked", false);
+                                    });
+
+                                    $('input[type="checkbox"]').click(function () {
+                                        var tmpp = $(this).prop('checked');
+                                        var tt = $("[name='chBox']:checked").length;
+                                        // thisÎ•º ÏÇ¨Ïö©ÌïòÏó¨ ÌÅ¥Î¶≠Ìïú checkbox Í∞Ä Ï≤¥ÌÅ¨ÎêòÎèÑÎ°ù ÏÑ§Ï†ï
+                                        if (tmpp == true || tt > 0) {
+                                            $("#btn1").prop("disabled", false);
+                                        } else {
+                                            $("#btn1").prop("disabled", true);
+                                        }
+                                    });
+                                </script>
+                                </sec:authorize>
+
+                        </tr>
+
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
         </div>
-	</div>
 
-	<div class="container">
+    </div>
 
-		<div>
-			<h3 style="font-weight:bold;">ªÁø¯ ¡§∫∏</h3>
-		</div>
-
-
-		<div>
-		
-		<div class="panel with-nav-tabs panel-default" style="margin-top: 10px;">
-				   <div class="panel-heading">
-                        <ul class="nav nav-tabs">
-                            <li data-tab='secuve' class=" tabmenu"><a style="cursor: pointer; font-weight: bold;" data-toggle="tab" >Ω√≈•∫Í</a></li>
-                            <li data-tab='others' class="tabmenu"><a style="cursor: pointer; font-weight: bold;" data-toggle="tab">∞Ì∞¥ªÁ</a></li>
-                            
-                            <form  class="navbar-form col-md-2" role="search" style="width: 40%; margin-left: 200px;">
-								<select class=" form-control" style="  width: 25%; font-size: 12px;" id="searchOption" name="searchOption">
-									<option value="name">¿Ã∏ß</option>
-						
-								</select>
-								<div class="form-group">
-									<input type="text" id = "myInput" onkeyup="myFunction()" class="form-control" placeholder="Search">
-								</div>
-							</form>
-							
-							
-							<button class="col-md-1 btn btn-default"  id="btn1" onclick="selectDelete()" disabled="disabled" style="margin-left: 5px;  float: right;">ªË¡¶</button>
-							<button class="col-md-1 btn btn-default" style="float: right;" onclick="employee_enroll()" >√ﬂ∞°</button>
-                           
-                        </ul>
-                </div>
-                <div class="panel-body">
-                    <div class="tab-content">
-                    
-                   		<div  id='tabs'></div>
-                   
-                    </div>
-                </div>
-			</div>
-
-			<!-- <ul class="nav nav-pills font2">
-
-				<li data-tab='secuve' class="tabmenu"><a href="#">Ω√≈•∫Í</a></li>
-				<li data-tab='others' class="tabmenu"><a href="#">∞Ì∞¥ªÁ</a></li>
-
-				<form  class="navbar-form col-md-2" role="search" style="width: 40%; margin-left: 200px;">
-					<select class=" form-control" style="  width: 25%; font-size: 12px;" id="searchOption" name="searchOption">
-						<option value="name">¿Ã∏ß</option>
-						
-					</select>
-					<div class="form-group">
-						<input type="text" id = "myInput" onkeyup="myFunction()" class="form-control" placeholder="Search">
-					</div>
-				</form>
-				
-				
-				<button class="col-md-1 btn btn-default" style="margin-left: 5px;  float: right;">ªË¡¶</button>
-				<button class="col-md-1 btn btn-default" style="float: right;" onclick="employee_enroll()" >√ﬂ∞°</button>
-			</ul> -->
+    <div>
+        <nav class="text-center">
+            <ul class="pagination">
+                <li>
+                    <a href="#" onClick="fn_paging(1)" ; aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li>
+                    <c:if test="${paging.curPage ne 1}">
+                        <a href="#" onClick="fn_paging(${paging.prevPage })"><span aria-hidden="true">Ïù¥Ï†Ñ</span></a>
+                    </c:if>
+                    <c:forEach var="pageNum" begin="${paging.startPage}" end="${paging.endPage}">
+                        <c:choose>
+                            <c:when test="${pageNum eq  paging.curPage}">
+                                <span style="font-weight: bold;">
+                                    <a href="#" onClick="fn_paging(${pageNum})" style="font-weight: bold; color:red;">
+                                            ${pageNum}
+                                    </a>
+                                </span>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="#" onClick="fn_paging(${pageNum })">${pageNum }</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                    <c:if test="${paging.curPage ne paging.pageCnt && paging.pageCnt > 0}">
+                        <a href="#" onClick="fn_paging(${paging.nextPage })"><span aria-hidden="true">Îã§Ïùå</span></a>
+                    </c:if>
+                </li>
+                <li>
+                    <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
 
 
-
-			<div id='tabs'></div>
-		</div>
-
-	</div>
-
-
-	<script src="/resources/bootstrap/js/bootstrap.min.js"></script>
+<script src="/resources/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
