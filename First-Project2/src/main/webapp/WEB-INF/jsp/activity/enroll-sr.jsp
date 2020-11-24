@@ -120,22 +120,6 @@ input {
 	text-align: left;
 }
 
-.myfont {
-	font-size: 15px;
-	font-weight: bold;
-	margin-bottom: 15px;
-}
-
-tr.hide {
-	display: none
-}
-
-.font1 {
-	font-size: 15px;
-	font-weight: bold;
-	margin-top: 30px;
-}
-
 .font2 {
 	font-size: 50px;
 	font-weight: bold;
@@ -143,9 +127,6 @@ tr.hide {
 	margin-bottom: 50px;
 }
 
-tr.hide {
-	display: none
-}
 </style>
 
 </head>

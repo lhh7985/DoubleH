@@ -38,21 +38,6 @@
 </script>
 </head>
 <style>
-.my {
-	font: bold;
-	font-size: 20px;
-	margin-bottom: 30px;
-}
-
-.myfont {
-	font-size: 15px;
-	font-weight: bold;
-	margin-bottom: 15px;
-}
-
-tr.hide {
-	display: none
-}
 
 .font1 {
 	font-size: 17px;
@@ -68,9 +53,6 @@ tr.hide {
 	text-align: center;
 }
 
-tr.hide {
-	display: none
-}
 </style>
 <body>
 

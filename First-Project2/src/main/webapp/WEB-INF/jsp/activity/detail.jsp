@@ -26,15 +26,6 @@
 	display: table;
 }
 
-/* .row {
-	display: table-row;
-} */
-
-.cell {
-	display: table-cell;
-	padding: 6px;
-	/* 	border-bottom: 1px solid #DDD; */
-}
 .mymargin{
 	margin: 20px;
 }

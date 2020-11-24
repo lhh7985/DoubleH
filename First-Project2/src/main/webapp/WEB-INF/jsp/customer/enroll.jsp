@@ -180,27 +180,6 @@ input {
 	size: 50px;
 }
 
-.my {
-	font: bold;
-	font-size: 20px;
-	margin-bottom: 30px;
-}
-
-.myfont {
-	font-size: 15px;
-	font-weight: bold;
-	margin-bottom: 15px;
-}
-
-tr.hide {
-	display: none
-}
-
-.font1 {
-	font-size: 15px;
-	font-weight: bold;
-	margin-top: 30px;
-}
 
 .font2 {
 	font-size: 50px;
@@ -209,9 +188,6 @@ tr.hide {
 	margin-bottom: 40px;
 }
 
-tr.hide {
-	display: none
-}
 
 .label1 {
 	display: block;
