@@ -1,4 +1,4 @@
-package com.ho.hwang.account;
+package com.ho.hwang.vo;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,7 +15,7 @@ import lombok.Setter;
 
 @SuppressWarnings("serial")
 @Getter @Setter
-public class Account implements UserDetails{
+public class AccountVO implements UserDetails{
 	
 	private String userId;
 	private String userPw;

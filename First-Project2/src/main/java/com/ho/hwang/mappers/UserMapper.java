@@ -3,8 +3,6 @@ package com.ho.hwang.mappers;
 import java.util.List;
 
 import com.ho.hwang.dto.Activity.*;
-import com.ho.hwang.dto.Code.CodeDTO;
-import com.ho.hwang.dto.Code.InsertCodeDTO;
 import com.ho.hwang.dto.Customer.*;
 import com.ho.hwang.dto.Employee.*;
 import com.ho.hwang.dto.ManagerHistory.SelectManagerDTO;
@@ -12,22 +10,20 @@ import com.ho.hwang.dto.ManagerHistory.UpdateManagerHistoryDTO;
 import com.ho.hwang.dto.Product.*;
 import com.ho.hwang.dto.Sr.InsertSrDTO;
 import com.ho.hwang.dto.Sr.SelectSrDTO;
-import com.ho.hwang.dto.Sr.SelectSrDetailDTO;
 import com.ho.hwang.dto.Sr.SelectSrListDTO;
-import com.ho.hwang.paging.Page;
 import com.ho.hwang.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import com.ho.hwang.account.Account;
+import com.ho.hwang.vo.AccountVO;
 
 
 @Repository
 @Mapper
 public interface UserMapper {
 	
-	Account selectUser(String id);
-	void save(Account account);
+	AccountVO selectUser(String id);
+	void save(AccountVO account);
 	
 
 	List<SelectCustomerSearchDTO> selectCustomer();

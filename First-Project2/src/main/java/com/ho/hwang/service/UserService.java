@@ -9,7 +9,7 @@ import com.ho.hwang.vo.CodeVO;
 import com.ho.hwang.vo.EmployeeVO;
 import org.springframework.stereotype.Service;
 
-import com.ho.hwang.account.Account;
+import com.ho.hwang.vo.AccountVO;
 import com.ho.hwang.mappers.UserMapper;
 
 
@@ -22,10 +22,10 @@ public class UserService {
 	
 	private final UserMapper mapper;
 	
-	public Account selectUser(String id) {
+	public AccountVO selectUser(String id) {
 		return mapper.selectUser(id);
 	}
-	public void save(Account account) {
+	public void save(AccountVO account) {
 		mapper.save(account);
 	}
 

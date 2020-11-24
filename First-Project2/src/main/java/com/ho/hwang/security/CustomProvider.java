@@ -1,9 +1,9 @@
-package com.ho.hwang.account;
+package com.ho.hwang.security;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ho.hwang.vo.AccountVO;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,9 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
 
-import com.ho.hwang.service.UserService;
-
-import ch.qos.logback.classic.Logger;
 import lombok.RequiredArgsConstructor;
 
 
@@ -57,7 +54,7 @@ public class CustomProvider  implements AuthenticationProvider{
 		String username = (String) authentication.getPrincipal();
 		String password = (String) authentication.getCredentials();
 
-		Account user =(Account) userdeser.loadUserByUsername(username);
+		AccountVO user =(AccountVO) userdeser.loadUserByUsername(username);
 		
 		System.out.println(user.getPassword());
 		if(!matchPassword(password, user.getPassword())){
