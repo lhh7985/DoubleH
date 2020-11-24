@@ -33,26 +33,12 @@
 		<c:forEach var="item" items="${productList}" varStatus = "status">
 		<div class="row" style="background-color: #D4F4FA; height: 220px;">
 			<div>
-				<p style="padding: 10px; font: bold;">${item.product_name}</p>
-				<p style="padding: 10px; font: bold;">${item.product_content}</p>
+				<p style="padding: 10px; font: bold;">${item.productName}</p>
+				<p style="padding: 10px; font: bold;">${item.productContent}</p>
 			</div>
 		</div>
 		</c:forEach>
 
-		<!-- <div class="row" style="background-color: #FAE0D4; height: 220px;">
-			<p style="padding: 10px; font: bold;">제품 B</p>
-			<p style="padding: 10px; font: bold;">설명 어쩌꾸 저쩌구 이건 어떻게 싸용하면 개꿀</p>
-		</div>
- 
-		<div class="row" style="background-color: #E4F7BA; height: 220px;">
-			<p style="padding: 10px; font: bold;"> 제품 C</p>
-			<p style="padding: 10px; font: bold;">설명 어쩌꾸 저쩌구 이건 어떻게 싸용하면 개꿀</p>
-		</div>
-		
-		<div class="row" style="background-color: #E4F7BA; height: 220px;">
-			<p style="padding: 10px; font: bold;"> 제품 D</p>
-			<p style="padding: 10px; font: bold;">설명 어쩌꾸 저쩌구 이건 어떻게 싸용하면 개꿀</p>
-		</div> -->
 	</div>
 
 

@@ -6,21 +6,21 @@ import lombok.Setter;
 
 @Getter
 public class PackageVO {
-	private int package_id;
-	private int employee_id_developer;
-	private int employee_id_distributor;
-	private int product_id;
+	private int packageId;
+	private int employeeIdDeveloper;
+	private int employeeIdDistributor;
+	private int productId;
 	
-	private String package_name;
-	private String package_version;
-	private Date package_uploadDate;
-	private String package_kernel;
-	private String package_os;
+	private String packageName;
+	private String packageVersion;
+	private Date packageUploadDate;
+	private String packageKernel;
+	private String packageOs;
 	
-	private String package_registrant;
-	private Date package_registrationDate;
-	private String package_modifier;
-	private Date package_modifiedDate;
+	private String packageRegistrant;
+	private Date packageRegistrationDate;
+	private String packageModifier;
+	private Date packageModifiedDate;
 	
 	
 	

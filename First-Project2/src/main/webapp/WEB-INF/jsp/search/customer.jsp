@@ -17,8 +17,8 @@
 
 
 <script type="text/javascript">
-	function getCustomer(customer_name, customer_id){
-		opener.setValue(customer_name, customer_id);		
+	function getCustomer(customerName, customerId){
+		opener.setValue(customerName, customerId);
 		window.self.close();
 	}
 </script>
@@ -47,12 +47,12 @@
 
 			<tbody>
 				<c:forEach var="item" items="${customerSearch}" varStatus="status">
-					<tr onclick=getCustomer('${item.customer_name}','${item.customer_id}')  style="cursor: pointer;">
-						<td>${item.customer_name }</td>
-						<td>${item.address_address }</td>
-						<td>${item.department_name }</td>
-						<td>${item.employee_name }</td>
-						<td>${item.employee_contact }</td>
+					<tr onclick=getCustomer('${item.customerName}','${item.customerId}')  style="cursor: pointer;">
+						<td>${item.customerName }</td>
+						<td>${item.addressAddress }</td>
+						<td>${item.departmentName }</td>
+						<td>${item.employeeName }</td>
+						<td>${item.employeeContact }</td>
 					</tr>
 				</c:forEach>
 			</tbody>

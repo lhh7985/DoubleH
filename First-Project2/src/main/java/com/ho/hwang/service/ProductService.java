@@ -36,27 +36,27 @@ public class ProductService {
     public void insertDelivery(InsertDeliveryDTO insertDeliveryDTO) {
 
         mapper.insertDelivery(insertDeliveryDTO);
-        int delivery_id = mapper.selectDelivery_id();
+        int deliveryId = mapper.selectDelivery_id();
 
         // window 입력
         if (insertDeliveryDTO.getWindow() != 0) {
-            insertDeliveryDTO.setDelivery_id(delivery_id);
-            insertDeliveryDTO.setOs_name("Window");
-            insertDeliveryDTO.setOs_quantity(insertDeliveryDTO.getWindow());
+            insertDeliveryDTO.setDeliveryId(deliveryId);
+            insertDeliveryDTO.setOsName("Window");
+            insertDeliveryDTO.setOsQuantity(insertDeliveryDTO.getWindow());
             mapper.insertOS(insertDeliveryDTO);
         }
         // Linux 입력
         if (insertDeliveryDTO.getLinux() != 0) {
-            insertDeliveryDTO.setDelivery_id(delivery_id);
-            insertDeliveryDTO.setOs_name("Linux");
-            insertDeliveryDTO.setOs_quantity(insertDeliveryDTO.getLinux());
+            insertDeliveryDTO.setDeliveryId(deliveryId);
+            insertDeliveryDTO.setOsName("Linux");
+            insertDeliveryDTO.setOsQuantity(insertDeliveryDTO.getLinux());
             mapper.insertOS(insertDeliveryDTO);
         }
         // Unix 입력
         if (insertDeliveryDTO.getUnix() != 0) {
-            insertDeliveryDTO.setDelivery_id(delivery_id);
-            insertDeliveryDTO.setOs_name("Unix");
-            insertDeliveryDTO.setOs_quantity(insertDeliveryDTO.getUnix());
+            insertDeliveryDTO.setDeliveryId(deliveryId);
+            insertDeliveryDTO.setOsName("Unix");
+            insertDeliveryDTO.setOsQuantity(insertDeliveryDTO.getUnix());
             mapper.insertOS(insertDeliveryDTO);
         }
 
@@ -70,11 +70,11 @@ public class ProductService {
         return mapper.selectTotalOS();
     }
 
-    public List<SelectDeliveryDTO> selectDelivery(int co_id){
-        return mapper.selectDelivery(co_id);
+    public List<SelectDeliveryDTO> selectDelivery(int coId){
+        return mapper.selectDelivery(coId);
     }
 
-    public List<SelectTotalOsDTO> selectOS(int co_id){
-        return mapper.selectOS(co_id);
+    public List<SelectTotalOsDTO> selectOS(int coId){
+        return mapper.selectOS(coId);
     }
 }

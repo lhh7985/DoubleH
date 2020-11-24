@@ -8,20 +8,20 @@ import lombok.Setter;
 
 @Getter
 public class DeliveryVO {
-	private int delivery_id;
-	private int customer_id;
-	private int product_id;
-	private int delivery_quantity;
-	private Date delivery_date;
-	private int delivery_businessNum;
+	private int deliveryId;
+	private int customerId;
+	private int productId;
+	private int deliveryQuantity;
+	private Date deliveryDate;
+	private int deliveryBusinessNum;
 	
-	private String delivery_registrant;
-	private Date delivery_registrationDate;
-	private String delivery_modifier;
-	private Date delivery_modifiedDate;
+	private String deliveryRegistrant;
+	private Date deliveryRegistrationDate;
+	private String deliveryModifier;
+	private Date deliveryModifiedDate;
 	
-	private String customer_name;
-	private String product_name;
+	private String customerName;
+	private String productName;
 	
 	
 	private int Window;

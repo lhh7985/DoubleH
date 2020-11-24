@@ -7,19 +7,19 @@ import lombok.Setter;
 public class CustomerListVO {
 	
 	
-	private int customer_id;
-	private String customer_name;
-	private String address_address;
-	private String address_detail;
-	private String employee_name;
-	private String department_name;
-	private String employee_phone;
-	private String employee_email;
-	private String employee_contact;
+	private int customerId;
+	private String customerName;
+	private String addressAddress;
+	private String addressDetail;
+	private String employeeName;
+	private String departmentName;
+	private String employeePhone;
+	private String employeeEmail;
+	private String employeeContact;
 	
-	private int employee_id_manager;
-	private int employee_id_se;
-	private int employee_id_sales;
+	private int employeeIdManager;
+	private int employeeIdSe;
+	private int employeeIdSales;
 	
 	private String manager;
 	private String se;

@@ -34,11 +34,11 @@
 			<tbody>
 				<c:forEach var="item" items="${list}" varStatus="status">
 					<tr>
-						<td>${item.code_name}</td>
-						<td>${item.employee_name}</td>
-						<td>${item.employee_contact}</td>
-						<td>${item.managerHistory_startDate}</td>
-						<td>${item.managerHistory_endDate}</td>
+						<td>${item.codeName}</td>
+						<td>${item.employeeName}</td>
+						<td>${item.employeeContact}</td>
+						<td>${item.managerHistoryStartDate}</td>
+						<td>${item.managerHistoryEndDate}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

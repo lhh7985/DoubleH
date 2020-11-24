@@ -40,8 +40,8 @@ public class SearchController {
 	}
 
 	@GetMapping("/product")
-	public String searchProduct(Model model, int customer_id) {
-		List<SelectCustomerProductDTO> deliverylist = customerService.selectCustomerProduct(customer_id);
+	public String searchProduct(Model model, int customerId) {
+		List<SelectCustomerProductDTO> deliverylist = customerService.selectCustomerProduct(customerId);
 		model.addAttribute("deliverylist", deliverylist);
 
 		return "search/product";

@@ -4,40 +4,48 @@ import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.ho.hwang.dto.Sr.InsertSrDTO;
 import com.ho.hwang.dto.Sr.SelectSrDTO;
 import com.ho.hwang.dto.Sr.SelectSrDetailDTO;
 import com.ho.hwang.dto.Sr.SelectSrListDTO;
 import com.ho.hwang.vo.SrVO;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.ho.hwang.mappers.UserMapper;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class SrService {
 	private final UserMapper mapper;
 	public final static SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+	@Transactional
 	public void insertSR(InsertSrDTO insertSrDTO, Principal principal) {
 		Date time = new Date();
 
 		String name = mapper.selectName(principal.getName());
-		insertSrDTO.setSr_registrant(name);
+		insertSrDTO.setSrRegistrant(name);
 
 		// 현재 날짜 삽입
-		insertSrDTO.setSr_registrationDate(fmt.format(time));
-		int type = mapper.selectCode(insertSrDTO.getType());
-		System.out.println("타입 값 시벌 버냐고"+type);
-		insertSrDTO.setSr_type(type);
-		int cu_id = mapper.selectCustomerID(insertSrDTO.getCustomer_name());
-		int p_id = mapper.selectProductID(insertSrDTO.getProduct_name());
+		insertSrDTO.setSrRegistrationDate(fmt.format(time));
 
-		insertSrDTO.setCustomer_id(cu_id);
-		insertSrDTO.setProduct_id(p_id);
+		int typeConvert = mapper.selectCode(insertSrDTO.getType());
+		insertSrDTO.setSrType(typeConvert);
+		log.info(String.valueOf(typeConvert));
+		int cuId = mapper.selectCustomerID(insertSrDTO.getCustomerName());
+		int pId = mapper.selectProductID(insertSrDTO.getProductName());
+
+		insertSrDTO.setCustomerId(cuId);
+		insertSrDTO.setProductId(pId);
 
 		mapper.insertSR(insertSrDTO);
 	}
@@ -52,13 +60,13 @@ public class SrService {
 	}
 
 	// 각 고객사의 sr확인
-	public List<SelectSrListDTO> selectSRList(int customer_id) {
-		return mapper.selectSRList(customer_id);
+	public List<SelectSrListDTO> selectSRList(int customerId) {
+		return mapper.selectSRList(customerId);
 	}
 
 	// SR 내용확인
-	public SrVO selectSRDetail(int sr_id) {
-		return mapper.selectSRDetail(sr_id);
+	public SrVO selectSRDetail(int srId) {
+		return mapper.selectSRDetail(srId);
 	}
 
 }

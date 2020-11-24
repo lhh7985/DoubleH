@@ -8,12 +8,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class SelectCustomerSearchDTO {
-    private int customer_id;
-    private String customer_name;
-    private String address_address;
-    private String department_name;
-    private String employee_name;
-    private String employee_contact;
-    private String address_detail;
+    private int customerId;
+    private String customerName;
+    private String addressAddress;
+    private String departmentName;
+    private String employeeName;
+    private String employeeContact;
+    private String addressDetail;
 
 }

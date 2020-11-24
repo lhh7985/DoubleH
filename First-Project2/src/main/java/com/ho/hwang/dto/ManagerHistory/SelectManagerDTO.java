@@ -10,10 +10,10 @@ import java.sql.Date;
 @Setter
 @AllArgsConstructor
 public class SelectManagerDTO {
-    private String customer_name;
-    private String code_name;
-    private String employee_name;
-    private String employee_contact;
-    private Date managerHistory_startDate;
-    private Date managerHistory_endDate;
+    private String customerName;
+    private String codeName;
+    private String employeeName;
+    private String employeeContact;
+    private Date managerHistoryStartDate;
+    private Date managerHistoryEndDate;
 }

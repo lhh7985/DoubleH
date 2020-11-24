@@ -10,13 +10,13 @@ import java.sql.Date;
 @Setter
 @AllArgsConstructor
 public class SelectCustomerActivityDTO {
-    private String code_name;
-    private String activity_title;
-    private String activity_registrant;
-    private Date activity_estimatedDate;
-    private String activity_content;
-    private Date activity_completionDate;
-    private int activity_id;
-    private String activity_status;
-    private Date activity_registrationDate;
+    private String codeName;
+    private String activityTitle;
+    private String activityRegistrant;
+    private Date activityEstimatedDate;
+    private String activityContent;
+    private Date activityCompletionDate;
+    private int activityId;
+    private String activityStatus;
+    private Date activityRegistrationDate;
 }

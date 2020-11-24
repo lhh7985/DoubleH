@@ -10,14 +10,14 @@ import java.sql.Date;
 @Setter
 @AllArgsConstructor
 public class SelectSrDTO{
-    private int sr_id;
-    private String code_name;
-    private String product_name;
-    private String customer_name;
-    private String sr_title;
-    private Date sr_requestDate;
-    private Date sr_estimatedDate;
-    private Date sr_completionDate;
-    private String sr_status;
+    private int srId;
+    private String codeName;
+    private String productName;
+    private String customerName;
+    private String srTitle;
+    private Date srRequestDate;
+    private Date srEstimatedDate;
+    private Date srCompletionDate;
+    private String srStatus;
     private String importance;
 }

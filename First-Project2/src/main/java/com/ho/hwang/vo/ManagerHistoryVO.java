@@ -6,16 +6,16 @@ import lombok.Setter;
 
 @Getter
 public class ManagerHistoryVO {
-	private int customer_id;
-	private int employee_id;
-	private int managerHistory_type;
-	private Date managerHistory_startDate;
-	private Date managerHistory_endDate;
+	private int customerId;
+	private int employeeId;
+	private int managerHistoryType;
+	private Date managerHistoryStartDate;
+	private Date managerHistoryEndDate;
 	
-	private String managerHistory_registrant;
-	private Date managerHistory_registrationDate;
-	private String managerHistory_modifier;
-	private Date managerHistory_modifiedDate;
+	private String managerHistoryRegistrant;
+	private Date managerHistoryRegistrationDate;
+	private String managerHistoryModifier;
+	private Date managerHistoryModifiedDate;
 	
 	
 	

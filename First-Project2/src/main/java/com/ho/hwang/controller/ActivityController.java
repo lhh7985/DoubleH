@@ -36,23 +36,23 @@ public class ActivityController {
 
 	@PostMapping("/list")
 	@ResponseBody
-	public String setListComplete(Model model, int activity_id) {
-		activityService.updateComplete(activity_id);
+	public String setListComplete(Model model, int activityId) {
+		activityService.updateComplete(activityId);
 		return "redirect:/activity/list";
 	}
 
 	@PostMapping("detail")
 	@ResponseBody
-	public String setDetailComplete(Model model, int activity_id) {
-		activityService.updateComplete(activity_id);
+	public String setDetailComplete(Model model, int activityId) {
+		activityService.updateComplete(activityId);
 		return "redirect:/activity/detail";
 	}
 
 	// 고객사별 SR에대한 활동 추가
 	@GetMapping("/enroll-sr")
 	public String enrollSr(Model model, HttpServletRequest req) {
-		int sr_id = Integer.parseInt(req.getParameter("sr_id"));
-		model.addAttribute("sr_id", sr_id);
+		int srId = Integer.parseInt(req.getParameter("srId"));
+		model.addAttribute("srId", srId);
 		return "/activity/enroll-sr";
 	}
 

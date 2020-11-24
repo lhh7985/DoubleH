@@ -24,11 +24,11 @@
 	
 	function code_enroll(){
 		var add = document.add;
-		var code_group =add.code_group.value;
+		var code_group =add.codeGroup.value;
 		
-		var code_upper = add.code_upper.value;
-		var code_name = add.code_name.value;
-		var code_status = add.code_status.value;		
+		var code_upper = add.codeUpper.value;
+		var code_name = add.codeName.value;
+		var code_status = add.codeStatus.value;
 	
 		if (!code_group || !code_name|| !code_status ) {
 			alert("정보를 입력해주세요.");
@@ -76,18 +76,18 @@ label {
 		<div style="margin: 10px;">
 		
 			<label class="col-md-1">코드그룹</label> 
-			<input name="code_group" class="col-md-1 form-control" id="code_group" style="width:40%;"  />
+			<input name="codeGroup" class="col-md-1 form-control" id="code_group" style="width:40%;"  />
 		
 		
 			<label class="col-md-1" >상위코드</label> 
-			<input name="code_upper" class="col-md-2 form-control" id="code_upper"  style="width:40%;"/>
+			<input name="codeUpper" class="col-md-2 form-control" id="code_upper"  style="width:40%;"/>
 
 		
 			<label class="col-md-1" style=" width: 80px;">코드명</label> 
-			<input type="text" name="code_name" id="code_name" class="col-md-2 form-control" style="width:40%;"/>
+			<input type="text" name="codeName" id="code_name" class="col-md-2 form-control" style="width:40%;"/>
 			
 			<label class="col-md-1" style=" width: 110px;">상태</label> 
-			<select name="code_status" id="code_status" class="col-md-1 form-control" style="width:40%;" >
+			<select name="codeStatus" id="code_status" class="col-md-1 form-control" style="width:40%;" >
 				<option>활성</option>
 				<option>비활성</option>
 			</select>

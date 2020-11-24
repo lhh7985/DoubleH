@@ -6,14 +6,14 @@ import lombok.Setter;
 
 @Getter
 public class ProductVO {
-	private int product_id;
-	private String product_name;
-	private String product_content;
+	private int productId;
+	private String productName;
+	private String productContent;
 	
-	private String Product_Registrant;
-	private Date Product_registrationDate;
-	private String Product_Modifier;
-	private Date Product_modifiedDate;
+	private String productRegistrant;
+	private Date productRegistrationDate;
+	private String productModifier;
+	private Date productModifiedDate;
 	
 	
 	

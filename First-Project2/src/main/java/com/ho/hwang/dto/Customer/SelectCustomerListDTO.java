@@ -8,10 +8,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class SelectCustomerListDTO{
-    private int customer_id;
-    private String customer_name;
-    private String address_address;
-    private String address_detail;
+    private int customerId;
+    private String customerName;
+    private String addressAddress;
+    private String addressDetail;
     private String manager;
     private String se;
     private String sales;

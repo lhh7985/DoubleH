@@ -6,13 +6,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class InsertEmployeeDTO{
-    private int employee_type;
-    private int department_id;
-    private String employee_position;
-    private String employee_name;
-    private String employee_contact;
-    private String employee_phone;
-    private String employee_email;
+    private int employeeType;
+    private int departmentId;
+    private String employeePosition;
+    private String employeeName;
+    private String employeeContact;
+    private String employeePhone;
+    private String employeeEmail;
     private String type;
     private String dept;
 }

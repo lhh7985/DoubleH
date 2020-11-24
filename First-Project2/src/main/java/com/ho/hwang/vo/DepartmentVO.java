@@ -8,16 +8,16 @@ import lombok.Setter;
 
 @Getter
 public class DepartmentVO {
-	private int department_id;
-	private String department_name;
-	private int department_headId;
-	private int department_upper;
-	private String department_location;
+	private int departmentId;
+	private String departmentName;
+	private int departmentHeadId;
+	private int departmentUpper;
+	private String departmentLocation;
 	
-	private String department_registrant;
-	private Date department_registrationDate;
-	private String department_modifier;
-	private Date department_modifiedDate;
+	private String departmentRegistrant;
+	private Date departmentRegistrationDate;
+	private String departmentModifier;
+	private Date departmentModifiedDate;
 	
 	
 	

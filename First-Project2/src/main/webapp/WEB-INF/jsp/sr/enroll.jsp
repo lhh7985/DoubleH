@@ -114,12 +114,12 @@
 	
 	
 	function product_search() {
-		var customer_id = document.getElementById('customer_id').value;
-		href = "http://localhost:8080/search/product?customer_id=" + customer_id;
+		var customerId = document.getElementById('customer_id').value;
+		href = "http://localhost:8080/search/product?customerId=" + customerId;
 		if(!winRef){
 				$.ajax({
 					type : 'GET',
-					url : '/search/product?customer_id=' + customer_id,
+					url : '/search/product?customerId=' + customerId,
 					error : function(request, status, error) {
 						alert("code:" + request.status + "\n" + "message:"
 								+ request.responseText + "\n" + "error:"
@@ -137,7 +137,7 @@
 	        }else{
 	        	$.ajax({
 					type : 'GET',
-					url : '/search/product?customer_id=' + customer_id,
+					url : '/search/product?customerId=' + customerId,
 					error : function(request, status, error) {
 						alert("code:" + request.status + "\n" + "message:"
 								+ request.responseText + "\n" + "error:"
@@ -156,14 +156,14 @@
 	//sr등록
 	function SRenroll() {
 		var add = document.add;
-		var customer_name =add.customer_name.value;
+		var customer_name =add.customerName.value;
 		
-		var product_name = add.product_name.value;
+		var product_name = add.productName.value;
 		var type = add.type.value;
 		
-		var requestDate = add.sr_requestDate.value;
-		var title = add.sr_title.value;
-		var content = add.sr_content.value;
+		var requestDate = add.srRequestDate.value;
+		var title = add.srTitle.value;
+		var content = add.srContent.value;
 				
 	
 		if (!customer_name || !product_name || !type|| !title || !content ||!requestDate) {
@@ -174,8 +174,8 @@
 				url: "/sr/enroll",
 				type:"POST",
 				data:forms,
-				success:function(data){
-				   	location.href="http://localhost:8080/sr/list";
+				success:function(){
+				   	location.replace("http://localhost:8080/sr/list");
 				}
 			});
 		}
@@ -191,36 +191,10 @@ input {
 	size: 50px;
 }
 
-.my {
-	font: bold;
-	font-size: 20px;
-	margin-bottom: 30px;
-}
-
-.myfont {
-	font-size: 15px;
-	font-weight: bold;
-	margin-bottom: 15px;
-}
-
-tr.hide {
-	display: none
-}
-
-.font1 {
-	font-size: 15px;
-	font-weight: bold;
-	margin-top: 30px;
-}
-
 .font2 {
 	font-size: 50px;
 	font-weight: bold;
 	text-align: center;
-}
-
-tr.hide {
-	display: none
 }
 
 label {
@@ -248,22 +222,22 @@ label {
 			<h1 class="font2">S	R 등록</h1>
 		</div>
 		
-		<input name="customer_id" id="customer_id" value="0" style="display: none"/>
+		<input name="customerId" id="customer_id" value="0" style="display: none"/>
 
 		<!-- 몸통 -->
 		<div style="margin: 20px;" class="row">
 			<label class="col-md-1" >고객</label> 
-			<input name="customer_name" class="col-md-2 form-control" id="customer_name" style="width:20%;"  readonly/>
+			<input name="customerName" class="col-md-2 form-control" id="customer_name" style="width:20%;"  readonly/>
 			<button class="col-md-1 btn btn-default" type="button" onclick='customer_search()'>고객검색</button>
 			
 			<label class="col-md-1 " style="margin-left: 70px; width: 80px;">제품</label> 
-			<input name="product_name" class="col-md-2 form-control" id="product_name"  style="width:20%;" readonly>
+			<input name="productName" class="col-md-2 form-control" id="product_name"  style="width:20%;" readonly>
 			<button class="col-md-1 btn btn-default" type="button" onclick="product_search()">제품검색</button>
 			
 		</div>
 		
 		
-		<input name="product_id" id="product_id" value="0" style="display: none"/>
+		<input name="productId" id="product_id" value="0" style="display: none"/>
 		
 		<!-- <input name="sr_registrant" id="sr_registrant" style="display: none"/>
 		
@@ -292,19 +266,19 @@ label {
 			</select>
 			
 			<label class="col-md-1 label1" style="margin-left:30px;">요청일자</label> 
-			<input type="date" name="sr_requestDate" id="requestDate" class="col-md-2 form-control" style="width:15%;" size="30px;">
+			<input type="date" name="srRequestDate" id="requestDate" class="col-md-2 form-control" style="width:15%;" size="30px;">
 			
 		</div>
 
 		<div style="margin: 20px;" class="row">
 			<label class="col-md-1 label1">제목</label> 
-			<input id="title" class="col-md-2 form-control" style="width:50%;" type="text" name="sr_title">
+			<input id="title" class="col-md-2 form-control" style="width:50%;" type="text" name="srTitle">
 		</div>
 
 		<div style="margin: 20px;">
 			<label class="col-md-1 label1">내용</label>
 
-			<textarea name="sr_content" id="content" class="form-control" style="width:80%" rows="7" cols="100"></textarea>
+			<textarea name="srContent" id="content" class="form-control" style="width:80%" rows="7" cols="100"></textarea>
 		</div>
 
 

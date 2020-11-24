@@ -29,13 +29,13 @@ public class UserService {
 		mapper.save(account);
 	}
 
-	public EmployeeVO selectEmployee(int employee_id) {
-		return mapper.selectEmployee(employee_id);
+	public EmployeeVO selectEmployee(int employeeId) {
+		return mapper.selectEmployee(employeeId);
 	}
 	
 	public void insertEmployee(InsertEmployeeDTO insertEmployeeDTO) {
-		insertEmployeeDTO.setEmployee_type(mapper.selectCode(insertEmployeeDTO.getType()));
-		insertEmployeeDTO.setDepartment_id(mapper.selectDept(insertEmployeeDTO.getDept()));
+		insertEmployeeDTO.setEmployeeType(mapper.selectCode(insertEmployeeDTO.getType()));
+		insertEmployeeDTO.setDepartmentId(mapper.selectDept(insertEmployeeDTO.getDept()));
 		mapper.insertEmployee(insertEmployeeDTO);
 	}
 	
@@ -55,11 +55,11 @@ public class UserService {
 	
 	
 	//담당자 이름 
-	public String selectSE(int id) {
-		return mapper.selectSE(id);
+	public String selectSE(int seId) {
+		return mapper.selectSE(seId);
 	}
-	public String selectSALES(int id) {
-		return mapper.selectSALES(id);
+	public String selectSALES(int salesId) {
+		return mapper.selectSALES(salesId);
 	}
 
 	//모든 직원 검색
@@ -110,10 +110,10 @@ public class UserService {
 	//Insert된 레코드의 key 값을 DTO에 set해서 리턴
 	public CodeVO insertCode(InsertCodeDTO insertCodeDTO) {
 		CodeVO codeVO = CodeVO.builder()
-				.code_group(insertCodeDTO.getCode_group())
-				.code_upper(insertCodeDTO.getCode_upper())
-				.code_name(insertCodeDTO.getCode_name())
-				.code_status(insertCodeDTO.getCode_status())
+				.codeGroup(insertCodeDTO.getCodeGroup())
+				.codeUpper(insertCodeDTO.getCodeUpper())
+				.codeName(insertCodeDTO.getCodeName())
+				.codeStatus(insertCodeDTO.getCodeStatus())
 				.build();
 
 		mapper.insertCode(codeVO);

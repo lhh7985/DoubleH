@@ -8,12 +8,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class SelectEmployeeSecuveDTO {
-    private String department_name;
-    private String employee_position;
-    private String employee_name;
-    private String employee_contact;
-    private String employee_phone;
-    private String employee_email;
-    private int employee_type;
-    private int employee_id;
+    private String departmentName;
+    private String employeePosition;
+    private String employeeName;
+    private String employeeContact;
+    private String employeePhone;
+    private String employeeEmail;
+    private int employeeType;
+    private int employeeId;
 }

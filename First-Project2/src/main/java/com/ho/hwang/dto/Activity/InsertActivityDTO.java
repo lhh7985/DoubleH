@@ -10,13 +10,13 @@ import java.sql.Date;
 @Setter
 public class InsertActivityDTO {
     private Principal principal;
-    private int activity_type;
-    private String activity_status;
-    private String activity_title;
-    private String activity_content;
-    private Date activity_estimatedDate;
-    private Date activity_completionDate;
-    private String activity_registrationDate;
-    private String activity_registrant;
+    private int activityType;
+    private String activityStatus;
+    private String activityTitle;
+    private String activityContent;
+    private Date activityEstimatedDate;
+    private Date activityCompletionDate;
+    private String activityRegistrationDate;
+    private String activityRegistrant;
     private String type;
 }

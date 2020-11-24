@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 
 
 <link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.css">
@@ -33,6 +33,9 @@
 				});				
 			});
 }); */
+$("#list").jqgrid({
+
+})
 
 var winRef;
 function sr_detail(sr_id) {
@@ -40,7 +43,7 @@ function sr_detail(sr_id) {
 	var _width = '1200';
     var _height = '900';
  
-    // ÆË¾÷À» °¡¿îµ¥ À§Ä¡½ÃÅ°±â À§ÇØ ¾Æ·¡¿Í °°ÀÌ °ª ±¸ÇÏ±â
+    // íŒì—…ì„ ê°€ìš´ë° ìœ„ì¹˜ì‹œí‚¤ê¸° ìœ„í•´ ì•„ë˜ì™€ ê°™ì´ ê°’ êµ¬í•˜ê¸°
     var _left = Math.ceil(( window.screen.width - _width )/2);
     var _top = Math.ceil(( window.screen.width - _height )/2); 
 
@@ -66,7 +69,7 @@ function sr_detail(sr_id) {
         }else{
         	$.ajax({
     			type : 'GET',
-    			url : '/details/info?sr_id=' + sr_id,
+    			url : '/customer/sr-detail?sr_id=' + sr_id,
     			error : function(request, status, error) {
     				alert("code:" + request.status + "\n" + "message:"
     						+ request.responseText + "\n" + "error:"
@@ -109,22 +112,22 @@ function sr_detail(sr_id) {
 		<table class="table" style="table-layout: fixed">
 			<thead>
 				<tr>
-					<th width="10%">±¸ºĞ</th>
-					<th width="15%">Á¦Ç°¸í</th>
-					<th width="30%">Á¦¸ñ</th>
-					<th width="15%">¿äÃ»ÀÏÀÚ</th>
-					<th width="10%">»óÅÂ</th>
+					<th width="10%">êµ¬ë¶„</th>
+					<th width="15%">ì œí’ˆëª…</th>
+					<th width="30%">ì œëª©</th>
+					<th width="15%">ìš”ì²­ì¼ì</th>
+					<th width="10%">ìƒíƒœ</th>
 				</tr>
 			</thead>
 
 			<tbody>
 				<c:forEach var="item" items="${srList}" varStatus="status">
 				<tr>
-					<td>${item.code_name}</td>
-					<td>${item.product_name}</td>
-					<td><a style="cursor: pointer;" onclick="sr_detail('${item.sr_id}')" >${item.sr_title}</a></td>
-					<td>${item.sr_requestDate}</td>
-					<td>${item.sr_status}</td>
+					<td>${item.codeName}</td>
+					<td>${item.productName}</td>
+					<td><a style="cursor: pointer;" onclick="sr_detail('${item.srId}')" >${item.srTitle}</a></td>
+					<td>${item.srRequestDate}</td>
+					<td>${item.srStatus}</td>
 				</tr>
 				</c:forEach>
 			</tbody>

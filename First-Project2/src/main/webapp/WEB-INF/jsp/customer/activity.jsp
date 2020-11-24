@@ -77,11 +77,11 @@ tr.hide {
 				<tbody>
 				<c:forEach var="item" items="${list}">
 					<tr>
-						<td>${item.code_name}</td>	
-						<td>${item.activity_title}</td>
-						<td>${item.activity_estimatedDate}</td>
-						<td>${item.activity_completionDate}</td>
-						<td>${item.activity_status}</td>	
+						<td>${item.codeName}</td>
+						<td>${item.activityTitle}</td>
+						<td>${item.activityEstimatedDate}</td>
+						<td>${item.activityCompletionDate}</td>
+						<td>${item.activityStatus}</td>
 					</tr>
 				</c:forEach>
 				</tbody>

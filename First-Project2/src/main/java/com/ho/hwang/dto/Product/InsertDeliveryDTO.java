@@ -8,14 +8,14 @@ import java.sql.Date;
 @Getter
 @Setter
 public class InsertDeliveryDTO{
-    private int delivery_id;
-    private int customer_id;
-    private int product_id;
-    private int delivery_quantity;
-    private Date delivery_date;
-    private int delivery_businessNum;
-    private String os_name;
-    private int os_quantity;
+    private int deliveryId;
+    private int customerId;
+    private int productId;
+    private int deliveryQuantity;
+    private Date deliveryDate;
+    private int deliveryBusinessNum;
+    private String osName;
+    private int osQuantity;
     private int Window;
     private int Linux;
     private int Unix;

@@ -6,21 +6,21 @@ import lombok.Getter;
 @Getter
 public class ActivityVO {
 	
-	private String code_name;
-	private String activity_title;
-	private int activity_id;
-	private int sr_id;
-	private int activity_type;
-	private String activity_content;
-	private String activity_status;
+	private String codeName;
+	private String activityTitle;
+	private int activityId;
+	private int srId;
+	private int activityType;
+	private String activityContent;
+	private String activityStatus;
 	
-	private Date activity_estimatedDate = null;
-	private Date activity_completionDate = null;
+	private Date activityEstimatedDate = null;
+	private Date activityCompletionDate = null;
 	
-	private String activity_registrant;
-	private String activity_registrationDate;
-	private String activity_modifier;
-	private Date activity_modifiedDate;
+	private String activityRegistrant;
+	private String activityRegistrationDate;
+	private String activityModifier;
+	private Date activityModifiedDate;
 	
 	
 	private String type;

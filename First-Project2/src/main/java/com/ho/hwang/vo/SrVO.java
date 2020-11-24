@@ -8,30 +8,30 @@ import lombok.Setter;
 
 @Getter
 public class SrVO {
-	private int sr_id;
-	private int customer_id;
-	private String customer_name;
-	private int product_id;
-	private String product_name;
+	private int srId;
+	private int customerId;
+	private String customerName;
+	private int productId;
+	private String productName;
 	
-	private int sr_type;
-	private String code_name;
+	private int srType;
+	private String codeName;
 	
 	private String importance;
 
 
-	private String sr_title;
-	private String sr_content;
-	private String sr_status;
-	private Date sr_requestDate;
-	private Date sr_estimatedDate;
-	private Date sr_completionDate;
-	private Date sr_patchEstimatedDate;
+	private String srTitle;
+	private String srContent;
+	private String srStatus;
+	private Date srRequestDate;
+	private Date srEstimatedDate;
+	private Date srCompletionDate;
+	private Date srPatchEstimatedDate;
 	
-	private String sr_registrant;
-	private String sr_registrationDate;
-	private String sr_modifier;
-	private Date sr_modifiedDate;
+	private String srRegistrant;
+	private String srRegistrationDate;
+	private String srModifier;
+	private Date srModifiedDate;
 	
 	
 	

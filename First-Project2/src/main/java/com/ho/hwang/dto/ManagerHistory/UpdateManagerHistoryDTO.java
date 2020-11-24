@@ -8,18 +8,18 @@ import java.util.Date;
 @Getter
 @Setter
 public class UpdateManagerHistoryDTO {
-    private int customer_id;
-    private int employee_id;
-    private int managerHistory_type;
-    private Date managerHistory_startDate;
-    private Date managerHistory_endDate;
+    private int customerId;
+    private int employeeId;
+    private int managerHistoryType;
+    private Date managerHistoryStartDate;
+    private Date managerHistoryEndDate;
 
-    public UpdateManagerHistoryDTO(int customer_id, int employee_id) {
-        this.customer_id = customer_id;
-        this.employee_id = employee_id;
+    public UpdateManagerHistoryDTO(int customerId, int employeeId) {
+        this.customerId = customerId;
+        this.employeeId = employeeId;
     }
 
-    public UpdateManagerHistoryDTO(int customer_id) {
-        this.customer_id = customer_id;
+    public UpdateManagerHistoryDTO(int customerId) {
+        this.customerId = customerId;
     }
 }

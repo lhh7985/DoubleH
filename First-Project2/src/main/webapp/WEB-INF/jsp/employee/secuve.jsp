@@ -53,14 +53,14 @@ function checkAll(){
 			<tbody>
 				<c:forEach var="item" items="${list}" varStatus="status">
 					<tr>
-						<td>${item.department_name}</td>
-						<td>${item.employee_position}</td>
-						<td>${item.employee_name}</td>
-						<td>${item.employee_contact}</td>
-						<td>${item.employee_phone}</td>
-						<td>${item.employee_email}</td>
+						<td>${item.departmentName}</td>
+						<td>${item.employeePosition}</td>
+						<td>${item.employeeName}</td>
+						<td>${item.employeeContact}</td>
+						<td>${item.employeePhone}</td>
+						<td>${item.employeeEmail}</td>
 						<sec:authorize access="hasRole('ADMIN')">
-						<td><input type="checkbox" name="chBox" class="chBox" data-employeeNum="${item.employee_id}" />
+						<td><input type="checkbox" name="chBox" class="chBox" data-employeeNum="${item.employeeId}" />
 							<script type="text/javascript">
 							$(".chBox").click(function(){
 								  $("#th_checkAll").prop("checked", false);

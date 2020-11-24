@@ -72,12 +72,12 @@
 		var chck;
 
 
-		var activity_status = add.activity_status.value;
+		var activity_status = add.activityStatus.value;
 		var type = add.type.value;
-		var activity_registrationDate = add.activity_registrationDate.value;
-		var activity_estimatedDate = add.activity_estimatedDate.value;
-		var title = add.activity_title.value;
-		var content = add.activity_content.value;
+		var activity_registrationDate = add.activityRegistrationDate.value;
+		var activity_estimatedDate = add.activityEstimatedDate.value;
+		var title = add.activityTitle.value;
+		var content = add.activityContent.value;
 				
 
 		if (!activity_status || !activity_registrationDate || !type || !title || !content || !activity_estimatedDate) {
@@ -166,21 +166,21 @@ tr.hide {
 			</select>
 			
 			<label class=" my" style="width: 120px; margin-left:50px; ">시작일</label>
-			<input type="date" id="activity_registrationDate" name ="activity_registrationDate" > 
+			<input type="date" id="activity_registrationDate" name ="activityRegistrationDate" >
 				
-			<input id="sr_id" name="sr_id" value="${sr_id}" style="visibility: hidden;"/>
+			<input id="sr_id" name="srId" value="${srId}" style="visibility: hidden;"/>
 			
 		</div>
 
 		<div class="row" style="margin-top: 20px; margin-left:20px;" >
 			<label class="col-md-2 my" style="width: 120px;  ">상태</label>
-			<select name="activity_status" id="activity_status"	style="height: 30px;" class="col-md-2">
+			<select name="activityStatus" id="activity_status"	style="height: 30px;" class="col-md-2">
 				<option>진행중</option>
 				<option>개발완료</option>
 			</select> 
 				
 			<label class="my" style="width: 120px;  margin-left:50px;">완료예정일</label>
-			<input type="date" id="activity_estimatedDate" name="activity_estimatedDate">
+			<input type="date" id="activity_estimatedDate" name="activityEstimatedDate">
 			
 		</div>
 
@@ -188,13 +188,13 @@ tr.hide {
 
 		<div style="margin: 20px; margin-top:50px;">
 			<label class="col-md-1 my">제목</label> 
-			<input type="text" name="activity_title" id="activity_title" size="90px;">
+			<input type="text" name="activityTitle" id="activity_title" size="90px;">
 		</div>
 
 		<div style="margin: 20px; margin-top:30px;">
 			<label class="col-md-1 my">내용</label>
 
-			<textarea name="activity_content" id="activity_content" rows="12" cols="100"></textarea>
+			<textarea name="activityContent" id="activity_content" rows="12" cols="100"></textarea>
 			
 		</div>
 

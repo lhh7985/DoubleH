@@ -59,9 +59,9 @@ public class SrController {
 
 	// =================================SR디테일
 	@GetMapping("/detail")
-	public String getSrDetail(Model model, int sr_id) {
-		SrVO srvo = srService.selectSRDetail(sr_id);
-		List<SelectCustomerActivityDTO> selectCustomerActivityDTO = activityService.selectCustomerActivity(sr_id);
+	public String getSrDetail(Model model, int srId) {
+		SrVO srvo = srService.selectSRDetail(srId);
+		List<SelectCustomerActivityDTO> selectCustomerActivityDTO = activityService.selectCustomerActivity(srId);
 
 		model.addAttribute("srvo", srvo);
 		model.addAttribute("acvo", selectCustomerActivityDTO);

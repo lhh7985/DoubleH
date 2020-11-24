@@ -15,9 +15,7 @@ import com.ho.hwang.dto.Sr.SelectSrDetailDTO;
 import com.ho.hwang.dto.Sr.SelectSrListDTO;
 import com.ho.hwang.paging.Page;
 import com.ho.hwang.service.*;
-import com.ho.hwang.vo.CustomerVO;
-import com.ho.hwang.vo.EmployeeVO;
-import com.ho.hwang.vo.SrVO;
+import com.ho.hwang.vo.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
-import com.ho.hwang.vo.ManagerVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -43,11 +39,11 @@ public class CustomerController {
 	private final ProductService productService;
 
 	@GetMapping("/detail")
-	public String getDetail(int customer_id, Model model) {
-		CustomerVO customerDetail = customerService.selectCustomerDetail(customer_id);
-		EmployeeVO empvo = userService.selectEmployee(customerDetail.getEmployee_id_manager());
-		EmployeeVO se = userService.selectEmployee(customerDetail.getEmployee_id_se());
-		EmployeeVO sales = userService.selectEmployee(customerDetail.getEmployee_id_sales());
+	public String getDetail(int customerId, Model model) {
+		CustomerVO customerDetail = customerService.selectCustomerDetail(customerId);
+		EmployeeVO empvo = userService.selectEmployee(customerDetail.getEmployeeIdManager());
+		EmployeeVO se = userService.selectEmployee(customerDetail.getEmployeeIdSe());
+		EmployeeVO sales = userService.selectEmployee(customerDetail.getEmployeeIdSales());
 
 		model.addAttribute("customer", customerDetail);
 		model.addAttribute("manager", empvo);
@@ -59,10 +55,10 @@ public class CustomerController {
 
 	@GetMapping("/delivery")
 	public String getDelivery(Model model, HttpServletRequest req) {
-		int customer_id = Integer.parseInt(req.getParameter("customer_id"));
-		List<SelectDeliveryDTO> list = productService.selectDelivery(customer_id);
+		int customerId = Integer.parseInt(req.getParameter("customerId"));
+		List<SelectDeliveryDTO> list = productService.selectDelivery(customerId);
 		model.addAttribute("list", list);
-		List<SelectTotalOsDTO> list2 = productService.selectOS(customer_id);
+		List<SelectTotalOsDTO> list2 = productService.selectOS(customerId);
 		model.addAttribute("list2", list2);
 
 		return "customer/delivery";
@@ -70,8 +66,8 @@ public class CustomerController {
 
 	@GetMapping("/manager")
 	public String getManagerHistory(Model model, HttpServletRequest req) {
-		int customer_id = Integer.parseInt(req.getParameter("customer_id"));
-		List<SelectManagerDTO> list = customerService.selectManager(customer_id);
+		int customerId = Integer.parseInt(req.getParameter("customerId"));
+		List<SelectManagerDTO> list = customerService.selectManager(customerId);
 		model.addAttribute("list", list);
 		return "customer/manager";
 	}
@@ -82,7 +78,7 @@ public class CustomerController {
 		int listCnt = customerService.selectCustomerTotalCount();
 		Page paging = new Page(listCnt, page);
 
-		List<SelectCustomerListDTO> list = customerService.selectCustomerList(paging.getStartIndex(),paging.getPageSize());
+		List<CustomerListVO> list = customerService.selectCustomerList(paging.getStartIndex(),paging.getPageSize());
 		model.addAttribute("list", list);
 		model.addAttribute("paging", paging);
 
@@ -91,17 +87,17 @@ public class CustomerController {
 
 	@GetMapping("/sr")
 	public String getSrList(Model model, HttpServletRequest req) {
-		int customer_id = Integer.parseInt(req.getParameter("customer_id"));
-		List<SelectSrListDTO> srList = srService.selectSRList(customer_id);
+		int customerId = Integer.parseInt(req.getParameter("customerId"));
+		List<SelectSrListDTO> srList = srService.selectSRList(customerId);
 		model.addAttribute("srList", srList);
 
 		return "customer/sr";
 	}
 
 	@GetMapping("/sr-detail")
-	public String getSrDetail(Model model, int sr_id) {
-		SrVO srvo = srService.selectSRDetail(sr_id);
-		List<SelectCustomerActivityDTO> selectCustomerActivityDTO = activityService.selectCustomerActivity(sr_id);
+	public String getSrDetail(Model model, int srId) {
+		SrVO srvo = srService.selectSRDetail(srId);
+		List<SelectCustomerActivityDTO> selectCustomerActivityDTO = activityService.selectCustomerActivity(srId);
 		model.addAttribute("srvo", srvo);
 		model.addAttribute("acvo", selectCustomerActivityDTO);
 
@@ -110,8 +106,8 @@ public class CustomerController {
 
 	@GetMapping("/activity")
 	public String getCustomerActivity(Model model, HttpServletRequest req) {
-		int customer_id = Integer.parseInt(req.getParameter("customer_id"));
-		List<SelectVisitDTO> list = activityService.selectVisit(customer_id);
+		int customerId = Integer.parseInt(req.getParameter("customerId"));
+		List<SelectVisitDTO> list = activityService.selectVisit(customerId);
 		model.addAttribute("list", list);
 
 		return "/customer/activity";

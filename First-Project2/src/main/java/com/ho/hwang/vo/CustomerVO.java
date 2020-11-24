@@ -8,18 +8,18 @@ import lombok.Setter;
 
 @Getter
 public class CustomerVO {
-	private int customer_id;
-	private String customer_name;
-	private int employee_id_se;
-	private int employee_id_sales;
-	private int employee_id_manager;
+	private int customerId;
+	private String customerName;
+	private int employeeIdSe;
+	private int employeeIdSales;
+	private int employeeIdManager;
 	
-	private String address_address;
-	private String address_post;
-	private String address_detail;
+	private String addressAddress;
+	private String addressPost;
+	private String addressDetail;
 
-	private String customer_registrant;
-	private Date customer_registrationDate;
-	private String customer_modifier;
-	private Date customer_modifiedDate;
+	private String customerRegistrant;
+	private Date customerRegistrationDate;
+	private String customerModifier;
+	private Date customerModifiedDate;
 }

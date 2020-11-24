@@ -19,12 +19,12 @@
 	
 var winRef;
 function goActivity() {
-	var sr_id = ${srvo.sr_id};
-	href = "http://localhost:8080/activity/enroll-sr?sr_id=" + sr_id;
+	var srId = ${srvo.srId};
+	href = "http://localhost:8080/activity/enroll-sr?srId=" + srId;
 	if(!winRef){
 		$.ajax({
 			type : 'GET',
-			url : '/activity/enroll-sr?sr_id=' + sr_id,
+			url : '/activity/enroll-sr?srId=' + srId,
 			error : function(request, status, error) {
 				alert("code:" + request.status + "\n" + "message:"
 						+ request.responseText + "\n" + "error:"
@@ -40,7 +40,7 @@ function goActivity() {
         }else{
         	$.ajax({
     			type : 'GET',
-    			url : '/enroll/activity?sr_id=' + sr_id,
+    			url : '/enroll/activity?srId=' + srId,
     			error : function(request, status, error) {
     				alert("code:" + request.status + "\n" + "message:"
     						+ request.responseText + "\n" + "error:"
@@ -57,10 +57,10 @@ function goActivity() {
 }
 	
 	
-function complete(activity_id){
+function complete(activityId){
 	$.ajax({
 		type : 'POST',
-		url : '/activity/detail?activity_id=' + activity_id,
+		url : '/activity/detail?activityId=' + activityId,
 		error : function(request, status, error) {
 			alert("code:" + request.status + "\n" + "message:"
 					+ request.responseText + "\n" + "error:"
@@ -109,14 +109,14 @@ label {
 		
 		<div class="row mymargin">
 			<label class="col-md-1">고객사</label>
-			<input  class="col-md-2 form-control" style="width:15%;" value="${srvo.customer_name }" disabled/>
-			<input id="sr_id" value="${srvo.sr_id}" style="display: none">
+			<input  class="col-md-2 form-control" style="width:15%;" value="${srvo.customerName }" disabled/>
+			<input id="sr_id" value="${srvo.srId}" style="display: none">
 		
 			<label class="col-md-1" style="margin-left: 40px;">제품</label>
-			<input class="col-md-2 form-control" style="width:10%;" value="${srvo.product_name }"  disabled/>
+			<input class="col-md-2 form-control" style="width:10%;" value="${srvo.productName }"  disabled/>
 			
 			<label class="col-md-1" style="margin-left: 40px;">유형</label>
-			<input class="col-md-2 form-control" style=" width:15%;" value="${srvo.code_name }"  disabled/>
+			<input class="col-md-2 form-control" style=" width:15%;" value="${srvo.codeName }"  disabled/>
 			
 			<label class="col-md-1" style="margin-left: 40px;">중요도</label>
 			<input class="col-md-2 form-control" style="width:5%;" value="${srvo.importance}"  disabled/>
@@ -126,26 +126,26 @@ label {
 		<div class="row mymargin">
 
 			<label class="col-md-1"">요청일</label>
-			<input class="col-md-2 form-control" style="width:15%;" value="${srvo.sr_requestDate}"  disabled/>
+			<input class="col-md-2 form-control" style="width:15%;" value="${srvo.srRequestDate}"  disabled/>
 			
 			<label class="col-md-1" style="margin-left: 40px;">등록자</label>
-			<input class="col-md-2 form-control" style="width:15%;" value="${srvo.sr_registrant}"  disabled/>
+			<input class="col-md-2 form-control" style="width:15%;" value="${srvo.srRegistrant}"  disabled/>
 		
 			<label class="col-md-1" style="margin-left: 40px;">등록일</label>
-			<input class="col-md-2 form-control" style="width:15%;"  value="${srvo.sr_registrationDate}" disabled/>
+			<input class="col-md-2 form-control" style="width:15%;"  value="${srvo.srRegistrationDate}" disabled/>
 		</div>
 		
 		
 		
 		<div class="row mymargin" style="margin-top : 20px;">
 			<label class="col-md-1">제목</label>
-			<input class="col-md-4 form-control" style="width:50%;" value="${srvo.sr_title}"  disabled/>
+			<input class="col-md-4 form-control" style="width:50%;" value="${srvo.srTitle}"  disabled/>
 		
 		</div>
 		
 		<div class="row mymargin">
 			<label class="col-md-1">요구사항</label>
-			<textarea class="col-md-9 form-control" style="width:80%;" rows="5" cols="150"  disabled>${srvo.sr_content}</textarea>
+			<textarea class="col-md-9 form-control" style="width:80%;" rows="5" cols="150"  disabled>${srvo.srContent}</textarea>
 		
 		</div>
 		
@@ -173,32 +173,32 @@ label {
 			<tbody class="panel table table-hover">
 				<c:forEach var="item" items="${acvo}" varStatus="status" >
 				<tr class="panel-heading" >
-					<td>${item.code_name}</td>
-					<td data-toggle="collapse" data-target=".${status.index}" style="cursor: pointer;">${item.activity_title}</td>
-					<td>${item.activity_registrant}</td>
-					<td>${item.activity_registrationDate}</td>
-					<td>${item.activity_estimatedDate}</td>
-					<td>${item.activity_status}</td>
+					<td>${item.codeName}</td>
+					<td data-toggle="collapse" data-target=".${status.index}" style="cursor: pointer;">${item.activityTitle}</td>
+					<td>${item.activityRegistrant}</td>
+					<td>${item.activityRegistrationDate}</td>
+					<td>${item.activityEstimatedDate}</td>
+					<td>${item.activityStatus}</td>
 					<c:choose>
-						<c:when  test="${item.activity_status eq '완료'}">
+						<c:when  test="${item.activityStatus eq '완료'}">
 							<td height="45px;"></td>
 						</c:when>
 						<c:otherwise>
-							<td><input height="35px;" type="button" onclick=complete('${item.activity_id}') class="btn btn-default" value="활동완료"/></td>
+							<td><input height="35px;" type="button" onclick=complete('${item.activityId}') class="btn btn-default" value="활동완료"/></td>
 						</c:otherwise>
 					</c:choose>
 				</tr>
 				
 
 				<tr style="padding: 10px;"  class="panel-collapse collapse ${status.index}"  >
-					<td class="panel-body" colspan="7"><p style="white-space:pre; margin-left: 20px;">${item.activity_content}</p>
+					<td class="panel-body" colspan="7"><p style="white-space:pre; margin-left: 20px;">${item.activityContent}</p>
 					</td>	
 				</tr>
 				
 				<tr class="panel-collapse collapse ${status.index} " style="background-color:lightgray">
 					<td colspan="7">
 						<div class=" col-sm-1" style="width: 80px;">완료일 :</div>
-						<div class="col-md-2">${item.activity_completionDate }</div>
+						<div class="col-md-2">${item.activityCompletionDate }</div>
 						
 					</td>
 					

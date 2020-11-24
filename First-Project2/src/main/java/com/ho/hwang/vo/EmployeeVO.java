@@ -12,28 +12,29 @@ public class EmployeeVO {
 	private String type;
 	private String dept;
 	
-	private String department_name;
-	private String customer_name;
-	private String code_name;
+	private String departmentName;
+	private String customerName;
+	private String codeUpper;
+	private String codeName;
 	
-	private int employee_id;
-	private int department_id;
-	private int employee_type;
-	private String employee_name;
-	private String employee_contact;
-	private String employee_phone;
-	private String employee_email;
-	private String employee_position;
+	private int employeeId;
+	private int departmentId;
+	private int employeeType;
+	private String employeeName;
+	private String employeeContact;
+	private String employeePhone;
+	private String employeeEmail;
+	private String employeePosition;
 	
 	
 	
 	
-	private String employee_status;
+	private String employeeStatus;
 	
-	private String employee_registrant;
-	private Date employee_registrationDate;
-	private String employee_modifier;
-	private Date employee_modifiedDate;
+	private String employeeRegistrant;
+	private Date employeeRegistrationDate;
+	private String employeeModifier;
+	private Date employeeModifiedDate;
 	
 	
 	

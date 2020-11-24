@@ -10,11 +10,11 @@ import java.sql.Date;
 @Setter
 @AllArgsConstructor
 public class SelectTotalDeliveryDTO{
-    private int delivery_businessNum;
-    private String customer_name;
-    private String product_name;
-    private int delivery_quantity;
-    private Date delivery_date;
-    private int customer_id;
-    private int delivery_id;
+    private int deliveryBusinessNum;
+    private String customerName;
+    private String productName;
+    private int deliveryQuantity;
+    private Date deliveryDate;
+    private int customerId;
+    private int deliveryId;
 }

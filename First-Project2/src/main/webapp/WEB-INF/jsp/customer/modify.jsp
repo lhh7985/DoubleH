@@ -24,22 +24,22 @@
 
 	function modify_customer(){
 		
-			if("<%= request.getParameter("customer_name") %>" !=  document.getElementById('customer_name').value){
+			if("<%= request.getParameter("customerName") %>" !=  document.getElementById('customer_name').value){
 				alert("업데이트");
 			}
-			if("<%= request.getParameter("manager_id") %>" !=  document.getElementById('manager_id').value){
+			if("<%= request.getParameter("managerId") %>" !=  document.getElementById('manager_id').value){
 				document.getElementById('employee_id_manager').value =  document.getElementById('manager_id').value;
 			}
-			if("<%= request.getParameter("se_id") %>" !=  document.getElementById('se_id').value){
+			if("<%= request.getParameter("seId") %>" !=  document.getElementById('se_id').value){
 				document.getElementById('employee_id_se').value =  document.getElementById('se_id').value;
 			}
-			if("<%= request.getParameter("sales_id") %>" !=  document.getElementById('sales_id').value){
+			if("<%= request.getParameter("salesId") %>" !=  document.getElementById('sales_id').value){
 				document.getElementById('employee_id_sales').value =  document.getElementById('sales_id').value;
 			}
 			if("<%= request.getParameter("address") %>" !=  document.getElementById('address_address').value){
 				alert("업데이트");
 			}
-			if("<%= request.getParameter("addr_detail") %>" !=  document.getElementById('address_detail').value){
+			if("<%= request.getParameter("addrDetail") %>" !=  document.getElementById('address_detail').value){
 				alert("업데이트");
 			}
 			
@@ -245,9 +245,9 @@
 				<!-- 몸통 -->
 				<div class="row text-center form-group" style="margin: 5px;">
 					<label class="col-md-2 label1 text-left" style=" width: 130px;">고객사명</label>
-					<input id="customer_name"  class="col-md-3 form-control" style="height: 42px; width: 60%" type="text" id="customer"
-						value="<%= request.getParameter("customer_name") %>"/>
-					<input id="customer_id" name="customer_id" style="visibility: hidden;" value="<%= request.getParameter("customer_id") %>"/>
+					<input id="customer_name"  class="col-md-3 form-control" style="height: 42px; width: 60%" type="text"
+						value="<%= request.getParameter("customerName") %>"/>
+					<input id="customer_id" name="customerId" style="visibility: hidden;" value="<%= request.getParameter("customerId") %>"/>
 				</div>
 
 				<div class="row text-center form-group" style="margin: 5px;">
@@ -256,8 +256,8 @@
 						value="<%= request.getParameter("manager") %>"/>
 					<button style="margin-left:5px; height: 42px; width:40px;" type="button" class="col-md-1 btn glyphicon glyphicon-search" onclick="search_emp()"></button>
 				
-					<input type="text" id="manager_id"  style="visibility: hidden;" value="<%= request.getParameter("manager_id") %>" />
-					<input id="employee_id_manager" name="employee_id_manager" style="visibility: hidden;" value='0'/>
+					<input type="text" id="manager_id"  style="visibility: hidden;" value="<%= request.getParameter("managerId") %>" />
+					<input id="employee_id_manager" name="employeeIdManager" style="visibility: hidden;" value='0'/>
 
 				</div>
 
@@ -268,7 +268,7 @@
 					<button style="margin-left:5px; height: 42px; width:40px;" type="button" class="col-md-1  btn  glyphicon glyphicon-search"onclick="search_emp_secuve();"></button>
 
 					<input type="text" id="se_id" style="visibility: hidden;"value="<%= request.getParameter("se_id") %>" />
-					<input id="employee_id_se" name="employee_id_se" style="visibility: hidden;" value='0'/>
+					<input id="employee_id_se" name="employeeIdSe" style="visibility: hidden;" value='0'/>
 				</div>
 				
 				
@@ -278,8 +278,8 @@
 						value="<%= request.getParameter("sales") %>"/>
 					<button style="margin-left:5px; height: 42px; width:40px;" type="button" class="col-md-1  btn  glyphicon glyphicon-search" onclick="search_emp_secuve2();"></button>
 					
-					<input type="text" id="sales_id" style="visibility: hidden;" value="<%= request.getParameter("sales_id") %>" />
-					<input id="employee_id_sales" name="employee_id_sales" style="visibility: hidden;" value='0'/>
+					<input type="text" id="sales_id" style="visibility: hidden;" value="<%= request.getParameter("salesId") %>" />
+					<input id="employee_id_sales" name="employeeIdSales" style="visibility: hidden;" value='0'/>
 				</div>
 
 
@@ -289,8 +289,8 @@
 				<div  class="row text-center form-group" style="margin: 5px;">
 					<label class="col-md-2 label1 text-left" style="width: 130px;">주소</label>
 
-					<input class="col-md-2 form-control" style="height: 42px; width: 30%; display: inline;" placeholder="우편번호" name="address_post" id="address_post"
-							type="text" readonly="readonly" value="<%= request.getParameter("addr_post") %>" />
+					<input class="col-md-2 form-control" style="height: 42px; width: 30%; display: inline;" placeholder="우편번호" name="addressPost" id="address_post"
+							type="text" readonly="readonly" value="<%= request.getParameter("addrPost") %>" />
 					<button style="margin-left:5px; height: 42px; width:100px;" type="button" class="col-md-1  btn btn-light-blue" onclick="execPostCode();">
 							<i class="fa fa-search"></i> 우편검색</button>
 
@@ -299,15 +299,15 @@
 				
 				<div  class="row text-center form-group" style="margin: 5px;">
 					<label class="col-md-2 label1" style="height: 42px;width: 130px;"></label>
-					<input class="form-control" style="height: 42px; width: 60%;" placeholder="도로명 주소"	name="address_address" id="address_address" type="text"
+					<input class="form-control" style="height: 42px; width: 60%;" placeholder="도로명 주소"	name="addressAddress" id="address_address" type="text"
 							readonly="readonly" value="<%= request.getParameter("address") %>"/>
 				</div>
 				
 				
 				<div  class="row text-center form-group" style="margin: 5px;">
 					<label class="col-md-2 label1" style="width: 130px;"></label>
-					<input class="form-control" placeholder="상세주소" style="height: 42px; width: 60%;"name="address_detail" id="address_detail" type="text" 
-						value="<%= request.getParameter("addr_detail") %>"/>
+					<input class="form-control" placeholder="상세주소" style="height: 42px; width: 60%;"name="addressDetail" id="address_detail" type="text"
+						value="<%= request.getParameter("addrDetail") %>"/>
 				</div>
 
 

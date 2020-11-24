@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class SelectProductDTO{
-    private int product_id;
-    private String product_name;
-    private String product_content;
+    private int productId;
+    private String productName;
+    private String productContent;
 }

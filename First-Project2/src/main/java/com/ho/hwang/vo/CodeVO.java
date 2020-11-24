@@ -1,20 +1,46 @@
 package com.ho.hwang.vo;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter
+
+@Getter
 public class CodeVO {
-	private int code_id;
-	private String code_group;
-	private String code_upper;
-	private String code_name;
-	private String code_status;
+	private int codeId;
+	private String codeGroup;
+	private String codeUpper;
+	private String codeName;
+	private String codeStatus;
 	
-	private String code_registrant;
-	private String code_registrationDate;
-	private String code_modifier;
-	private Date code_modifiedDate;
+	private String codeRegistrant;
+	private LocalDate codeRegistrationDate;
+	private String codeModifier;
+	private LocalDate codeModifiedDate;
+
+	public CodeVO() {
+	}
+
+
+	@Builder
+	public CodeVO(String codeGroup, String codeUpper, String codeName, String codeStatus) {
+		this(0,codeGroup,codeUpper, codeName, codeStatus, "", LocalDate.now(), "", LocalDate.now());
+	}
+
+
+	private CodeVO(int codeId, String codeGroup, String codeUpper, String codeName, String codeStatus, String codeRegistrant, LocalDate codeRegistrationDate, String codeModifier, LocalDate codeModifiedDate) {
+
+		//null체크 or 검증 필요
+
+		this.codeId = codeId;
+		this.codeGroup = codeGroup;
+		this.codeUpper = codeUpper;
+		this.codeName = codeName;
+		this.codeStatus = codeStatus;
+		this.codeRegistrant = codeRegistrant;
+		this.codeRegistrationDate = codeRegistrationDate;
+		this.codeModifier = codeModifier;
+		this.codeModifiedDate = codeModifiedDate;
+	}
 }

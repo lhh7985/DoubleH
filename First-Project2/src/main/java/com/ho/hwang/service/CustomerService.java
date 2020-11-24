@@ -29,74 +29,74 @@ public class CustomerService {
 	}
 
 	
-	public List<SelectCustomerListDTO> selectCustomerList(int start, int cntPerPage){
+	public List<CustomerListVO> selectCustomerList(int start, int cntPerPage){
 		return mapper.selectCustomerList(start, cntPerPage);
 	}
 
-	public CustomerVO selectCustomerDetail(int customer_id) {
-		return mapper.selectCustomerDetail(customer_id);
+	public CustomerVO selectCustomerDetail(int customerId) {
+		return mapper.selectCustomerDetail(customerId);
 	}
 
-	public List<SelectCustomerProductDTO> selectCustomerProduct(int customer_id) {
-		return mapper.selectCustomerProduct(customer_id);
+	public List<SelectCustomerProductDTO> selectCustomerProduct(int customerId) {
+		return mapper.selectCustomerProduct(customerId);
 	}
 	
 	public void insertCustomer(InsertCustomerDTO insertCustomerDTO) {
 		mapper.insertCustomer(insertCustomerDTO);
 		int x = mapper.selectCustomer_id();
-		insertCustomerDTO.setCustomer_id(x);
+		insertCustomerDTO.setCustomerId(x);
 		mapper.insertAddress(insertCustomerDTO);
 
 		//매니저 이력 삽입
 		UpdateManagerHistoryDTO managerHistory = new UpdateManagerHistoryDTO(x);
 
 		//manager
-		managerHistory.setEmployee_id(insertCustomerDTO.getEmployee_id_manager());
-		managerHistory.setManagerHistory_type(19);
+		managerHistory.setEmployeeId(insertCustomerDTO.getEmployeeIdManager());
+		managerHistory.setManagerHistoryType(19);
 		mapper.insertManagerHistory(managerHistory);
 
 		//se
-		managerHistory.setEmployee_id(insertCustomerDTO.getEmployee_id_se());
-		managerHistory.setManagerHistory_type(20);
+		managerHistory.setEmployeeId(insertCustomerDTO.getEmployeeIdSe());
+		managerHistory.setManagerHistoryType(20);
 		mapper.insertManagerHistory(managerHistory);
 
 		//sales
-		managerHistory.setEmployee_id(insertCustomerDTO.getEmployee_id_sales());
-		managerHistory.setManagerHistory_type(21);
+		managerHistory.setEmployeeId(insertCustomerDTO.getEmployeeIdSales());
+		managerHistory.setManagerHistoryType(21);
 		mapper.insertManagerHistory(managerHistory);
 	}
 	
 	//담당자 수정e
 	public void updateCustomerDetail(UpdateCustomerDetailDTO updateCustomerDetailDTO) {
-		UpdateManagerHistoryDTO manager = new UpdateManagerHistoryDTO(updateCustomerDetailDTO.getCustomer_id());
+		UpdateManagerHistoryDTO manager = new UpdateManagerHistoryDTO(updateCustomerDetailDTO.getCustomerId());
 
-		if(updateCustomerDetailDTO.getEmployee_id_manager() !=0){
+		if(updateCustomerDetailDTO.getEmployeeIdManager() !=0){
 			// 오늘날짜 현재 담당자 endDate에 찍기
-			manager.setManagerHistory_type(19);
+			manager.setManagerHistoryType(19);
 			mapper.updateEnddate(manager);
 
 			//새로운 담당자를 오늘 날짜로 Start에 추가하기
-			manager.setEmployee_id(updateCustomerDetailDTO.getEmployee_id_manager());
+			manager.setEmployeeId(updateCustomerDetailDTO.getEmployeeIdManager());
 			mapper.insertManagerHistory(manager);
 			mapper.updateManager(updateCustomerDetailDTO);
 		}
-		if(updateCustomerDetailDTO.getEmployee_id_se() !=0){
+		if(updateCustomerDetailDTO.getEmployeeIdSe() !=0){
 			// 오늘날짜 현재 담당자 endDate에 찍기
-			manager.setManagerHistory_type(20);
+			manager.setManagerHistoryType(20);
 			mapper.updateEnddate(manager);
 
 			//새로운 담당자를 오늘 날짜로 Start에 추가하기
-			manager.setEmployee_id(updateCustomerDetailDTO.getEmployee_id_se());
+			manager.setEmployeeId(updateCustomerDetailDTO.getEmployeeIdSe());
 			mapper.insertManagerHistory(manager);
 			mapper.updateSE(updateCustomerDetailDTO);
 		}
-		if(updateCustomerDetailDTO.getEmployee_id_sales() !=0){
+		if(updateCustomerDetailDTO.getEmployeeIdSales() !=0){
 			// 오늘날짜 현재 담당자 endDate에 찍기
-			manager.setManagerHistory_type(21);
+			manager.setManagerHistoryType(21);
 			mapper.updateEnddate(manager);
 
 			//새로운 담당자를 오늘 날짜로 Start에 추가하기
-			manager.setEmployee_id(updateCustomerDetailDTO.getEmployee_id_sales());
+			manager.setEmployeeId(updateCustomerDetailDTO.getEmployeeIdSales());
 			mapper.insertManagerHistory(manager);
 			mapper.updateSales(updateCustomerDetailDTO);
 		}
@@ -104,8 +104,8 @@ public class CustomerService {
 
 	
 	//담당자 이력
-	public List<SelectManagerDTO> selectManager(int customer_id){
-		return mapper.selectManager(customer_id);
+	public List<SelectManagerDTO> selectManager(int customerId){
+		return mapper.selectManager(customerId);
 	}
 
 	//고객 목록 삭제

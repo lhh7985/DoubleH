@@ -67,8 +67,8 @@
 				console.log(data.zonecode);
 				console.log(fullRoadAddr);
 
-				$("[name=address_post]").val(data.zonecode);
-				$("[name=address_address]").val(fullRoadAddr);
+				$("[name=addressPost]").val(data.zonecode);
+				$("[name=addressAddress]").val(fullRoadAddr);
 
 				document.getElementById('address_post').value = data.zonecode; //5자리 새우편번호 사용
 				document.getElementById('address_address').value = fullRoadAddr;
@@ -237,7 +237,7 @@ tr.hide {
 			<!-- 몸통 -->
 			<div class="row text-center form-group" style="margin: 20px;">
 				<label class="col-md-1 label1" style="width: 100px;">고객사명</label> 
-				<input name="customer_name"	class="col-md-2 form-control" style="width: 15%" type="text"
+				<input name="customerName"	class="col-md-2 form-control" style="width: 15%" type="text"
 					id="customer" size="18px;" /> 
 				
 					
@@ -246,7 +246,7 @@ tr.hide {
 				<input id="manager" 	class="col-md-2 form-control" style="width: 15%" readonly>
 				<button type="button" class="col-md-1 margins btn btn-default"
 					onclick="search_emp()">직원검색</button>
-				<input type="text" id="manager_id" name="employee_id_manager" style="visibility: hidden;"/>
+				<input type="text" id="manager_id" name="employeeIdManager" style="visibility: hidden;"/>
 
 			</div>
 
@@ -255,14 +255,14 @@ tr.hide {
 				<input id="se_name"  class="col-md-2 form-control" style="width: 15%" readonly />
 				<button type="button" class="col-md-1 margins btn btn-default"
 					onclick="search_emp_secuve();">직원검색</button>
-				<input type="text" id="se_id" name="employee_id_se" style="visibility: hidden;"/>
+				<input type="text" id="se_id" name="employeeIdSe" style="visibility: hidden;"/>
 
 
 				<label class="col-md-1 label1" style="margin-left: 40px; width: 120px;">영업담당자</label> 
 				<input id="sales_name" class="col-md-2 form-control" style="width: 15%" readonly>
 				<button type="button" class="col-md-1 margins btn btn-default"
 					onclick="search_emp_secuve2();">직원검색</button>
-				<input type="text" id="sales_id" name="employee_id_sales" style="visibility: hidden;"/>
+				<input type="text" id="sales_id" name="employeeIdSales" style="visibility: hidden;"/>
 
 			</div>
 
@@ -274,7 +274,7 @@ tr.hide {
 			<div class="col-md-11 center-block margins">
 				<div class="form-group">
 					<input class="form-control" style="width: 40%; display: inline;"
-						placeholder="우편번호" name="address_post" id="address_post" type="text"
+						placeholder="우편번호" name="addressPost" id="address_post" type="text"
 						readonly="readonly">
 					<button type="button" class="btn btn-default"
 						onclick="execPostCode();">
@@ -283,10 +283,10 @@ tr.hide {
 				</div>
 				<div class="form-group">
 					<input class="form-control" style="top: 5px;" placeholder="도로명 주소"
-						name="address_address" id="address_address" type="text" readonly="readonly" />
+						name="addressAddress" id="address_address" type="text" readonly="readonly" />
 				</div>
 				<div class="form-group">
-					<input class="form-control" placeholder="상세주소" name="address_detail"
+					<input class="form-control" placeholder="상세주소" name="addressDetail"
 						id="address_detail" type="text" />
 				</div>
 
