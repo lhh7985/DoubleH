@@ -35,7 +35,7 @@ public class AccountService implements UserDetailsService {
 
 	public void save(Account account) {
 		String pw = passwordEncoder.encode(account.getPassword());
-		account.setUser_pw(passwordEncoder.encode(account.getPassword()));
+		account.setUserPw(passwordEncoder.encode(account.getPassword()));
 		System.out.println("Account Service PW : "+ pw);
 		mapper.save(account);
 		

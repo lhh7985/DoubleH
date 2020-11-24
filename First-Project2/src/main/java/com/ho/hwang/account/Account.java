@@ -17,29 +17,29 @@ import lombok.Setter;
 @Getter @Setter
 public class Account implements UserDetails{
 	
-	private String user_id;
-	private String user_pw;
+	private String userId;
+	private String userPw;
 	private boolean enabled;
-	private String authority_name;
-	private int employee_id;
+	private String authorityName;
+	private int employeeId;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
-        auth.add(new SimpleGrantedAuthority(authority_name));
+        auth.add(new SimpleGrantedAuthority(authorityName));
         return auth;
 	}
 
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
-		return user_pw;
+		return userPw;
 	}
 
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return user_id;
+		return userId;
 	}
 
 	@Override
