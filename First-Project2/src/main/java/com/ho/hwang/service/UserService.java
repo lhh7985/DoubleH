@@ -22,21 +22,37 @@ public class UserService {
 	
 	private final UserMapper mapper;
 	
-	public AccountVO selectUser(String id) {
+	public AccountVo selectUser(String id) {
 		return mapper.selectUser(id);
 	}
-	public void save(AccountVO account) {
+	public void save(AccountVo account) {
 		mapper.save(account);
 	}
 
-	public EmployeeVO selectEmployee(int employeeId) {
-		return mapper.selectEmployee(employeeId);
+	public Map<String, Object> selectEmployee(int managerId, int seId, int salesId) {
+		Map<String, Object> managers = new HashMap<>();
+
+		EmployeeVo manager = mapper.selectEmployee(managerId);
+		if(manager != null) {
+			managers.put("manager", manager);
+		}
+
+		EmployeeVo se = mapper.selectEmployee(seId);
+		if(se != null) {
+			managers.put("se", se);
+		}
+
+		EmployeeVo sales = mapper.selectEmployee(salesId);
+		if(sales != null) {
+			managers.put("sales", sales);
+		}
+		return managers;
 	}
 	
-	public void insertEmployee(InsertEmployeeDTO insertEmployeeDTO) {
-		insertEmployeeDTO.setEmployeeType(mapper.selectCode(insertEmployeeDTO.getType()));
-		insertEmployeeDTO.setDepartmentId(mapper.selectDept(insertEmployeeDTO.getDept()));
-		mapper.insertEmployee(insertEmployeeDTO);
+	public void insertEmployee(InsertEmployeeDto insertEmployeeDto) {
+		insertEmployeeDto.setEmployeeType(mapper.selectCode(insertEmployeeDto.getType()));
+		insertEmployeeDto.setDepartmentId(mapper.selectDept(insertEmployeeDto.getDept()));
+		mapper.insertEmployee(insertEmployeeDto);
 	}
 	
 	//이름으로 id값 찾기
