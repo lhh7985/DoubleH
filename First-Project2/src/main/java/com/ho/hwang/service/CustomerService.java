@@ -43,8 +43,8 @@ public class CustomerService {
 	
 	public void insertCustomer(InsertCustomerDTO insertCustomerDTO) {
 		mapper.insertCustomer(insertCustomerDTO);
-		int x = mapper.selectCustomer_id();
-		insertCustomerDTO.setCustomerId(x);
+		int customerID = mapper.selectCustomer_id();
+		insertCustomerDTO.setCustomerId(customerID);
 		mapper.insertAddress(insertCustomerDTO);
 
 		//매니저 이력 삽입
