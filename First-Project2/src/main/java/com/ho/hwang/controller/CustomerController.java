@@ -1,6 +1,7 @@
 package com.ho.hwang.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -41,14 +42,10 @@ public class CustomerController {
 	@GetMapping("/detail")
 	public String getDetail(int customerId, Model model) {
 		CustomerVO customerDetail = customerService.selectCustomerDetail(customerId);
-		EmployeeVO empvo = userService.selectEmployee(customerDetail.getEmployeeIdManager());
-		EmployeeVO se = userService.selectEmployee(customerDetail.getEmployeeIdSe());
-		EmployeeVO sales = userService.selectEmployee(customerDetail.getEmployeeIdSales());
+		Map<String, Object> managers = userService.selectEmployee(customerDetail.getEmployeeIdManager(),customerDetail.getEmployeeIdSe(),customerDetail.getEmployeeIdSales());
 
 		model.addAttribute("customer", customerDetail);
-		model.addAttribute("manager", empvo);
-		model.addAttribute("se", se);
-		model.addAttribute("sales", sales);
+		model.addAttribute("managers", managers);
 
 		return "customer/detail";
 	}

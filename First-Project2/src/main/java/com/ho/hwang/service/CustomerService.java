@@ -48,7 +48,7 @@ public class CustomerService {
 		mapper.insertAddress(insertCustomerDTO);
 
 		//매니저 이력 삽입
-		UpdateManagerHistoryDTO managerHistory = new UpdateManagerHistoryDTO(x);
+		UpdateManagerHistoryDTO managerHistory = new UpdateManagerHistoryDTO(customerID);
 
 		//manager
 		managerHistory.setEmployeeId(insertCustomerDTO.getEmployeeIdManager());
