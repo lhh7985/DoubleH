@@ -3,7 +3,7 @@ package com.ho.hwang.security;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.ho.hwang.vo.AccountVO;
+import com.ho.hwang.vo.AccountVo;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -54,7 +54,7 @@ public class CustomProvider  implements AuthenticationProvider{
 		String username = (String) authentication.getPrincipal();
 		String password = (String) authentication.getCredentials();
 
-		AccountVO user =(AccountVO) userdeser.loadUserByUsername(username);
+		AccountVo user =(AccountVo) userdeser.loadUserByUsername(username);
 		
 		System.out.println(user.getPassword());
 		if(!matchPassword(password, user.getPassword())){

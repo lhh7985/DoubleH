@@ -4,16 +4,12 @@ import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
-import com.ho.hwang.dto.Sr.InsertSrDTO;
-import com.ho.hwang.dto.Sr.SelectSrDTO;
-import com.ho.hwang.dto.Sr.SelectSrDetailDTO;
-import com.ho.hwang.dto.Sr.SelectSrListDTO;
-import com.ho.hwang.vo.SrVO;
-import lombok.extern.java.Log;
+import com.ho.hwang.dto.Sr.InsertSrDto;
+import com.ho.hwang.dto.Sr.SelectSrDto;
+import com.ho.hwang.dto.Sr.SelectSrListDto;
+import com.ho.hwang.vo.SrVo;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.ho.hwang.mappers.UserMapper;
@@ -29,29 +25,29 @@ public class SrService {
 	public final static SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	@Transactional
-	public void insertSR(InsertSrDTO insertSrDTO, Principal principal) {
+	public void insertSR(InsertSrDto insertSrDto, Principal principal) {
 		Date time = new Date();
 
 		String name = mapper.selectName(principal.getName());
-		insertSrDTO.setSrRegistrant(name);
+		insertSrDto.setSrRegistrant(name);
 
 		// 현재 날짜 삽입
-		insertSrDTO.setSrRegistrationDate(fmt.format(time));
+		insertSrDto.setSrRegistrationDate(fmt.format(time));
 
-		int typeConvert = mapper.selectCode(insertSrDTO.getType());
-		insertSrDTO.setSrType(typeConvert);
+		int typeConvert = mapper.selectCode(insertSrDto.getType());
+		insertSrDto.setSrType(typeConvert);
 		log.info(String.valueOf(typeConvert));
-		int cuId = mapper.selectCustomerID(insertSrDTO.getCustomerName());
-		int pId = mapper.selectProductID(insertSrDTO.getProductName());
+		int cuId = mapper.selectCustomerID(insertSrDto.getCustomerName());
+		int pId = mapper.selectProductID(insertSrDto.getProductName());
 
-		insertSrDTO.setCustomerId(cuId);
-		insertSrDTO.setProductId(pId);
+		insertSrDto.setCustomerId(cuId);
+		insertSrDto.setProductId(pId);
 
-		mapper.insertSR(insertSrDTO);
+		mapper.insertSR(insertSrDto);
 	}
 
 	// SR 리스트 확인
-	public List<SelectSrDTO> selectSR(int start, int cntPerPage) {
+	public List<SelectSrDto> selectSR(int start, int cntPerPage) {
 		return mapper.selectSR(start, cntPerPage);
 	}
 	//SR 충 개수
@@ -60,12 +56,12 @@ public class SrService {
 	}
 
 	// 각 고객사의 sr확인
-	public List<SelectSrListDTO> selectSRList(int customerId) {
+	public List<SelectSrListDto> selectSRList(int customerId) {
 		return mapper.selectSRList(customerId);
 	}
 
 	// SR 내용확인
-	public SrVO selectSRDetail(int srId) {
+	public SrVo selectSRDetail(int srId) {
 		return mapper.selectSRDetail(srId);
 	}
 

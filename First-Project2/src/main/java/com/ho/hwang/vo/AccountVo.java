@@ -15,7 +15,7 @@ import lombok.Setter;
 
 @SuppressWarnings("serial")
 @Getter @Setter
-public class AccountVO implements UserDetails{
+public class AccountVo implements UserDetails{
 	
 	private String userId;
 	private String userPw;

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class ActivityVO {
-	
+
 	private String codeName;
 	private String activityTitle;
 	private int activityId;
@@ -21,7 +21,7 @@ public class ActivityVO {
 	private String activityRegistrationDate;
 	private String activityModifier;
 	private Date activityModifiedDate;
-	
+
 	
 	private String type;
 }

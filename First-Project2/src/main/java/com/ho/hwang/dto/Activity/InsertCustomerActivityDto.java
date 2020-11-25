@@ -4,10 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
-public class InsertCustomerActivityDTO {
+public class InsertCustomerActivityDto {
     private int srId;
     private int activityType;
     private String activityStatus;
@@ -15,7 +16,7 @@ public class InsertCustomerActivityDTO {
     private String activityContent;
     private Date activityEstimatedDate = null;
     private Date activityCompletionDate = null;
-    private String activityRegistrationDate;
+    private Date activityRegistrationDate;
     private String activityRegistrant;
     private String type;
 }

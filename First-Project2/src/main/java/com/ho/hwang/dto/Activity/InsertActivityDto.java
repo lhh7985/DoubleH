@@ -8,7 +8,7 @@ import java.sql.Date;
 
 @Getter
 @Setter
-public class InsertActivityDTO {
+public class InsertActivityDto {
     private Principal principal;
     private int activityType;
     private String activityStatus;

@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public class PatchHistoryVO {
+public class PatchHistoryVo {
 	private int deliveryId;
 	private int packageId;
 	private String patchTitle;

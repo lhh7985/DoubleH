@@ -9,7 +9,7 @@ import java.sql.Date;
 @Getter
 @Setter
 @AllArgsConstructor
-public class SelectActivityDTO {
+public class SelectActivityDto {
     private String codeName;
     private String activityTitle;
     private String activityRegistrant;

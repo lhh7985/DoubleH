@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UpdateCustomerDetailDTO{
+public class UpdateCustomerDetailDto {
     private int employeeIdManager;
     private int employeeIdSe;
     private int employeeIdSales;

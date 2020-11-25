@@ -8,7 +8,7 @@ import java.sql.Date;
 
 @Getter
 @Setter
-public class InsertSrDTO{
+public class InsertSrDto {
     private int customerId;
     private int productId;
     private int srType;
@@ -24,7 +24,7 @@ public class InsertSrDTO{
     private String srRegistrant;
     private String srRegistrationDate;
 
-    public InsertSrDTO(String type, String customerName, String productName, String importance, Date srRequestDate, String srTitle, String srContent) {
+    public InsertSrDto(String type, String customerName, String productName, String importance, Date srRequestDate, String srTitle, String srContent) {
         this.type = type;
         this.customerName = customerName;
         this.productName = productName;

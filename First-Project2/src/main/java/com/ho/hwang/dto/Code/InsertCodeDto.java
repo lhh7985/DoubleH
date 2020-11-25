@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class InsertCodeDTO {
+public class InsertCodeDto {
     private int codeId;
     private String codeGroup;
     private String codeUpper;

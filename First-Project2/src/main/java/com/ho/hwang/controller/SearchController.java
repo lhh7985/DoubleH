@@ -2,11 +2,11 @@ package com.ho.hwang.controller;
 
 import java.util.List;
 
-import com.ho.hwang.dto.Customer.SelectCustomerSearchDTO;
-import com.ho.hwang.dto.Employee.SelectEmployeeOtherDTO;
-import com.ho.hwang.dto.Employee.SelectEmployeeSecuveDTO;
-import com.ho.hwang.dto.Product.SelectCustomerProductDTO;
-import com.ho.hwang.dto.Product.SelectProductDTO;
+import com.ho.hwang.dto.Customer.SelectCustomerSearchDto;
+import com.ho.hwang.dto.Employee.SelectEmployeeOtherDto;
+import com.ho.hwang.dto.Employee.SelectEmployeeSecuveDto;
+import com.ho.hwang.dto.Product.SelectCustomerProductDto;
+import com.ho.hwang.dto.Product.SelectProductDto;
 import com.ho.hwang.paging.Page;
 import com.ho.hwang.service.ProductService;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ho.hwang.service.CustomerService;
 import com.ho.hwang.service.UserService;
-import com.ho.hwang.vo.CustomerListVO;
 
 
 import lombok.RequiredArgsConstructor;
@@ -33,7 +32,7 @@ public class SearchController {
 	
 	@GetMapping("/customer")
 	public String searchCustomer(Model model) {
-		List<SelectCustomerSearchDTO> customerSearch = customerService.selectCustomer();
+		List<SelectCustomerSearchDto> customerSearch = customerService.selectCustomer();
 		model.addAttribute("customerSearch", customerSearch);
 		
 		return "search/customer";
@@ -41,7 +40,7 @@ public class SearchController {
 
 	@GetMapping("/product")
 	public String searchProduct(Model model, int customerId) {
-		List<SelectCustomerProductDTO> deliverylist = customerService.selectCustomerProduct(customerId);
+		List<SelectCustomerProductDto> deliverylist = customerService.selectCustomerProduct(customerId);
 		model.addAttribute("deliverylist", deliverylist);
 
 		return "search/product";
@@ -49,7 +48,7 @@ public class SearchController {
 
 	@GetMapping("/se")
 	public String searchSeManager(Model model) {
-		List<SelectEmployeeSecuveDTO> list = userService.selectEmployee_secuve();
+		List<SelectEmployeeSecuveDto> list = userService.selectEmployee_secuve();
 		model.addAttribute("list", list);
 		
 		return "search/employee_se";
@@ -57,7 +56,7 @@ public class SearchController {
 
 	@GetMapping("/sales")
 	public String searchSalesManager(Model model) {
-		List<SelectEmployeeSecuveDTO> list = userService.selectEmployee_secuve();
+		List<SelectEmployeeSecuveDto> list = userService.selectEmployee_secuve();
 		model.addAttribute("list", list);
 		
 		return "search/employee_sales";
@@ -65,7 +64,7 @@ public class SearchController {
 
 	@GetMapping("/other")
 	public String searchOtherEmployee(Model model) {
-		List<SelectEmployeeOtherDTO> list = userService.selectEmployee_other();
+		List<SelectEmployeeOtherDto> list = userService.selectEmployee_other();
 		model.addAttribute("list", list);
 		
 		return "search/employee_other";
@@ -78,7 +77,7 @@ public class SearchController {
 		int listCnt = productService.selectDeliveryTotalCount();
 		Page paging = new Page(listCnt, page);
 
-		List<SelectProductDTO> list = productService.selectSearchAllProduct(paging.getStartIndex(), paging.getPageSize());
+		List<SelectProductDto> list = productService.selectSearchAllProduct(paging.getStartIndex(), paging.getPageSize());
 		model.addAttribute("list", list);
 		
 		return "search/AllProduct";

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ho.hwang.dto.Employee.*;
 import com.ho.hwang.paging.Page;
-import com.ho.hwang.vo.EmployeeVO;
+import com.ho.hwang.vo.EmployeeVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +35,7 @@ public class UserController {
 
 		int listCnt = userService.selectEmployeeTotalCount();
 		Page paging = new Page(listCnt, page);
-		List<EmployeeVO> employeeList = userService.selectAllEmployee(paging.getStartIndex(), paging.getPageSize());
+		List<EmployeeVo> employeeList = userService.selectAllEmployee(paging.getStartIndex(), paging.getPageSize());
 
 		model.addAttribute("employeeList", employeeList);
 		model.addAttribute("paging", paging);
@@ -63,8 +63,8 @@ public class UserController {
 
 	// 사원 등록 부분
 	@PostMapping("/employee/enroll")
-	public void enrollEmployee(InsertEmployeeDTO insertEmployeeDTO) {
-		userService.insertEmployee(insertEmployeeDTO);
+	public void enrollEmployee(InsertEmployeeDto insertEmployeeDto) {
+		userService.insertEmployee(insertEmployeeDto);
 	}
 
 }

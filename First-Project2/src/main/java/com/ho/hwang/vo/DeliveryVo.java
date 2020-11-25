@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public class DeliveryVO {
+public class DeliveryVo {
 	private int deliveryId;
 	private int customerId;
 	private int productId;

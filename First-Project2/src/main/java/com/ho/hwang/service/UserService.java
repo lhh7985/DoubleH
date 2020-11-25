@@ -1,15 +1,17 @@
 package com.ho.hwang.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.ho.hwang.dto.Code.InsertCodeDTO;
+import com.ho.hwang.dto.Code.InsertCodeDto;
 import com.ho.hwang.dto.Employee.*;
-import com.ho.hwang.vo.CodeVO;
-import com.ho.hwang.vo.EmployeeVO;
+import com.ho.hwang.vo.CodeVo;
+import com.ho.hwang.vo.EmployeeVo;
 import org.springframework.stereotype.Service;
 
-import com.ho.hwang.vo.AccountVO;
+import com.ho.hwang.vo.AccountVo;
 import com.ho.hwang.mappers.UserMapper;
 
 
@@ -79,8 +81,8 @@ public class UserService {
 	}
 
 	//모든 직원 검색
-	public List<EmployeeVO> selectAllEmployee(int start, int cntPerPage){
-		List<EmployeeVO> employeeList = mapper.selectAllEmployee(start, cntPerPage);
+	public List<EmployeeVo> selectAllEmployee(int start, int cntPerPage){
+		List<EmployeeVo> employeeList = mapper.selectAllEmployee(start, cntPerPage);
 		return employeeList;
 	}
 
@@ -93,11 +95,11 @@ public class UserService {
 	}
 
 	//고객사 및 자회사 직원 검색
-	public List<SelectEmployeeSecuveDTO> selectEmployee_secuve(){
+	public List<SelectEmployeeSecuveDto> selectEmployee_secuve(){
 		return mapper.selectEmployee_secuve();
 	}
 	
-	public List<SelectEmployeeOtherDTO> selectEmployee_other(){
+	public List<SelectEmployeeOtherDto> selectEmployee_other(){
 		return mapper.selectEmployee_other();
 	}
 	
@@ -112,7 +114,7 @@ public class UserService {
 	
 	
 	//관리자 페이지 
-	public List<CodeVO> selectCodeList(int start, int cntPerPage){
+	public List<CodeVo> selectCodeList(int start, int cntPerPage){
 		return mapper.selectCodeList(start, cntPerPage);
 	}
 
@@ -123,17 +125,17 @@ public class UserService {
 	}
 
 	//코드테이블 추가
-	//Insert된 레코드의 key 값을 DTO에 set해서 리턴
-	public CodeVO insertCode(InsertCodeDTO insertCodeDTO) {
-		CodeVO codeVO = CodeVO.builder()
-				.codeGroup(insertCodeDTO.getCodeGroup())
-				.codeUpper(insertCodeDTO.getCodeUpper())
-				.codeName(insertCodeDTO.getCodeName())
-				.codeStatus(insertCodeDTO.getCodeStatus())
+	//Insert된 레코드의 key 값을 Dto에 set해서 리턴
+	public CodeVo insertCode(InsertCodeDto insertCodeDto) {
+		CodeVo codeVo = CodeVo.builder()
+				.codeGroup(insertCodeDto.getCodeGroup())
+				.codeUpper(insertCodeDto.getCodeUpper())
+				.codeName(insertCodeDto.getCodeName())
+				.codeStatus(insertCodeDto.getCodeStatus())
 				.build();
 
-		mapper.insertCode(codeVO);
-		return codeVO;
+		mapper.insertCode(codeVo);
+		return codeVo;
 	}
 
 	//직원 삭제

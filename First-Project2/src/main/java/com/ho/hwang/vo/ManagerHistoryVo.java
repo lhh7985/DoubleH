@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public class ManagerHistoryVO {
+public class ManagerHistoryVo {
 	private int customerId;
 	private int employeeId;
 	private int managerHistoryType;

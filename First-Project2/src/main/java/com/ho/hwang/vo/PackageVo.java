@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public class PackageVO {
+public class PackageVo {
 	private int packageId;
 	private int employeeIdDeveloper;
 	private int employeeIdDistributor;

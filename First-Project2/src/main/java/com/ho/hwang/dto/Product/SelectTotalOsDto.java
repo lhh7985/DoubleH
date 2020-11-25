@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class SelectTotalOsDTO{
+public class SelectTotalOsDto {
     private int deliveryId;
     private String osName;
     private int osQuantity;

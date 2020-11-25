@@ -5,9 +5,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.ho.hwang.dto.Activity.InsertActivityDTO;
-import com.ho.hwang.dto.Activity.InsertCustomerActivityDTO;
-import com.ho.hwang.dto.Activity.SelectActivityDTO;
+import com.ho.hwang.dto.Activity.InsertActivityDto;
+import com.ho.hwang.dto.Activity.InsertCustomerActivityDto;
+import com.ho.hwang.dto.Activity.SelectActivityDto;
+import com.ho.hwang.responseEntity.Message;
+import com.ho.hwang.vo.ActivityVo;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +33,7 @@ public class ActivityController {
 	//// 활동 검색 및 개발 완료 버튼
 	@GetMapping("/list")
 	public String getList(Model model) {
-		List<SelectActivityDTO> activity = activityService.selectActivity();
+		List<SelectActivityDto> activity = activityService.selectActivity();
 		model.addAttribute("activity", activity);
 		return "activity/list";
 	}
@@ -57,16 +61,24 @@ public class ActivityController {
 	}
 
 	@PostMapping("/enroll-sr")
-	public void enrollSr(InsertCustomerActivityDTO insertCustomerActivityDTO, Principal principal) {
+	public ResponseEntity<Message> enrollSr(InsertCustomerActivityDto insertCustomerActivityDto, Principal principal) {
 
-		activityService.insertCustomerActivity(insertCustomerActivityDTO, principal);
+		ActivityVo activityVo = activityService.insertCustomerActivity(insertCustomerActivityDto, principal);
+
+		Message insertMessage;
+		insertMessage = new Message("success", 200, activityVo);
+		return new ResponseEntity<>(insertMessage, HttpStatus.OK);
 	}
 
 	// 활동 등록
 	@PostMapping("/enroll-employee")
-	public String enrollEmployee(InsertActivityDTO insertActivityDTO, Principal principal) {
-		activityService.insertActivity(insertActivityDTO, principal);
-		return "redirect:/activity/list";
+	public ResponseEntity<Message> enrollEmployee(InsertActivityDto insertActivityDto, Principal principal) {
+
+		ActivityVo activityVo = activityService.insertActivity(insertActivityDto, principal);
+
+		Message insertMessage;
+		insertMessage = new Message("success", 200, activityVo);
+		return new ResponseEntity<>(insertMessage, HttpStatus.OK);
 	}
 
 	@GetMapping("/enroll-employee")

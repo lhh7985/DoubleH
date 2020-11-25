@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public class EmployeeVO {
+public class EmployeeVo {
 	
 	private String type;
 	private String dept;

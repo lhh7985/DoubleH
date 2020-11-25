@@ -4,7 +4,7 @@
 <mapper namespace="com.ho.hwang.mappers.UserMapper">
 
 	<select id="selectUser"
-		resultType="com.ho.hwang.vo.AccountVO">
+		resultType="com.ho.hwang.vo.AccountVo">
 		SELECT u.user_id, u.user_pw, u.employee_id,
 		a.authority_name, u.enabled
 		FROM userauthority s

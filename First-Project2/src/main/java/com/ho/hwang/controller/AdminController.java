@@ -1,14 +1,11 @@
 package com.ho.hwang.controller;
 
-import java.nio.file.OpenOption;
 import java.util.List;
-import java.util.Optional;
 
-import com.ho.hwang.dto.Code.CodeDTO;
-import com.ho.hwang.dto.Code.InsertCodeDTO;
+import com.ho.hwang.dto.Code.InsertCodeDto;
 import com.ho.hwang.paging.Page;
 import com.ho.hwang.responseEntity.Message;
-import com.ho.hwang.vo.CodeVO;
+import com.ho.hwang.vo.CodeVo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -35,7 +32,7 @@ public class AdminController {
 		int listCnt = userService.selectCodeTotalCount();
 		Page paging = new Page(listCnt, page);
 
-		List<CodeVO> list = userService.selectCodeList(paging.getStartIndex(),paging.getPageSize());
+		List<CodeVo> list = userService.selectCodeList(paging.getStartIndex(),paging.getPageSize());
 		model.addAttribute("list", list);
 		model.addAttribute("paging",paging);
 
@@ -58,11 +55,10 @@ public class AdminController {
 	}
 	
 	@PostMapping("/enroll")
-	public ResponseEntity<Message> enrollCode(InsertCodeDTO insertCodeDTO) {
-		CodeVO result = userService.insertCode(insertCodeDTO);
+	public ResponseEntity<Message> enrollCode(InsertCodeDto insertCodeDto) {
+		CodeVo result = userService.insertCode(insertCodeDto);
 
 		Message insertMessage;
-		//키값이 존재하면 성공 존재하지않으면 실패
 		insertMessage = new Message("success", 200, result);
 		return new ResponseEntity<>(insertMessage, HttpStatus.OK);
 

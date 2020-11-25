@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 
-public class AddressVO {
+public class AddressVo {
 	private int addressId;
 	private int customerId;
 	private int addressType;

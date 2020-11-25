@@ -7,19 +7,19 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class UpdateManagerHistoryDTO {
+public class UpdateManagerHistoryDto {
     private int customerId;
     private int employeeId;
     private int managerHistoryType;
     private Date managerHistoryStartDate;
     private Date managerHistoryEndDate;
 
-    public UpdateManagerHistoryDTO(int customerId, int employeeId) {
+    public UpdateManagerHistoryDto(int customerId, int employeeId) {
         this.customerId = customerId;
         this.employeeId = employeeId;
     }
 
-    public UpdateManagerHistoryDTO(int customerId) {
+    public UpdateManagerHistoryDto(int customerId) {
         this.customerId = customerId;
     }
 }

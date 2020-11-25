@@ -5,7 +5,7 @@ import java.sql.Date;
 import lombok.Getter;
 
 @Getter
-public class ManagerVO {
+public class ManagerVo {
 	private String customerName;
 	private String codeName;
 	private String employeeName;

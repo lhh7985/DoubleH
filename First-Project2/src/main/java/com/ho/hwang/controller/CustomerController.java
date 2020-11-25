@@ -5,15 +5,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.ho.hwang.dto.Activity.SelectCustomerActivityDTO;
-import com.ho.hwang.dto.Activity.SelectVisitDTO;
+import com.ho.hwang.dto.Activity.SelectCustomerActivityDto;
+import com.ho.hwang.dto.Activity.SelectVisitDto;
 import com.ho.hwang.dto.Customer.*;
-import com.ho.hwang.dto.Employee.SelectEmployeeDTO;
-import com.ho.hwang.dto.ManagerHistory.SelectManagerDTO;
-import com.ho.hwang.dto.Product.SelectDeliveryDTO;
-import com.ho.hwang.dto.Product.SelectTotalOsDTO;
-import com.ho.hwang.dto.Sr.SelectSrDetailDTO;
-import com.ho.hwang.dto.Sr.SelectSrListDTO;
+import com.ho.hwang.dto.ManagerHistory.SelectManagerDto;
+import com.ho.hwang.dto.Product.SelectDeliveryDto;
+import com.ho.hwang.dto.Product.SelectTotalOsDto;
+import com.ho.hwang.dto.Sr.SelectSrListDto;
 import com.ho.hwang.paging.Page;
 import com.ho.hwang.service.*;
 import com.ho.hwang.vo.*;
@@ -41,7 +39,7 @@ public class CustomerController {
 
 	@GetMapping("/detail")
 	public String getDetail(int customerId, Model model) {
-		CustomerVO customerDetail = customerService.selectCustomerDetail(customerId);
+		CustomerVo customerDetail = customerService.selectCustomerDetail(customerId);
 		Map<String, Object> managers = userService.selectEmployee(customerDetail.getEmployeeIdManager(),customerDetail.getEmployeeIdSe(),customerDetail.getEmployeeIdSales());
 
 		model.addAttribute("customer", customerDetail);
@@ -53,9 +51,9 @@ public class CustomerController {
 	@GetMapping("/delivery")
 	public String getDelivery(Model model, HttpServletRequest req) {
 		int customerId = Integer.parseInt(req.getParameter("customerId"));
-		List<SelectDeliveryDTO> list = productService.selectDelivery(customerId);
+		List<SelectDeliveryDto> list = productService.selectDelivery(customerId);
 		model.addAttribute("list", list);
-		List<SelectTotalOsDTO> list2 = productService.selectOS(customerId);
+		List<SelectTotalOsDto> list2 = productService.selectOS(customerId);
 		model.addAttribute("list2", list2);
 
 		return "customer/delivery";
@@ -64,7 +62,7 @@ public class CustomerController {
 	@GetMapping("/manager")
 	public String getManagerHistory(Model model, HttpServletRequest req) {
 		int customerId = Integer.parseInt(req.getParameter("customerId"));
-		List<SelectManagerDTO> list = customerService.selectManager(customerId);
+		List<SelectManagerDto> list = customerService.selectManager(customerId);
 		model.addAttribute("list", list);
 		return "customer/manager";
 	}
@@ -75,7 +73,7 @@ public class CustomerController {
 		int listCnt = customerService.selectCustomerTotalCount();
 		Page paging = new Page(listCnt, page);
 
-		List<CustomerListVO> list = customerService.selectCustomerList(paging.getStartIndex(),paging.getPageSize());
+		List<CustomerListVo> list = customerService.selectCustomerList(paging.getStartIndex(),paging.getPageSize());
 		model.addAttribute("list", list);
 		model.addAttribute("paging", paging);
 
@@ -85,7 +83,7 @@ public class CustomerController {
 	@GetMapping("/sr")
 	public String getSrList(Model model, HttpServletRequest req) {
 		int customerId = Integer.parseInt(req.getParameter("customerId"));
-		List<SelectSrListDTO> srList = srService.selectSRList(customerId);
+		List<SelectSrListDto> srList = srService.selectSRList(customerId);
 		model.addAttribute("srList", srList);
 
 		return "customer/sr";
@@ -93,10 +91,10 @@ public class CustomerController {
 
 	@GetMapping("/sr-detail")
 	public String getSrDetail(Model model, int srId) {
-		SrVO srvo = srService.selectSRDetail(srId);
-		List<SelectCustomerActivityDTO> selectCustomerActivityDTO = activityService.selectCustomerActivity(srId);
-		model.addAttribute("srvo", srvo);
-		model.addAttribute("acvo", selectCustomerActivityDTO);
+		SrVo srVo = srService.selectSRDetail(srId);
+		List<SelectCustomerActivityDto> selectCustomerActivityDto = activityService.selectCustomerActivity(srId);
+		model.addAttribute("srvo", srVo);
+		model.addAttribute("acvo", selectCustomerActivityDto);
 
 		return "customer/sr_detail";
 	}
@@ -104,7 +102,7 @@ public class CustomerController {
 	@GetMapping("/activity")
 	public String getCustomerActivity(Model model, HttpServletRequest req) {
 		int customerId = Integer.parseInt(req.getParameter("customerId"));
-		List<SelectVisitDTO> list = activityService.selectVisit(customerId);
+		List<SelectVisitDto> list = activityService.selectVisit(customerId);
 		model.addAttribute("list", list);
 
 		return "/customer/activity";
@@ -116,8 +114,8 @@ public class CustomerController {
 	}
 
 	@PostMapping(value = "/modify")
-	public void modifyCustomerDetail(UpdateCustomerDetailDTO updateCustomerDetailDTO) {
-		customerService.updateCustomerDetail(updateCustomerDetailDTO);
+	public void modifyCustomerDetail(UpdateCustomerDetailDto updateCustomerDetailDto) {
+		customerService.updateCustomerDetail(updateCustomerDetailDto);
 	}
 
 	@PostMapping("/delete")
@@ -134,7 +132,7 @@ public class CustomerController {
 
 	// 고객사 등록부분
 	@PostMapping("/enroll")
-	public void enrollCustomer(InsertCustomerDTO insertCustomerDTO) {
-		customerService.insertCustomer(insertCustomerDTO);
+	public void enrollCustomer(InsertCustomerDto insertCustomerDto) {
+		customerService.insertCustomer(insertCustomerDto);
 	}
 }

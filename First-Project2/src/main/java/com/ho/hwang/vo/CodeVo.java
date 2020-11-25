@@ -7,7 +7,7 @@ import lombok.Getter;
 
 
 @Getter
-public class CodeVO {
+public class CodeVo {
 	private int codeId;
 	private String codeGroup;
 	private String codeUpper;
@@ -19,17 +19,25 @@ public class CodeVO {
 	private String codeModifier;
 	private LocalDate codeModifiedDate;
 
-	public CodeVO() {
+	public CodeVo() {
 	}
 
 
 	@Builder
-	public CodeVO(String codeGroup, String codeUpper, String codeName, String codeStatus) {
+	public CodeVo(String codeGroup, String codeUpper, String codeName, String codeStatus) {
 		this(0,codeGroup,codeUpper, codeName, codeStatus, "", LocalDate.now(), "", LocalDate.now());
 	}
 
 
-	private CodeVO(int codeId, String codeGroup, String codeUpper, String codeName, String codeStatus, String codeRegistrant, LocalDate codeRegistrationDate, String codeModifier, LocalDate codeModifiedDate) {
+	private CodeVo(int codeId,
+				   String codeGroup,
+				   String codeUpper,
+				   String codeName,
+				   String codeStatus,
+				   String codeRegistrant,
+				   LocalDate codeRegistrationDate,
+				   String codeModifier,
+				   LocalDate codeModifiedDate) {
 
 		//null체크 or 검증 필요
 

@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import com.ho.hwang.dto.Activity.*;
+import com.ho.hwang.vo.ActivityVo;
 import org.springframework.stereotype.Service;
 
 import com.ho.hwang.mappers.UserMapper;

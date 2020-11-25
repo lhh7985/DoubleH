@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class SelectEmployeeSecuveDTO {
+public class SelectEmployeeSecuveDto {
     private String departmentName;
     private String employeePosition;
     private String employeeName;

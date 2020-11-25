@@ -1,6 +1,6 @@
 package com.ho.hwang.service;
 
-import com.ho.hwang.vo.AccountVO;
+import com.ho.hwang.vo.AccountVo;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,7 +22,7 @@ public class AccountService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		AccountVO user = mapper.selectUser(username);
+		AccountVo user = mapper.selectUser(username);
 		if(user==null) {
 			throw new UsernameNotFoundException(username);
 		}
@@ -32,7 +32,7 @@ public class AccountService implements UserDetailsService {
 	
 
 
-	public void save(AccountVO account) {
+	public void save(AccountVo account) {
 		String pw = passwordEncoder.encode(account.getPassword());
 		account.setUserPw(passwordEncoder.encode(account.getPassword()));
 		System.out.println("Account Service PW : "+ pw);

@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public class OsVO {
+public class OsVo {
 	private int osId;
 	private int deliveryId;
 	private String osName;

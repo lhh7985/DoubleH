@@ -9,7 +9,7 @@ import java.sql.Date;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CodeDTO {
+public class CodeDto {
     private int codeId;
     private String codeGroup;
     private String codeUpper;

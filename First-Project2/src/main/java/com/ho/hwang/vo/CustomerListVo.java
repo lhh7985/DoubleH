@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public class CustomerListVO {
+public class CustomerListVo {
 	
 	
 	private int customerId;

@@ -16,10 +16,10 @@ public class ProductService {
 
     private final UserMapper mapper;
 
-    public List<SelectProductDTO> selectProduct(){
+    public List<SelectProductDto> selectProduct(){
         return mapper.selectProduct();
     }
-    public List<SelectProductDTO> selectSearchAllProduct(int start, int cntPerPage){
+    public List<SelectProductDto> selectSearchAllProduct(int start, int cntPerPage){
         return mapper.selectSearchAllProduct(start, cntPerPage);
     }
     public int selectDeliveryTotalCount(){
@@ -33,48 +33,48 @@ public class ProductService {
         return mapper.deleteDelivery(op.orElse(""));
     }
 
-    public void insertDelivery(InsertDeliveryDTO insertDeliveryDTO) {
+    public void insertDelivery(InsertDeliveryDto insertDeliveryDto) {
 
-        mapper.insertDelivery(insertDeliveryDTO);
+        mapper.insertDelivery(insertDeliveryDto);
         int deliveryId = mapper.selectDelivery_id();
 
         // window 입력
-        if (insertDeliveryDTO.getWindow() != 0) {
-            insertDeliveryDTO.setDeliveryId(deliveryId);
-            insertDeliveryDTO.setOsName("Window");
-            insertDeliveryDTO.setOsQuantity(insertDeliveryDTO.getWindow());
-            mapper.insertOS(insertDeliveryDTO);
+        if (insertDeliveryDto.getWindow() != 0) {
+            insertDeliveryDto.setDeliveryId(deliveryId);
+            insertDeliveryDto.setOsName("Window");
+            insertDeliveryDto.setOsQuantity(insertDeliveryDto.getWindow());
+            mapper.insertOS(insertDeliveryDto);
         }
         // Linux 입력
-        if (insertDeliveryDTO.getLinux() != 0) {
-            insertDeliveryDTO.setDeliveryId(deliveryId);
-            insertDeliveryDTO.setOsName("Linux");
-            insertDeliveryDTO.setOsQuantity(insertDeliveryDTO.getLinux());
-            mapper.insertOS(insertDeliveryDTO);
+        if (insertDeliveryDto.getLinux() != 0) {
+            insertDeliveryDto.setDeliveryId(deliveryId);
+            insertDeliveryDto.setOsName("Linux");
+            insertDeliveryDto.setOsQuantity(insertDeliveryDto.getLinux());
+            mapper.insertOS(insertDeliveryDto);
         }
         // Unix 입력
-        if (insertDeliveryDTO.getUnix() != 0) {
-            insertDeliveryDTO.setDeliveryId(deliveryId);
-            insertDeliveryDTO.setOsName("Unix");
-            insertDeliveryDTO.setOsQuantity(insertDeliveryDTO.getUnix());
-            mapper.insertOS(insertDeliveryDTO);
+        if (insertDeliveryDto.getUnix() != 0) {
+            insertDeliveryDto.setDeliveryId(deliveryId);
+            insertDeliveryDto.setOsName("Unix");
+            insertDeliveryDto.setOsQuantity(insertDeliveryDto.getUnix());
+            mapper.insertOS(insertDeliveryDto);
         }
 
     }
 
-    public List<SelectTotalDeliveryDTO> selectTotalDelivery(int start, int cntPerPage){
+    public List<SelectTotalDeliveryDto> selectTotalDelivery(int start, int cntPerPage){
         return mapper.selectTotalDelivery(start, cntPerPage);
     }
 
-    public List<SelectTotalOsDTO> selectTotalOS(){
+    public List<SelectTotalOsDto> selectTotalOS(){
         return mapper.selectTotalOS();
     }
 
-    public List<SelectDeliveryDTO> selectDelivery(int coId){
+    public List<SelectDeliveryDto> selectDelivery(int coId){
         return mapper.selectDelivery(coId);
     }
 
-    public List<SelectTotalOsDTO> selectOS(int coId){
+    public List<SelectTotalOsDto> selectOS(int coId){
         return mapper.selectOS(coId);
     }
 }

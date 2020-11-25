@@ -3,13 +3,12 @@ package com.ho.hwang.controller;
 import java.security.Principal;
 import java.util.List;
 
-import com.ho.hwang.dto.Activity.SelectCustomerActivityDTO;
-import com.ho.hwang.dto.Sr.InsertSrDTO;
-import com.ho.hwang.dto.Sr.SelectSrDTO;
-import com.ho.hwang.dto.Sr.SelectSrDetailDTO;
+import com.ho.hwang.dto.Activity.SelectCustomerActivityDto;
+import com.ho.hwang.dto.Sr.InsertSrDto;
+import com.ho.hwang.dto.Sr.SelectSrDto;
 import com.ho.hwang.paging.Page;
 import com.ho.hwang.service.ProductService;
-import com.ho.hwang.vo.SrVO;
+import com.ho.hwang.vo.SrVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +38,7 @@ public class SrController {
 		int listCnt = srService.selectSrTotalCount();
 		Page paging = new Page(listCnt, page);
 
-		List<SelectSrDTO> srList = srService.selectSR(paging.getStartIndex(), paging.getPageSize());
+		List<SelectSrDto> srList = srService.selectSR(paging.getStartIndex(), paging.getPageSize());
 		model.addAttribute("srList", srList);
 		model.addAttribute("paging", paging);
 
@@ -53,18 +52,18 @@ public class SrController {
 	}
 
 	@PostMapping("/enroll")
-	public void enrollSr(InsertSrDTO insertSrDTO, Principal principal) {
-		srService.insertSR(insertSrDTO, principal);
+	public void enrollSr(InsertSrDto insertSrDto, Principal principal) {
+		srService.insertSR(insertSrDto, principal);
 	}
 
 	// =================================SR디테일
 	@GetMapping("/detail")
 	public String getSrDetail(Model model, int srId) {
-		SrVO srvo = srService.selectSRDetail(srId);
-		List<SelectCustomerActivityDTO> selectCustomerActivityDTO = activityService.selectCustomerActivity(srId);
+		SrVo srvo = srService.selectSRDetail(srId);
+		List<SelectCustomerActivityDto> selectCustomerActivityDto = activityService.selectCustomerActivity(srId);
 
 		model.addAttribute("srvo", srvo);
-		model.addAttribute("acvo", selectCustomerActivityDTO);
+		model.addAttribute("acvo", selectCustomerActivityDto);
 
 		return "sr/detail";
 	}

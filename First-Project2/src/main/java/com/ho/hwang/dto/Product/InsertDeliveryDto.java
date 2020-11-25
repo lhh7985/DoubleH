@@ -7,7 +7,7 @@ import java.sql.Date;
 
 @Getter
 @Setter
-public class InsertDeliveryDTO{
+public class InsertDeliveryDto {
     private int deliveryId;
     private int customerId;
     private int productId;

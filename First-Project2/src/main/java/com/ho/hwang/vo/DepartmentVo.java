@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public class DepartmentVO {
+public class DepartmentVo {
 	private int departmentId;
 	private String departmentName;
 	private int departmentHeadId;
