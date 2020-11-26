@@ -1,6 +1,7 @@
 package com.ho.hwang.mappers;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.ho.hwang.dto.Activity.*;
 import com.ho.hwang.dto.Customer.*;
@@ -91,7 +92,7 @@ public interface UserMapper {
 	
 	List<SelectSrDto> selectSR(int start, int cntPerPage);
 	List<SelectSrListDto> selectSRList(int customerId);
-	SrVo selectSRDetail(int srId);
+	Optional<SrVo> selectSRDetail(int srId);
 
 
 	//고객사 방문내역확인
@@ -109,7 +110,7 @@ public interface UserMapper {
 	
 	//각 고객사별 활동 등록 과 검색
 	void insertCustomerActivity(ActivityVo activityVo);
-	List<SelectCustomerActivityDto> selectCustomerActivity(int srId);
+	List<ActivityVo> selectCustomerActivity(int srId);
 	
 	
 	//제품 페이지 제품 검색

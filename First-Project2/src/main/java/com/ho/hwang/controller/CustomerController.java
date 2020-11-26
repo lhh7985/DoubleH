@@ -2,6 +2,7 @@ package com.ho.hwang.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,17 +12,14 @@ import com.ho.hwang.dto.Customer.*;
 import com.ho.hwang.dto.ManagerHistory.SelectManagerDto;
 import com.ho.hwang.dto.Product.SelectDeliveryDto;
 import com.ho.hwang.dto.Product.SelectTotalOsDto;
+import com.ho.hwang.dto.Sr.SelectSrDetailDto;
 import com.ho.hwang.dto.Sr.SelectSrListDto;
 import com.ho.hwang.paging.Page;
 import com.ho.hwang.service.*;
 import com.ho.hwang.vo.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 import lombok.RequiredArgsConstructor;
@@ -90,13 +88,27 @@ public class CustomerController {
 	}
 
 	@GetMapping("/sr-detail")
-	public String getSrDetail(Model model, int srId) {
-		SrVo srVo = srService.selectSRDetail(srId);
-		List<SelectCustomerActivityDto> selectCustomerActivityDto = activityService.selectCustomerActivity(srId);
-		model.addAttribute("srvo", srVo);
-		model.addAttribute("acvo", selectCustomerActivityDto);
+	public String getSrDetail(Model model, HttpServletRequest request) {
+
+		int checkSrId = request.getParameter("srId") != null ? Integer.parseInt(request.getParameter("srId")) : -1;
+
+		if(checkSrId != -1){
+			Optional<SrVo> srVo = srService.selectSRDetail(checkSrId);
+
+			if(srVo.isPresent()){
+				SelectSrDetailDto selectSrDetailDto = new SelectSrDetailDto(srVo.get());
+				model.addAttribute("srvo", selectSrDetailDto);
+			}else{
+				return "noData";
+			}
+
+			List<ActivityVo> activityVo = activityService.selectCustomerActivity(checkSrId);
+			model.addAttribute("acvo", activityVo);
 
 		return "customer/sr_detail";
+		}else{
+			return "errorPage";
+		}
 	}
 
 	@GetMapping("/activity")

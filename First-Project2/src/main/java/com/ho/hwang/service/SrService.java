@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import com.ho.hwang.dto.Sr.InsertSrDto;
 import com.ho.hwang.dto.Sr.SelectSrDto;
@@ -16,6 +17,8 @@ import com.ho.hwang.mappers.UserMapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.crypto.spec.OAEPParameterSpec;
 
 @Service
 @Slf4j
@@ -61,7 +64,7 @@ public class SrService {
 	}
 
 	// SR 내용확인
-	public SrVo selectSRDetail(int srId) {
+	public Optional<SrVo> selectSRDetail(int srId) {
 		return mapper.selectSRDetail(srId);
 	}
 

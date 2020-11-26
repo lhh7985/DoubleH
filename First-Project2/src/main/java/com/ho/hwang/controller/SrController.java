@@ -2,12 +2,15 @@ package com.ho.hwang.controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 import com.ho.hwang.dto.Activity.SelectCustomerActivityDto;
 import com.ho.hwang.dto.Sr.InsertSrDto;
+import com.ho.hwang.dto.Sr.SelectSrDetailDto;
 import com.ho.hwang.dto.Sr.SelectSrDto;
 import com.ho.hwang.paging.Page;
 import com.ho.hwang.service.ProductService;
+import com.ho.hwang.vo.ActivityVo;
 import com.ho.hwang.vo.SrVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +24,8 @@ import com.ho.hwang.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequiredArgsConstructor
@@ -58,13 +63,26 @@ public class SrController {
 
 	// =================================SR디테일
 	@GetMapping("/detail")
-	public String getSrDetail(Model model, int srId) {
-		SrVo srvo = srService.selectSRDetail(srId);
-		List<SelectCustomerActivityDto> selectCustomerActivityDto = activityService.selectCustomerActivity(srId);
+	public String getSrDetail(Model model, HttpServletRequest request) {
 
-		model.addAttribute("srvo", srvo);
-		model.addAttribute("acvo", selectCustomerActivityDto);
+		int checkSrId = request.getParameter("srId") != null ? Integer.parseInt(request.getParameter("srId")) : -1;
 
-		return "sr/detail";
+		if(checkSrId != -1){
+			Optional<SrVo> srVo = srService.selectSRDetail(checkSrId);
+
+			if(srVo.isPresent()){
+				SelectSrDetailDto selectSrDetailDto = new SelectSrDetailDto(srVo.get());
+				model.addAttribute("srvo", selectSrDetailDto);
+			}else{
+				return "noData";
+			}
+
+			List<ActivityVo> activityVo = activityService.selectCustomerActivity(checkSrId);
+			model.addAttribute("acvo", activityVo);
+
+			return "sr/detail";
+		}else{
+			return "errorPage";
+		}
 	}
 }
