@@ -64,10 +64,7 @@ public class ActivityController {
 	public ResponseEntity<Message> enrollSr(InsertCustomerActivityDto insertCustomerActivityDto, Principal principal) {
 
 		ActivityVo activityVo = activityService.insertCustomerActivity(insertCustomerActivityDto, principal);
-
-		Message insertMessage;
-		insertMessage = new Message("success", 200, activityVo);
-		return new ResponseEntity<>(insertMessage, HttpStatus.OK);
+		return new ResponseEntity<>(new Message("success", 200, activityVo), HttpStatus.OK);
 	}
 
 	// 활동 등록
@@ -75,10 +72,8 @@ public class ActivityController {
 	public ResponseEntity<Message> enrollEmployee(InsertActivityDto insertActivityDto, Principal principal) {
 
 		ActivityVo activityVo = activityService.insertActivity(insertActivityDto, principal);
+		return new ResponseEntity<>(new Message("success", 200, activityVo), HttpStatus.OK);
 
-		Message insertMessage;
-		insertMessage = new Message("success", 200, activityVo);
-		return new ResponseEntity<>(insertMessage, HttpStatus.OK);
 	}
 
 	@GetMapping("/enroll/employee")
