@@ -1,27 +1,72 @@
 package com.ho.hwang.vo;
 
-import java.sql.Date;
+import lombok.Builder;
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 @Getter
-public class ActivityVO {
+
+public class ActivityVo {
+
+	private int activityType;
+	private String activityStatus;
+	private String activityTitle;
+	private String activityContent;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate activityEstimatedDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate activityCompletionDate;
+	private String activityRegistrant;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate activityRegistrationDate;
 
 	private String codeName;
-	private String activityTitle;
 	private int activityId;
 	private int srId;
-	private int activityType;
-	private String activityContent;
-	private String activityStatus;
-	
-	private Date activityEstimatedDate = null;
-	private Date activityCompletionDate = null;
-	
-	private String activityRegistrant;
-	private String activityRegistrationDate;
 	private String activityModifier;
-	private Date activityModifiedDate;
+	private LocalDate activityModifiedDate;
 
-	
 	private String type;
+
+	public ActivityVo() {
+	}
+
+	@Builder
+	public ActivityVo(int srId,String activityStatus, String activityTitle, String activityContent, LocalDate activityEstimatedDate, String codeName, String type, int activityType, String activityRegistrant) {
+		this(activityType, activityStatus, activityTitle, activityContent, activityEstimatedDate, null, activityRegistrant, LocalDate.now(), codeName,0,srId,null,null,type);
+	}
+
+	private ActivityVo(int activityType,
+					   String activityStatus,
+					   String activityTitle,
+					   String activityContent,
+					   LocalDate activityEstimatedDate,
+					   LocalDate activityCompletionDate,
+					   String activityRegistrant,
+					   LocalDate activityRegistrationDate,
+					   String codeName,
+					   int activityId,
+					   int srId,
+					   String activityModifier,
+					   LocalDate activityModifiedDate,
+					   String type) {
+
+
+		this.activityType = activityType;
+		this.activityStatus = activityStatus;
+		this.activityTitle = activityTitle;
+		this.activityContent = activityContent;
+		this.activityEstimatedDate = activityEstimatedDate;
+		this.activityCompletionDate = activityCompletionDate;
+		this.activityRegistrant = activityRegistrant;
+		this.activityRegistrationDate = activityRegistrationDate;
+		this.codeName = codeName;
+		this.activityId = activityId;
+		this.srId = srId;
+		this.activityModifier = activityModifier;
+		this.activityModifiedDate = activityModifiedDate;
+		this.type = type;
+	}
 }

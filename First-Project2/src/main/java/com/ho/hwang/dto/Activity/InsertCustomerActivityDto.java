@@ -2,8 +2,8 @@ package com.ho.hwang.dto.Activity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 @Getter
@@ -14,9 +14,12 @@ public class InsertCustomerActivityDto {
     private String activityStatus;
     private String activityTitle;
     private String activityContent;
-    private Date activityEstimatedDate = null;
-    private Date activityCompletionDate = null;
-    private Date activityRegistrationDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate activityEstimatedDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate activityCompletionDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate activityRegistrationDate;
     private String activityRegistrant;
     private String type;
 }
