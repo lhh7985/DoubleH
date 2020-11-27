@@ -20,11 +20,11 @@
 var winRef;
 function goActivity() {
 	var srId = ${srvo.srId};
-	href = "http://localhost:8080/activity/enroll-sr?srId=" + srId;
+	href = "http://localhost:8080/activity/enroll/sr?srId=" + srId;
 	if(!winRef){
 		$.ajax({
 			type : 'GET',
-			url : '/activity/enroll-sr?srId=' + srId,
+			url : '/activity/enroll/sr?srId=' + srId,
 			error : function(request, status, error) {
 				alert("code:" + request.status + "\n" + "message:"
 						+ request.responseText + "\n" + "error:"

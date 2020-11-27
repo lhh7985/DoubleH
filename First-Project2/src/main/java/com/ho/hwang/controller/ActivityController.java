@@ -53,14 +53,14 @@ public class ActivityController {
 	}
 
 	// 고객사별 SR에대한 활동 추가
-	@GetMapping("/enroll-sr")
+	@GetMapping("/enroll/sr")
 	public String enrollSr(Model model, HttpServletRequest req) {
 		int srId = Integer.parseInt(req.getParameter("srId"));
 		model.addAttribute("srId", srId);
 		return "/activity/enroll-sr";
 	}
 
-	@PostMapping("/enroll-sr")
+	@PostMapping("/enroll/sr")
 	public ResponseEntity<Message> enrollSr(InsertCustomerActivityDto insertCustomerActivityDto, Principal principal) {
 
 		ActivityVo activityVo = activityService.insertCustomerActivity(insertCustomerActivityDto, principal);
@@ -71,7 +71,7 @@ public class ActivityController {
 	}
 
 	// 활동 등록
-	@PostMapping("/enroll-employee")
+	@PostMapping("/enroll/employee")
 	public ResponseEntity<Message> enrollEmployee(InsertActivityDto insertActivityDto, Principal principal) {
 
 		ActivityVo activityVo = activityService.insertActivity(insertActivityDto, principal);
@@ -81,7 +81,7 @@ public class ActivityController {
 		return new ResponseEntity<>(insertMessage, HttpStatus.OK);
 	}
 
-	@GetMapping("/enroll-employee")
+	@GetMapping("/enroll/employee")
 	public String enrollEmployee(Model model) {
 		return "activity/enroll-employee";
 	}

@@ -85,7 +85,7 @@
 		} else {
 			var forms = $("#add").serialize();
 			$.ajax({
-				url: "/activity/enroll-sr",
+				url: "/activity/enroll/sr",
 				type:"POST",
 				data:forms,
 				success:function(data){
