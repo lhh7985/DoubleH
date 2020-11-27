@@ -49,17 +49,15 @@ function sr_detail(sr_id) {
 
 	
 	
-	href = "http://localhost:8080/customer/sr-detail?sr_id=" + sr_id;
+	href = 'http://localhost:8080/customer/'+ srId+ '/sr-detail';
 	if(!winRef){
 		$.ajax({
 			type : 'GET',
-			url : '/customer/sr-detail?sr_id=' + sr_id,
+			url : '/customer/'+srId+'/sr-detail',
 			error : function(request, status, error) {
-				alert("code:" + request.status + "\n" + "message:"
-						+ request.responseText + "\n" + "error:"
-						+ error);
+				alert("데이터가 이미 삭제되었거나 없습니다.");
 			},
-			success : function(data) {
+			success : function() {
 				winRef=window.open(href, "detail",'width='+ _width +', height='+ _height +', left=' + _left + ', top='+ _top);
 			}
 		});
@@ -69,13 +67,11 @@ function sr_detail(sr_id) {
         }else{
         	$.ajax({
     			type : 'GET',
-    			url : '/customer/sr-detail?sr_id=' + sr_id,
+    			url : '/customer/'+srId+'/sr-detail',
     			error : function(request, status, error) {
-    				alert("code:" + request.status + "\n" + "message:"
-    						+ request.responseText + "\n" + "error:"
-    						+ error);
+					alert("데이터가 이미 삭제되었거나 없습니다.");
     			},
-    			success : function(data) {
+    			success : function() {
     				winRef=window.open(href, "detail",'width='+ _width +', height='+ _height +', left=' + _left + ', top='+ _top);
     			}
     		});

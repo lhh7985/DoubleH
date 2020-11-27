@@ -62,27 +62,17 @@ public class SrController {
 	}
 
 	// =================================SR디테일
-	@GetMapping("/detail")
-	public String getSrDetail(Model model, HttpServletRequest request) {
+	@GetMapping("/{srId}/detail")
+	public String getSrDetail(Model model, @PathVariable("srId") int srId) {
 
-		int checkSrId = request.getParameter("srId") != null ? Integer.parseInt(request.getParameter("srId")) : -1;
-
-		if(checkSrId != -1){
-			Optional<SrVo> srVo = srService.selectSRDetail(checkSrId);
-
-			if(srVo.isPresent()){
-				SelectSrDetailDto selectSrDetailDto = new SelectSrDetailDto(srVo.get());
+		SelectSrDetailDto selectSrDetailDto = srService.selectSRDetail(srId)
+				.map((srVo)->new SelectSrDetailDto(srVo))
+				.orElseThrow(() -> new NoSuchElementException());
 				model.addAttribute("srvo", selectSrDetailDto);
-			}else{
-				return "noData";
-			}
 
-			List<ActivityVo> activityVo = activityService.selectCustomerActivity(checkSrId);
+		List<ActivityVo> activityVo = activityService.selectCustomerActivity(srId);
 			model.addAttribute("acvo", activityVo);
 
 			return "sr/detail";
-		}else{
-			return "errorPage";
-		}
 	}
 }
