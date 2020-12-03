@@ -4,8 +4,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 
-
-
 <!DOCTYPE html>
 <html lang="ko" xmlns="http://www.thymeleaf.org">
 <head>
@@ -58,7 +56,8 @@
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="http://localhost:8080/product/list">제품</a></li>
 							<li><a href="http://localhost:8080/product/delivery">납품정보</a></li>
-						</ul></li>
+						</ul>
+					</li>
 				</ul>
 				<ul class="nav navbar-nav ">
 					<li><a href="http://localhost:8080/sr/list">SR </a></li>
@@ -67,13 +66,19 @@
 
 
 				<ul class="nav navbar-nav">
-					<li><a href="http://localhost:8080/employee/list">사원</a></li>
+					<li><a href="http://localhost:8080/employee/list">직원</a></li>
 				</ul>
 				
 				
 				<sec:authorize access="hasRole('ADMIN')">
 					<ul class="nav navbar-nav">
-						<li><a href="http://localhost:8080/admin/codetable">관리자</a></li>
+						<li><a class="dropdown-toggle" data-toggle="dropdown" href="#"
+							   role="button" aria-expanded="false">시스템관리 <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="http://localhost:8080/admin/codetable">코드테이블</a></li>
+								<li><a href="#">추가</a></li>
+							</ul>
+						</li>
 					</ul>
 				</sec:authorize>
 	
@@ -91,14 +96,14 @@
 					</sec:authorize>
 
 					<sec:authorize access="isAuthenticated()">
-						<sec:authentication var="user_id" property="principal"/>
+						<sec:authentication var="userId" property="principal"/>
 						
 					
 						<ul class="nav navbar-nav navbar-right">
 							<li><a href="http://localhost:8080/user/logout">로그아웃</a></li>
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
-							<li><a style="font-weight: bold;">${user_id}</a></li>
+							<li><a style="font-weight: bold;">${userId}</a></li>
 						</ul>
 						
 						

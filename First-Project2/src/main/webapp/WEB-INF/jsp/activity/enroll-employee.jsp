@@ -112,21 +112,6 @@ input {
 	text-align: left;
 }
 
-.myfont {
-	font-size: 15px;
-	font-weight: bold;
-	margin-bottom: 15px;
-}
-
-tr.hide {
-	display: none
-}
-
-.font1 {
-	font-size: 15px;
-	font-weight: bold;
-	margin-top: 30px;
-}
 
 .font2 {
 	font-size: 50px;
@@ -135,9 +120,6 @@ tr.hide {
 	margin-bottom: 50px;
 }
 
-tr.hide {
-	display: none
-}
 
 label {
 	display: block;
@@ -174,7 +156,7 @@ label {
 			</select>
 				
 			<label class="col-md-2 my" style="width: 120px;  margin-left:50px;">활동 상태</label>
-			<select name="activity_status" style=" width: 15%;" class="col-md-2 form-control">
+			<select name="activityStatus" style=" width: 15%;" class="col-md-2 form-control">
 				<option>활동예정</option>
 				<option>활동중</option>
 				<option>완료</option>
@@ -186,7 +168,7 @@ label {
 			<input class="col-md-2 form-control" style="width: 15%;"> 
 				
 			<label class="col-md-2 my" style="width: 120px;  margin-left:50px;">활동예정일</label>
-			<input type="date" name="activity_estimatedDate" class=" col-md-2 form-control" style="width: 15%;">
+			<input type="date" name="activityEstimatedDate" class=" col-md-2 form-control" style="width: 15%;">
 			
 		</div>
 
@@ -199,14 +181,14 @@ label {
 
 		<div style="margin: 20px; margin-top:40px;">
 			<label class="col-md-1 my">제목</label>
-			<input class="form-control" name="activity_title" type="text" 
+			<input class="form-control" name="activityTitle" type="text"
 				style="width: 60%;">
 		</div>
 
 		<div style="margin: 20px; margin-top:30px;">
 			<label class=" col-md-1 my">내용</label>
 
-			<textarea class="form-control" style="width: 80%;" name="activity_content" rows="15" cols="120"></textarea>
+			<textarea class="form-control" style="width: 80%;" name="activityContent" rows="15" cols="120"></textarea>
 		</div>
 
 

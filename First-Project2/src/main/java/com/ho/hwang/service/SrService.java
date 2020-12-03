@@ -4,56 +4,68 @@ import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
-import com.ho.hwang.dto.Sr.InsertSrDTO;
-import com.ho.hwang.dto.Sr.SelectSrDTO;
-import com.ho.hwang.dto.Sr.SelectSrDetailDTO;
-import com.ho.hwang.dto.Sr.SelectSrListDTO;
+import com.ho.hwang.dto.Sr.InsertSrDto;
+import com.ho.hwang.dto.Sr.SelectSrDto;
+import com.ho.hwang.dto.Sr.SelectSrListDto;
+import com.ho.hwang.vo.SrVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import com.ho.hwang.mappers.UserMapper;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.crypto.spec.OAEPParameterSpec;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class SrService {
 	private final UserMapper mapper;
 	public final static SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-	public void insertSR(InsertSrDTO insertSrDTO, Principal principal) {
+	@Transactional
+	public void insertSR(InsertSrDto insertSrDto, Principal principal) {
 		Date time = new Date();
 
 		String name = mapper.selectName(principal.getName());
-		insertSrDTO.setSr_registrant(name);
+		insertSrDto.setSrRegistrant(name);
 
 		// 현재 날짜 삽입
-		insertSrDTO.setSr_registrationDate(fmt.format(time));
-		int type = mapper.selectCode(insertSrDTO.getType());
-		System.out.println("타입 값 시벌 버냐고"+type);
-		insertSrDTO.setSr_type(type);
-		int cu_id = mapper.selectCustomerID(insertSrDTO.getCustomer_name());
-		int p_id = mapper.selectProductID(insertSrDTO.getProduct_name());
+		insertSrDto.setSrRegistrationDate(fmt.format(time));
 
-		insertSrDTO.setCustomer_id(cu_id);
-		insertSrDTO.setProduct_id(p_id);
+		int typeConvert = mapper.selectCode(insertSrDto.getType());
+		insertSrDto.setSrType(typeConvert);
+		log.info(String.valueOf(typeConvert));
+		int cuId = mapper.selectCustomerID(insertSrDto.getCustomerName());
+		int pId = mapper.selectProductID(insertSrDto.getProductName());
 
-		mapper.insertSR(insertSrDTO);
+		insertSrDto.setCustomerId(cuId);
+		insertSrDto.setProductId(pId);
+
+		mapper.insertSR(insertSrDto);
 	}
 
 	// SR 리스트 확인
-	public List<SelectSrDTO> selectSR() {
-		return mapper.selectSR();
+	public List<SelectSrDto> selectSR(int start, int cntPerPage) {
+		return mapper.selectSR(start, cntPerPage);
+	}
+	//SR 충 개수
+	public int selectSrTotalCount(){
+		return mapper.selectSrTotalCount();
 	}
 
 	// 각 고객사의 sr확인
-	public List<SelectSrListDTO> selectSRList(int customer_id) {
-		return mapper.selectSRList(customer_id);
+	public List<SelectSrListDto> selectSRList(int customerId) {
+		return mapper.selectSRList(customerId);
 	}
 
 	// SR 내용확인
-	public SelectSrDetailDTO selectSRDetail(int sr_id) {
-		return mapper.selectSRDetail(sr_id);
+	public Optional<SrVo> selectSRDetail(int srId) {
+		return mapper.selectSRDetail(srId);
 	}
 
 }

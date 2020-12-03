@@ -2,10 +2,11 @@ package com.ho.hwang.controller;
 
 import java.util.List;
 
-import com.ho.hwang.dto.Product.InsertDeliveryDTO;
-import com.ho.hwang.dto.Product.SelectProductDTO;
-import com.ho.hwang.dto.Product.SelectTotalDeliveryDTO;
-import com.ho.hwang.dto.Product.SelectTotalOsDTO;
+import com.ho.hwang.dto.Product.InsertDeliveryDto;
+import com.ho.hwang.dto.Product.SelectProductDto;
+import com.ho.hwang.dto.Product.SelectTotalDeliveryDto;
+import com.ho.hwang.dto.Product.SelectTotalOsDto;
+import com.ho.hwang.paging.Page;
 import com.ho.hwang.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +27,8 @@ public class ProductController {
 
 	@GetMapping("/list")
 	public String getProductList(Model model) {
-		List<SelectProductDTO> productList = productService.selectProduct();
+
+		List<SelectProductDto> productList = productService.selectProduct();
 		model.addAttribute("productList", productList);
 
 		return "product/list";
@@ -34,11 +36,16 @@ public class ProductController {
 
 	// 납품정보
 	@GetMapping("/delivery")
-	public String getDeliveryList(Model model) {
-		List<SelectTotalDeliveryDTO> deliveryList = productService.selectTotalDelivery();
+	public String getDeliveryList(@RequestParam(defaultValue = "1") int page, Model model) {
+
+		int listCnt = productService.selectDeliveryTotalCount();
+		Page paging = new Page(listCnt, page);
+
+		List<SelectTotalDeliveryDto> deliveryList = productService.selectTotalDelivery(paging.getStartIndex(), paging.getPageSize());
 		model.addAttribute("deliveryList", deliveryList);
-		List<SelectTotalOsDTO> osList = productService.selectTotalOS();
+		List<SelectTotalOsDto> osList = productService.selectTotalOS();
 		model.addAttribute("osList", osList);
+		model.addAttribute("paging", paging);
 
 		return "product/delivery";
 	}
@@ -49,8 +56,8 @@ public class ProductController {
 	}
 
 	@PostMapping("/delivery/enroll")
-	public void enrollDelivery(InsertDeliveryDTO insertDeliveryDTO) {
-		productService.insertDelivery(insertDeliveryDTO);
+	public void enrollDelivery(InsertDeliveryDto insertDeliveryDto) {
+		productService.insertDelivery(insertDeliveryDto);
 	}
 
 	@PostMapping("/delivery/delete")

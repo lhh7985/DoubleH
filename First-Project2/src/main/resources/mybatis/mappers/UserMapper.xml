@@ -4,7 +4,7 @@
 <mapper namespace="com.ho.hwang.mappers.UserMapper">
 
 	<select id="selectUser"
-		resultType="com.ho.hwang.account.Account">
+		resultType="com.ho.hwang.vo.AccountVo">
 		SELECT u.user_id, u.user_pw, u.employee_id,
 		a.authority_name, u.enabled
 		FROM userauthority s
@@ -16,7 +16,7 @@
 
 	<insert id="save">
 		INSERT INTO users(user_id, user_pw,
-		employee_id, enabled) VALUES(#{user_id},#{user_pw},#{employee_id}, 1)
+		employee_id, enabled) VALUES(#{userId},#{userPw},#{employeeId}, 1)
 	</insert>
 
 	<!-- <insert id="insertRole"> INSERT INTO userauthority VALUES(#{user_id}, 
@@ -42,7 +42,8 @@
 		INNER JOIN employee a ON a.Employee_ID = s.Employee_ID_Manager
 		INNER JOIN employee b ON b.employee_id = s.Employee_ID_SE
 		INNER JOIN employee c ON c.Employee_ID = s.Employee_ID_Sales
-		INNER JOIN address d ON	d.Customer_ID = s.Customer_ID AND d.Address_Type = 1;
+		INNER JOIN address d ON	d.Customer_ID = s.Customer_ID AND d.Address_Type = 1
+		LIMIT #{start}, #{cntPerPage};
 	</select>
 
 
@@ -71,7 +72,7 @@
 		n.delivery_businessNum, c.customer_id
 		from delivery n
 		INNER JOIN
-		customer c ON c.customer_id = #{customer_id} AND c.customer_id =
+		customer c ON c.customer_id = #{customerId} AND c.customer_id =
 		n.customer_id
 		INNER JOIN product p ON p.product_id = n.product_id;
 	</select>
@@ -81,7 +82,7 @@
 		o.os_name, o.os_quantity
 		FROM os o
 		INNER JOIN delivery n ON
-		n.delivery_id = o.delivery_id AND n.customer_id = #{customer_id};
+		n.delivery_id = o.delivery_id AND n.customer_id = #{customerId};
 	</select>
 
 	<select id="selectTotalOS" resultType="OsVO">
@@ -102,7 +103,7 @@
 		s.sr_type
 		INNER JOIN product p ON p.product_id = s.product_id
 		WHERE
-		sr.customer_id = #{customer_id};
+		sr.customer_id = #{customerId};
 
 	</select>
 
@@ -113,12 +114,12 @@
 		c.Employee_ID_Manager,c.customer_id
 		FROM customer c
 		INNER JOIN address a
-		ON a.customer_id = c.customer_id AND c.customer_id = #{customer_id};
+		ON a.customer_id = c.customer_id AND c.customer_id = #{customerId};
 	</select>
 
 	<select id="selectEmployee" resultType="EmployeeVO">
 		SELECT * from employee
-		WHERE employee_id = #{employee_id}
+		WHERE employee_id = #{employeeId}
 	</select>
 
 	<select id="selectCustomerProduct" resultType="DeliveryVO">
@@ -128,7 +129,7 @@
 		FROM delivery d
 		INNER JOIN product p ON p.product_id = d.product_ID
 		WHERE d.customer_id
-		= #{customer_id};
+		= #{customerId};
 	</select>
 
 
@@ -150,13 +151,13 @@
 		)
 
 		VALUES(
-		#{employee_type},
-		#{department_id},
-		#{employee_position},
-		#{employee_name},
-		#{employee_contact},
-		#{employee_phone},
-		#{employee_email},
+		#{employeeType},
+		#{departmentId},
+		#{employeePosition},
+		#{employeeName},
+		#{employeeContact},
+		#{employeePhone},
+		#{employeeEmail},
 		'활성'
 		);
 	</insert>
@@ -165,20 +166,20 @@
 		INSERT
 		INTO customer(customer_name, employee_ID_sales, employee_ID_se,
 		employee_ID_manager)
-		VALUES( #{customer_name},#{employee_id_sales}, #{employee_id_se},
-		#{employee_id_manager} );
+		VALUES( #{customerName},#{employeeIdSales}, #{employeeIdSe},
+		#{employeeIdManager} );
 	</insert>
 	<insert id="insertManagerHistory">
 		INSERT INTO ManagerHistory(customer_id, employee_id, managerHistory_type ,managerHistory_startDate)
-		values(#{customer_id},#{employee_id}, #{managerHistory_type}, NOW())
+		values(#{customerId},#{employeeId}, #{managerHistoryType}, NOW())
 	</insert>
 
 	<insert id="insertSR">
 		INSERT INTO sr(customer_id, product_id, sr_type,
 		importance, sr_requestDate, sr_title, sr_content, sr_registrant,
 		sr_registrationDate)
-		values(#{customer_id},#{product_id},#{sr_type},#{importance},#{sr_requestDate},#{sr_title},#{sr_content},
-		#{sr_registrant},#{sr_registrationDate})
+		values(#{customerId},#{productId},#{srType},#{importance},#{srRequestDate},#{srTitle},#{srContent},
+		#{srRegistrant},#{srRegistrationDate})
 	</insert>
 
 
@@ -191,7 +192,7 @@
 		INSERT
 		INTO address(customer_id, address_type, address_post, address_address,
 		address_detail)
-		VALUES(#{customer_id}, 1, #{address_post}, #{address_address}, #{address_detail});
+		VALUES(#{customerId}, 1, #{addressPost}, #{addressAddress}, #{addressDetail});
 	</insert>
 
 
@@ -199,8 +200,8 @@
 		INSERT INTO activity (activity_type, activity_status,
 		activity_title, activity_content, activity_estimatedDate,
 		activity_completionDate, activity_registrant, activity_registrationDate)
-		VALUES(#{activity_type},#{activity_status},#{activity_title},#{activity_content},#{activity_estimatedDate},#{activity_completionDate}
-			,#{activity_registrant}, NOW()
+		VALUES(#{activityType},#{activityStatus},#{activityTitle},#{activityContent},#{activityEstimatedDate},#{activityCompletionDate}
+			,#{activityRegistrant}, NOW()
 		)
 	</insert>
 
@@ -208,7 +209,7 @@
 	<insert id="insertDelivery">
 		INSERT INTO delivery(customer_id, product_id, delivery_quantity,
 		delivery_date, delivery_businessNum)
-		VALUES(#{customer_id},#{product_id},#{delivery_quantity},#{delivery_date},#{delivery_businessNum})
+		VALUES(#{customerId},#{productId},#{deliveryQuantity},#{deliveryDate},#{deliveryBusinessNum})
 	</insert>
 	<select id="selectDelivery_id" resultType="int">
 		SELECT LAST_INSERT_ID()
@@ -217,23 +218,21 @@
 	<!-- os별 입력 -->
 	<insert id="insertOS">
 		INSERT INTO os(delivery_id, os_name, os_quantity) 
-		VALUES(#{delivery_id},#{os_name},#{os_quantity})
+		VALUES(#{deliveryId},#{osName},#{osQuantity})
 	</insert>
 
 	<!-- 이름으로 아이디 값 찾기 -->
 	<select id="selectCode" resultType="int">
 		SELECT code_id
 		FROM code
-		WHERE
-		code_name = #{name};
-
+		WHERE code_name = #{type};
 	</select>
 
 	<select id="selectDept" resultType="int">
 		SELECT department_id
 		FROM
 		department
-		WHERE department_name = #{dept_name};
+		WHERE department_name = #{deptName};
 	</select>
 
 	<select id="selectCustomerID" resultType="int">
@@ -258,6 +257,42 @@
 	</select>
 
 
+	<select id="selectAllEmployee" resultType="EmployeeVO">
+		SELECT e.employee_id, c.code_upper, code_name, d.department_name, e.employee_name, e.employee_contact, e.employee_phone, e.employee_email
+		FROM employee e
+		INNER JOIN code c ON e.Employee_Type = c.Code_ID
+		LEFT OUTER JOIN department d ON e.Department_ID = d.Department_ID
+		LIMIT #{start}, #{cntPerPage};
+	</select>
+
+<!--	<select id="selectAllEmployee" resultType="EmployeeVO">-->
+<!--		select aa.*-->
+<!--		from(select a.*,@rownum:=@rownum+1 as rnum, FLOOR((@rownum -1)/#{rows}+1) pageNumber-->
+<!--		from( SELECT @rownum := 0 )b , (select * from employee order by employee_id asc)a)aa-->
+<!--		where aa.pageNumber = #{page} order by aa.rnum-->
+<!--	</select>-->
+
+	<!-- 리스트 총 개수-->
+	<select id="selectEmployeeTotalCount" resultType="int">
+		SELECT COUNT(*)
+		FROM employee;
+	</select>
+	<select id="selectCustomerTotalCount" resultType="int">
+		SELECT COUNT(*)
+		FROM customer;
+	</select>
+	<select id="selectSrTotalCount" resultType="int">
+		SELECT COUNT(*)
+		FROM sr;
+	</select>
+	<select id="selectDeliveryTotalCount" resultType="int">
+		SELECT COUNT(*)
+		FROM delivery;
+	</select>
+	<select id="selectCodeTotalCount" resultType="int">
+		SELECT COUNT(*)
+		FROM code;
+	</select>
 
 
 
@@ -311,6 +346,7 @@
 		INNER JOIN code co ON
 		co.code_id = s.sr_type
 		ORDER BY SR_requestDate desc
+		LIMIT #{start}, #{cntPerPage};
 	</select>
 
 	<select id="selectSRList" resultType="SrVO">
@@ -340,7 +376,7 @@
 		product p ON p.product_id = s.product_id
 		INNER JOIN code co ON
 		co.code_id = s.sr_type
-		WHERE s.sr_id = #{sr_id};
+		WHERE s.sr_id = #{srId};
 	</select>
 
 	<select id="selectVisit" resultType="ActivityVO">
@@ -348,7 +384,7 @@
 		a.activity_estimatedDate, a.activity_completionDate, a.activity_status
 		FROM activity a
 		INNER JOIN sr s ON s.sr_id = a.sr_id AND s.customer_id
-		= #{customer_id}
+		= #{customerId}
 		INNER JOIN code co ON co.code_id = a.activity_type
 		WHERE a.activity_type = 7;
 		<!-- where절에 0대신 코드테이블에 있는 값 넣기 방문내역 -->
@@ -363,8 +399,8 @@
 		INNER JOIN customer c ON c.customer_id = d.Customer_ID
 		INNER JOIN product p ON p.Product_ID = d.Product_ID
 		ORDER BY
-		d.delivery_businessNum;
-
+		d.delivery_businessNum
+		LIMIT #{start},#{cntPerPage};
 	</select>
 
 
@@ -384,9 +420,9 @@
 		activity_status, activity_title, activity_content,
 		activity_estimatedDate,
 		activity_completionDate, activity_registrationDate, activity_registrant)
-		VALUES(#{sr_id},#{activity_type},#{activity_status},#{activity_title},#{activity_content},#{activity_estimatedDate},
-		#{activity_completionDate}, #{activity_registrationDate},
-		#{activity_registrant});
+		VALUES(#{srId},#{activityType},#{activityStatus},#{activityTitle},#{activityContent},#{activityEstimatedDate},
+		#{activityCompletionDate}, #{activityRegistrationDate},
+		#{activityRegistrant});
 	</insert>
 
 	<!-- 각고객사 활동 검색 -->
@@ -397,7 +433,7 @@
 		activity_id, activity_status, activity_registrationDate
 		FROM activity a
 		INNER JOIN code c ON c.code_id =a.Activity_Type
-		WHERE sr_id = #{sr_id};
+		WHERE sr_id = #{srId};
 	</select>
 
 
@@ -419,14 +455,14 @@
 	<select id="selectComplete" resultType="String">
 		SELECT activity_status
 		FROM activity
-		WHERE activity_id = #{activity_id}
+		WHERE activity_id = #{activityId}
 	</select>
 
 	<update id="updateComplete">
 		UPDATE activity
 		SET activity_completionDate = NOW(),
 		activity_status = '완료'
-		WHERE activity_id = #{activity_id};
+		WHERE activity_id = #{activityId};
 	</update>
 
 
@@ -436,19 +472,20 @@
 		SELECT code_id,
 		code_group, code_upper, code_name, code_status,code_registrant,
 		code_registrationDate, code_modifier, code_modifiedDate
-		FROM code;
+		FROM code
+		LIMIT #{start},#{cntPerPage}
 	</select>
 	<!-- 코트테이블 삭제 -->
 	<delete id="deleteCode" parameterType="String">
 		DELETE FROM code
 		<where>
-			FIND_IN_SET(code_id, #{code_id})
+			FIND_IN_SET(code_id, #{codeId})
 		</where>
 	</delete>
 	<!-- 코드테이블 추가 -->
 	<insert id="insertCode">
-		INSERT INTO code(code_group,code_upper,code_name,code_status)
-		VALUES(#{code_group},#{code_upper},#{code_name},#{code_status})
+		INSERT INTO code(code_group,code_upper,code_name,code_status,code_registrationDate)
+		VALUES(#{codeGroup},#{codeUpper},#{codeName},#{codeStatus}, #{code_registration_date})
 	</insert>
 
 
@@ -456,21 +493,21 @@
 	<delete id="deleteCustomer" parameterType="String">
 		DELETE FROM customer
 		<where>
-			FIND_IN_SET(customer_id, #{customer_id})
+			FIND_IN_SET(customer_id, #{customerId})
 		</where>
 	</delete>
 	<!-- 납품정보 삭제 -->
 	<delete id="deleteDelivery" parameterType="String">
 		DELETE FROM delivery
 		<where>
-			FIND_IN_SET(delivery_id, #{delivery_id})
+			FIND_IN_SET(delivery_id, #{deliveryId})
 		</where>
 	</delete>
 	<!-- 직원 삭제 -->
 	<delete id="deleteEmployee" parameterType="String">
 		DELETE FROM employee
 		<where>
-			FIND_IN_SET(employee_id, #{employee_id})
+			FIND_IN_SET(employee_id, #{employeeId})
 		</where>
 	</delete>
 
@@ -479,27 +516,27 @@
 	<update id="updateEnddate">
 		UPDATE managerhistory
 		SET managerhistory_enddate = NOW()
-		WHERE customer_id = #{customer_id} and managerHistory_type = #{managerHistory_type} and managerHistory_endDate IS NULL;
+		WHERE customer_id = #{customerId} and managerHistory_type = #{managerHistoryType} and managerHistory_endDate IS NULL;
 	</update>
 	<!-- 고객사 담당자 수정 -->
 	<update id="updateManager">
 		UPDATE customer
-		SET employee_id_manager = #{employee_id_manager}
-		WHERE customer_id = #{customer_id}
+		SET employee_id_manager = #{employeeIdManager}
+		WHERE customer_id = #{customerId}
 	</update>
 	
 	<!-- SE담당자 수정 -->
 	<update id="updateSE">
 		UPDATE customer
-		SET employee_id_se = #{employee_id_se}
-		WHERE customer_id = #{customer_id}
+		SET employee_id_se = #{employeeIdSe}
+		WHERE customer_id = #{customerId}
 	</update>
 	
 	<!-- 영업담당자 수정 -->
 	<update id="updateSales">
 		UPDATE customer
-		SET employee_id_sales = #{employee_id_sales}
-		WHERE customer_id = #{customer_id}
+		SET employee_id_sales = #{employeeIdSales}
+		WHERE customer_id = #{customerId}
 	</update>
 	
 	<!-- 담당자이력  -->
@@ -509,7 +546,7 @@
 		INNER JOIN customer c ON c.customer_id = h.Customer_ID
 		INNER JOIN employee e ON e.Employee_ID = h.Employee_ID
 		INNER JOIN code co ON co.Code_id = h.ManagerHistory_Type
-		WHERE c.customer_id = #{customer_id}
+		WHERE c.customer_id = #{customerId}
 		ORDER BY co.Code_Name, h.ManagerHistory_startDate ASC;
 	</select>
 </mapper>

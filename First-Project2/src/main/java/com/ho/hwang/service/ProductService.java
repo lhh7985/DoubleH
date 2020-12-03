@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -14,76 +16,65 @@ public class ProductService {
 
     private final UserMapper mapper;
 
-    public List<SelectProductDTO> selectProduct(){
+    public List<SelectProductDto> selectProduct(){
         return mapper.selectProduct();
     }
-    public List<SelectProductDTO> selectSearchAllProduct(){
-        return mapper.selectSearchAllProduct();
+    public List<SelectProductDto> selectSearchAllProduct(int start, int cntPerPage){
+        return mapper.selectSearchAllProduct(start, cntPerPage);
+    }
+    public int selectDeliveryTotalCount(){
+        return mapper.selectDeliveryTotalCount();
     }
 
     //납품정보 삭제
     public int deleteDelivery(List<Integer> charr) {
-        int result=0;
-        if (charr != null) {
-            String delivery_id="";
-            int index=0;
-
-            for (int i : charr) {
-                index++;
-                if(index < charr.size()){
-                    delivery_id= delivery_id + i + ",";
-                }else{
-                    delivery_id = delivery_id+ i;
-                }
-            }
-            mapper.deleteCustomer(delivery_id);
-            result=1;
-        }
-        return result;
+        String deleteList = charr.stream().map(n -> n.toString()).collect(Collectors.joining(","));
+        Optional<String> op = Optional.ofNullable(deleteList);
+        return mapper.deleteDelivery(op.orElse(""));
     }
 
-    public void insertDelivery(InsertDeliveryDTO insertDeliveryDTO) {
+    public void insertDelivery(InsertDeliveryDto insertDeliveryDto) {
 
-        mapper.insertDelivery(insertDeliveryDTO);
-        int delivery_id = mapper.selectDelivery_id();
+        mapper.insertDelivery(insertDeliveryDto);
+        int deliveryId = mapper.selectDelivery_id();
 
         // window 입력
-        if (insertDeliveryDTO.getWindow() != 0) {
-            insertDeliveryDTO.setDelivery_id(delivery_id);
-            insertDeliveryDTO.setOs_name("Window");
-            insertDeliveryDTO.setOs_quantity(insertDeliveryDTO.getWindow());
-            mapper.insertOS(insertDeliveryDTO);
+        if (insertDeliveryDto.getWindow() != 0) {
+            insertDeliveryDto.setDeliveryId(deliveryId);
+            insertDeliveryDto.setOsName("Window");
+            insertDeliveryDto.setOsQuantity(insertDeliveryDto.getWindow());
+            mapper.insertOS(insertDeliveryDto);
         }
         // Linux 입력
-        if (insertDeliveryDTO.getLinux() != 0) {
-            insertDeliveryDTO.setDelivery_id(delivery_id);
-            insertDeliveryDTO.setOs_name("Linux");
-            insertDeliveryDTO.setOs_quantity(insertDeliveryDTO.getLinux());
-            mapper.insertOS(insertDeliveryDTO);
+        if (insertDeliveryDto.getLinux() != 0) {
+            insertDeliveryDto.setDeliveryId(deliveryId);
+            insertDeliveryDto.setOsName("Linux");
+            insertDeliveryDto.setOsQuantity(insertDeliveryDto.getLinux());
+            mapper.insertOS(insertDeliveryDto);
         }
         // Unix 입력
-        if (insertDeliveryDTO.getUnix() != 0) {
-            insertDeliveryDTO.setDelivery_id(delivery_id);
-            insertDeliveryDTO.setOs_name("Unix");
-            insertDeliveryDTO.setOs_quantity(insertDeliveryDTO.getUnix());
-            mapper.insertOS(insertDeliveryDTO);
+        if (insertDeliveryDto.getUnix() != 0) {
+            insertDeliveryDto.setDeliveryId(deliveryId);
+            insertDeliveryDto.setOsName("Unix");
+            insertDeliveryDto.setOsQuantity(insertDeliveryDto.getUnix());
+            mapper.insertOS(insertDeliveryDto);
         }
 
     }
 
-    public List<SelectTotalDeliveryDTO> selectTotalDelivery(){
-        return mapper.selectTotalDelivery();
+    public List<SelectTotalDeliveryDto> selectTotalDelivery(int start, int cntPerPage){
+        return mapper.selectTotalDelivery(start, cntPerPage);
     }
 
-    public List<SelectTotalOsDTO> selectTotalOS(){
+    public List<SelectTotalOsDto> selectTotalOS(){
         return mapper.selectTotalOS();
     }
 
-    public List<SelectDeliveryDTO> selectDelivery(int co_id){
-        return mapper.selectDelivery(co_id);
+    public List<SelectDeliveryDto> selectDelivery(int coId){
+        return mapper.selectDelivery(coId);
     }
 
-    public List<SelectTotalOsDTO> selectOS(int co_id){
-        return mapper.selectOS(co_id);
+    public List<SelectTotalOsDto> selectOS(int coId){
+        return mapper.selectOS(coId);
     }
 }

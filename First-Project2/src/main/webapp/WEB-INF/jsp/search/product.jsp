@@ -15,8 +15,8 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
 
 <script type="text/javascript">
-function getProduct(product_name, product_id){
-	opener.setProduct(product_name, product_id);		
+function getProduct(productName, productId){
+	opener.setProduct(productName, productId);
 	window.self.close();
 }
 </script>
@@ -44,11 +44,11 @@ function getProduct(product_name, product_id){
 
 			<tbody>
 				<c:forEach var="item2" items="${deliverylist}" varStatus="stuatus">
-					<tr onclick=getProduct('${item2.product_name}','${item2.product_id}')  style="cursor: pointer;">
-						<td>${item2.delivery_businessNum}</td>
-						<td>${item2.product_name}</td>
-						<td>${item2.delivery_date}</td>
-						<td>${item2.delivery_quantity}</td>
+					<tr onclick=getProduct('${item2.productName}','${item2.productId}')  style="cursor: pointer;">
+						<td>${item2.deliveryBusinessNum}</td>
+						<td>${item2.productName}</td>
+						<td>${item2.deliveryDate}</td>
+						<td>${item2.deliveryQuantity}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

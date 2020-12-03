@@ -17,9 +17,9 @@
 
 <script type="text/javascript">
 	
-function getEmployee(employee_name,employee_id){
+function getEmployee(employeeName,employeeId){
 
-	opener.setChildValue2(employee_name,employee_id);
+	opener.setChildValue2(employeeName,employeeId);
 
 	window.self.close();
 
@@ -50,11 +50,11 @@ function getEmployee(employee_name,employee_id){
 
 			<tbody>
 				<c:forEach var="item" items="${list}" varStatus="status" >
-					<tr onclick=getEmployee('${item.employee_name}','${item.employee_id}') style="cursor: pointer;">
-						<td>${item.department_name}</td>
-						<td>${item.employee_position}</td>
-						<td>${item.employee_name}</td>
-						<td>${item.employee_email}</td>
+					<tr onclick=getEmployee('${item.employeeName}','${item.employeeId}') style="cursor: pointer;">
+						<td>${item.departmentName}</td>
+						<td>${item.employeePosition}</td>
+						<td>${item.employeeName}</td>
+						<td>${item.employeeEmail}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

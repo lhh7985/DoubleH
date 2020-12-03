@@ -21,37 +21,7 @@
 </script>
 </head>
 <style>
-.my {
-	font: bold;
-	font-size: 20px;
-	margin-bottom: 30px;
-}
 
-.myfont {
-	font-size: 15px;
-	font-weight: bold;
-	margin-bottom: 15px;
-}
-
-tr.hide {
-	display: none
-}
-
-.font1 {
-	font-size: 15px;
-	font-weight: bold;
-	margin-top: 30px;
-}
-
-.font2 {
-	font-size: 50px;
-	font-weight: bold;
-	text-align: center;
-}
-
-tr.hide {
-	display: none
-}
 </style>
 <body>
 
@@ -77,11 +47,11 @@ tr.hide {
 				<tbody>
 				<c:forEach var="item" items="${list}">
 					<tr>
-						<td>${item.code_name}</td>	
-						<td>${item.activity_title}</td>
-						<td>${item.activity_estimatedDate}</td>
-						<td>${item.activity_completionDate}</td>
-						<td>${item.activity_status}</td>	
+						<td>${item.codeName}</td>
+						<td>${item.activityTitle}</td>
+						<td>${item.activityEstimatedDate}</td>
+						<td>${item.activityCompletionDate}</td>
+						<td>${item.activityStatus}</td>
 					</tr>
 				</c:forEach>
 				</tbody>

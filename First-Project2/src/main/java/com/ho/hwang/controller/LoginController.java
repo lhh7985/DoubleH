@@ -3,10 +3,9 @@ package com.ho.hwang.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ho.hwang.account.Account;
-import com.ho.hwang.account.AccountService;
+import com.ho.hwang.vo.AccountVo;
+import com.ho.hwang.service.AccountService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,7 +23,7 @@ public class LoginController {
 	}
 	
 	@PostMapping(value="/register")
-	public String register(Account account) {
+	public String register(AccountVo account) {
 		System.out.println(account.getPassword());
 		accountService.save(account);
 		return "redirect:/loginForm";

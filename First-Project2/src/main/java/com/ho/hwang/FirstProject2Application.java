@@ -16,22 +16,12 @@ import com.ho.hwang.service.UserService;
 public class FirstProject2Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FirstProject2Application.class, args);
+		try {
+			SpringApplication.run(FirstProject2Application.class, args);
+		} catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
-	/*
-	 * @Autowired private UserService userService;
-	 * 
-	 * @RequestMapping("/test") public ModelAndView test() throws Exception {
-	 * 
-	 * ModelAndView mav = new ModelAndView("test"); mav.addObject("name", "lhh");
-	 * List<String> testList = new ArrayList<String>(); testList.add("a");
-	 * testList.add("b"); testList.add("c"); mav.addObject("list", testList);
-	 * mav.setViewName("test.jsp");
-	 * 
-	 * return mav;
-	 * 
-	 * }
-	 */
 
 }

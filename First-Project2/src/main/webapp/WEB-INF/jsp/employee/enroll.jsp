@@ -88,19 +88,19 @@
 
 		<div class="row" style="margin-top: 20px;margin-left:20px; ">
 			<label class="col-md-2 my" style="width: 120px;">이름</label>
-			<input name="employee_name" class="col-md-2">
+			<input name="employeeName" class="col-md-2">
 			
 			<label class="col-md-2 my" style="width: 120px; margin-left:50px;">연락처</label>
-			<input name="employee_contact" class="col-md-2">	
+			<input name="employeeContact" class="col-md-2">
 		</div>
 		
 		
 		<div class="row" style="margin-top: 20px;margin-left:20px; ">
 			<label class="col-md-2 my" style="width: 120px;">휴대전화</label>
-			<input class="col-md-2" name="employee_phone">
+			<input class="col-md-2" name="employeePhone">
 			
 			<label class="col-md-2 my" style="width: 120px; margin-left:50px;">E-mail</label>
-			<input class="col-md-2" name="employee_email">	
+			<input class="col-md-2" name="employeeEmail">
 		</div>
 		
 		

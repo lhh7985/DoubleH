@@ -71,13 +71,13 @@ var winRef;
 	
 	function delivery_enroll(){
 		var add = document.add;
-		var customer_name =add.customer_id.value;
+		var customer_name =add.customerId.value;
 
-		var product_name = add.product_id.value;
-		var delivery_date = add.delivery_date.value;
-		var delivery_quantity = add.delivery_quantity.value;
+		var product_name = add.productId.value;
+		var delivery_date = add.deliveryDate.value;
+		var delivery_quantity = add.deliveryQuantity.value;
 		
-		var delivery_businessNum = add.delivery_businessNum.value;
+		var delivery_businessNum = add.deliveryBusinessNum.value;
 				
 	
 		if (!customer_name || !product_name || !delivery_date|| !delivery_quantity || !delivery_businessNum ) {
@@ -129,14 +129,14 @@ label {
 		<!-- 몸통 -->
 		<div style="margin: 20px;" class="row">
 		
-		<input name="customer_id" id="customer_id" value="0" style="display: none"/>
+		<input name="customerId" id="customer_id" value="0" style="display: none"/>
 		
 			<label class="col-md-1">고객</label> 
 			<input class="col-md-2 form-control" id="customer_name" style="width:20%;"  readonly/>
 			<button class="col-md-1 btn btn-default" type="button" onclick='customer_search()'>고객검색</button>
 		
 		
-		<input name="product_id" id="product_id" value="0" style="display: none"/>
+		<input name="productId" id="product_id" value="0" style="display: none"/>
 	
 			<label class="col-md-1" style="margin-left: 50px;">제품</label> 
 			<input class="col-md-2 form-control" id="product_name"  style="width:20%;" readonly>
@@ -149,14 +149,14 @@ label {
 			
 			
 			<label class="col-md-2" style=" width: 100px;">납품일</label> 
-			<input type="date" name="delivery_date" id="delivery_date" class="col-md-2 form-control" style="width:20%;" >
+			<input type="date" name="deliveryDate" id="delivery_date" class="col-md-2 form-control" style="width:20%;" >
 			
 			
 			<label class="col-md-2" style="margin-left:30px; width: 80px;">총수량</label>
-			<input type="text" name="delivery_quantity" id="delivery_quantity" class="col-md-2 form-control" style="width:15%;" >
+			<input type="text" name="deliveryQuantity" id="delivery_quantity" class="col-md-2 form-control" style="width:15%;" >
 			
 			<label class="col-md-2" style="margin-left:30px; width: 110px;">사업건번호</label>
-			<input type="text" name="delivery_businessNum" id="delivery_businessNum" class="col-md-2 form-control" style="width:15%;" >
+			<input type="text" name="deliveryBusinessNum" id="delivery_businessNum" class="col-md-2 form-control" style="width:15%;" >
 			
 		</div>
 		

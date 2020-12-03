@@ -40,20 +40,20 @@
 			<tbody>
 				<c:forEach var="item" items="${list}" varStatus="status">
 					<tr data-toggle="collapse" data-target=".${status.index}" style="cursor: pointer;">
-						<td>${item.delivery_businessNum}</td>
-						<td>${item.product_name}</td>
-						<td>${item.delivery_quantity}</td>
-						<td>${item.delivery_date}</td>
+						<td>${item.deliveryBusinessNum}</td>
+						<td>${item.productName}</td>
+						<td>${item.deliveryQuantity}</td>
+						<td>${item.deliveryDate}</td>
 					</tr>
 
-					<c:if test="${item.product_name eq 'ToS' || item.product_name eq 'iGRIFFIN'}">
+					<c:if test="${item.productName eq 'ToS' || item.productName eq 'iGRIFFIN'}">
 					<tr class="p panel-collapse collapse ${status.index}">
 						<td colspan="4">
 							<div>
 								<c:forEach var="item2" items="${list2}">
-									<c:if test="${item.delivery_id eq item2.delivery_id}">
+									<c:if test="${item.deliveryId eq item2.deliveryId}">
 										<p>
-											${item2.os_name} : <span>${item2.os_quantity}</span>
+											${item2.osName} : <span>${item2.osQuantity}</span>
 										</p>
 									</c:if>
 								</c:forEach>

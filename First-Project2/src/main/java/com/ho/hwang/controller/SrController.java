@@ -2,12 +2,16 @@ package com.ho.hwang.controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
-import com.ho.hwang.dto.Activity.SelectCustomerActivityDTO;
-import com.ho.hwang.dto.Sr.InsertSrDTO;
-import com.ho.hwang.dto.Sr.SelectSrDTO;
-import com.ho.hwang.dto.Sr.SelectSrDetailDTO;
+import com.ho.hwang.dto.Activity.SelectCustomerActivityDto;
+import com.ho.hwang.dto.Sr.InsertSrDto;
+import com.ho.hwang.dto.Sr.SelectSrDetailDto;
+import com.ho.hwang.dto.Sr.SelectSrDto;
+import com.ho.hwang.paging.Page;
 import com.ho.hwang.service.ProductService;
+import com.ho.hwang.vo.ActivityVo;
+import com.ho.hwang.vo.SrVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +23,9 @@ import com.ho.hwang.service.SrService;
 import com.ho.hwang.service.UserService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,9 +38,14 @@ public class SrController {
 	private final ProductService productService;
 
 	@GetMapping("/list")
-	public String getSrList(Model model) {
-		List<SelectSrDTO> srList = srService.selectSR();
+	public String getSrList(@RequestParam(defaultValue = "1") int page, Model model) {
+
+		int listCnt = srService.selectSrTotalCount();
+		Page paging = new Page(listCnt, page);
+
+		List<SelectSrDto> srList = srService.selectSR(paging.getStartIndex(), paging.getPageSize());
 		model.addAttribute("srList", srList);
+		model.addAttribute("paging", paging);
 
 		return "sr/list";
 	}
@@ -45,19 +57,22 @@ public class SrController {
 	}
 
 	@PostMapping("/enroll")
-	public void enrollSr(InsertSrDTO insertSrDTO, Principal principal) {
-		srService.insertSR(insertSrDTO, principal);
+	public void enrollSr(InsertSrDto insertSrDto, Principal principal) {
+		srService.insertSR(insertSrDto, principal);
 	}
 
 	// =================================SR디테일
-	@GetMapping("/detail")
-	public String getSrDetail(Model model, int sr_id) {
-		SelectSrDetailDTO selectSrDetailDTO = srService.selectSRDetail(sr_id);
-		List<SelectCustomerActivityDTO> selectCustomerActivityDTO = activityService.selectCustomerActivity(sr_id);
+	@GetMapping("/{srId}/detail")
+	public String getSrDetail(Model model, @PathVariable("srId") int srId) {
 
-		model.addAttribute("srvo", selectSrDetailDTO);
-		model.addAttribute("acvo", selectCustomerActivityDTO);
+		SelectSrDetailDto selectSrDetailDto = srService.selectSRDetail(srId)
+				.map((srVo)->new SelectSrDetailDto(srVo))
+				.orElseThrow(() -> new NoSuchElementException());
+				model.addAttribute("srvo", selectSrDetailDto);
 
-		return "sr/detail";
+		List<ActivityVo> activityVo = activityService.selectCustomerActivity(srId);
+			model.addAttribute("acvo", activityVo);
+
+			return "sr/detail";
 	}
 }

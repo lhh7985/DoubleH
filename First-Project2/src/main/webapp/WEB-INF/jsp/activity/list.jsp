@@ -21,10 +21,10 @@
 	
 
 	
-	function complete(activity_id){
+	function complete(activityId){
 		$.ajax({
 			type : 'POST',
-			url : '/activity/list?activity_id=' + activity_id,
+			url : '/activity/list?activity_id=' + activityId,
 			error : function(request, status, error) {
 				alert("code:" + request.status + "\n" + "message:"
 						+ request.responseText + "\n" + "error:"
@@ -38,21 +38,6 @@
 </script>
 </head>
 <style>
-.my {
-	font: bold;
-	font-size: 20px;
-	margin-bottom: 30px;
-}
-
-.myfont {
-	font-size: 15px;
-	font-weight: bold;
-	margin-bottom: 15px;
-}
-
-tr.hide {
-	display: none
-}
 
 .font1 {
 	font-size: 17px;
@@ -68,9 +53,6 @@ tr.hide {
 	text-align: center;
 }
 
-tr.hide {
-	display: none
-}
 </style>
 <body>
 
@@ -108,14 +90,14 @@ tr.hide {
 			<tbody>
 				<c:forEach var="item" items="${activity}" varStatus="status">
 					<tr >
-						<td>${item.code_name}</td>
-						<td data-toggle="collapse" data-target="#${status.index}" style="cursor: pointer;">${item.activity_title}</td>
-						<td>${item.activity_registrant}</td>
-						<td>${item.activity_estimatedDate}</td>
-						<td>${item.activity_completionDate}</td>
+						<td>${item.codeName}</td>
+						<td data-toggle="collapse" data-target="#${status.index}" style="cursor: pointer;">${item.activityTitle}</td>
+						<td>${item.activityRegistrant}</td>
+						<td>${item.activityEstimatedDate}</td>
+						<td>${item.activityCompletionDate}</td>
 						<c:choose>
-							<c:when  test="${item.activity_completionDate eq null}">
-								<td><input height="35px;" type="button" onclick=complete('${item.activity_id}') class="btn" value="활동완료"/></td>
+							<c:when  test="${item.activityCompletionDate eq null}">
+								<td><input height="35px;" type="button" onclick=complete('${item.activityId}') class="btn" value="활동완료"/></td>
 							</c:when>
 							<c:otherwise>
 									<td height="45px;"></td>
@@ -126,7 +108,7 @@ tr.hide {
 
 					<tr  class="panel-collapse collapse " id="${status.index}" >
 						<td style="padding: 10px;" class="panel-body" colspan="7">
-							<p style="white-space:pre; margin-left: 20px;">${item.activity_content}</p>
+							<p style="white-space:pre; margin-left: 20px;">${item.activityContent}</p>
 						</td>	
 					</tr>
 				
