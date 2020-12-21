@@ -7,7 +7,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 @Getter
-
 public class ActivityVo {
 
 	private int activityType;
@@ -21,6 +20,8 @@ public class ActivityVo {
 	private String activityRegistrant;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate activityRegistrationDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate activityEstimatedCompletionDate;
 
 	private String codeName;
 	private int activityId;
@@ -33,9 +34,9 @@ public class ActivityVo {
 	public ActivityVo() {
 	}
 
-	@Builder
-	public ActivityVo(int srId,String activityStatus, String activityTitle, String activityContent, LocalDate activityEstimatedDate, String codeName, String type, int activityType, String activityRegistrant) {
-		this(activityType, activityStatus, activityTitle, activityContent, activityEstimatedDate, null, activityRegistrant, LocalDate.now(), codeName,0,srId,null,null,type);
+	@Builder(builderMethodName = "insertBuilder")
+	public ActivityVo(int srId,String activityStatus, String activityTitle, String activityContent, LocalDate activityEstimatedDate, String codeName, String type, int activityType, String activityRegistrant, LocalDate activityEstimatedCompletionDate) {
+		this(activityType, activityStatus, activityTitle, activityContent, activityEstimatedDate, null, activityRegistrant, LocalDate.now(), codeName,0,srId,null,null,type, activityEstimatedCompletionDate);
 	}
 
 	private ActivityVo(int activityType,
@@ -51,7 +52,8 @@ public class ActivityVo {
 					   int srId,
 					   String activityModifier,
 					   LocalDate activityModifiedDate,
-					   String type) {
+					   String type,
+					   LocalDate activityEstimatedCompletionDate) {
 
 
 		this.activityType = activityType;
@@ -68,5 +70,27 @@ public class ActivityVo {
 		this.activityModifier = activityModifier;
 		this.activityModifiedDate = activityModifiedDate;
 		this.type = type;
+		this.activityEstimatedCompletionDate = activityEstimatedCompletionDate;
 	}
+
+	@Builder(builderClassName = "modifyBuilder")
+	public ActivityVo(int activityId, String activityTitle, String activityContent, LocalDate activityEstimatedDate, LocalDate activityEstimatedCompletionDate, String activityModifier) {
+		this(0,
+				null,
+				activityTitle,
+				activityContent,
+				activityEstimatedDate,
+				null,
+				null,
+				null,
+				null,
+				activityId,
+				0,
+				activityModifier,
+				LocalDate.now(),
+				null,
+				activityEstimatedCompletionDate);
+	}
+
+
 }

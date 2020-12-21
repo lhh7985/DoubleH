@@ -1,210 +1,173 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+         pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>개인활동 추가(출장)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>개인활동 추가(출장)</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/resources/boots/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/resources/boots/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <script src="/resources/js/jquery-1.11.0.min.js"></script>
 
 
-<link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.css">
-<link rel="stylesheet"
-	href="/resources/bootstrap/css/bootstrap-theme.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function ($) {
+            // if ($("#activity").hasClass("active")) {
+            // } else {
+            //     $(this).removeClass("active");
+                $("#serviceRequest").addClass("active");
+                $("#srPages").addClass("show");
+                $("#activity").addClass("active");
+            // }
+        });
 
-<!-- 달력날짜 표시  -->
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<style>
-/*datepicer 버튼 롤오버 시 손가락 모양 표시*/
-.ui-datepicker-trigger {
-	cursor: pointer;
-}
-/*datepicer input 롤오버 시 손가락 모양 표시*/
-.hasDatepicker {
-	cursor: pointer;
-}
-</style>
+        function cancel() {
+            self.close();
+        }
 
-<script type="text/javascript">
-	$(function() {
-		//모든 datepicker에 대한 공통 옵션 설정
-		$.datepicker
-				.setDefaults({
-					dateFormat : 'yy-mm-dd' //Input Display Format 변경
-					,
-					showOtherMonths : true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
-					,
-					showMonthAfterYear : true //년도 먼저 나오고, 뒤에 월 표시
-					,
-					changeYear : true //콤보박스에서 년 선택 가능
-					,
-					changeMonth : true //콤보박스에서 월 선택 가능                
-					,
-					showOn : "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
-					,
-					buttonImage : "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
-					,
-					buttonImageOnly : true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
-					,
-					buttonText : "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
-					,
-					yearSuffix : "년" //달력의 년도 부분 뒤에 붙는 텍스트
-					,
-					monthNamesShort : [ '1', '2', '3', '4', '5', '6', '7', '8',
-							'9', '10', '11', '12' ] //달력의 월 부분 텍스트
-					,
-					monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월',
-							'8월', '9월', '10월', '11월', '12월' ] //달력의 월 부분 Tooltip 텍스트
-					,
-					dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ] //달력의 요일 부분 텍스트
-					,
-					dayNames : [ '일요일', '월요일', '화요일', '수요일', '목요일', '금요일',
-							'토요일' ] //달력의 요일 부분 Tooltip 텍스트
-					,
-					minDate : "-1Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-					,
-					maxDate : "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                    
-				});
 
-		//input을 datepicker로 선언
-		$(".datepicker").datepicker();
-		$("#datepicker2").datepicker();
+        function Activity_add() {
+            var add = document.add;
+            var title = add.activityTitle.value;
+            var content = add.activityContent.value;
 
-		/*  //From의 초기값을 오늘 날짜로 설정
-		 $('#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
-		 //To의 초기값을 내일로 설정
-		 $('#datepicker2').datepicker('setDate', '+1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후) */
-	});
+            if (!title || !content) {
+                alert("정보를 입력해주세요.");
+            } else {
+                var forms = $("#add").serialize();
+                $.ajax({
+                    url: "/activity/enroll/employee",
+                    type: "POST",
+                    data: forms,
+                    success: function () {
+                        location.replace("http://localhost:8080/activity/list");
+                    }
+                });
+            }
+        }
 
-	function cancle() {
-		self.close();
-	}
-	
-	
-	function Activity_add(){
-		var add = document.add;
-		var title = add.activity_title.value;
-		var content = add.activity_content.value;
-		
-		if( !title ||!content){
-			alert("정보를 입력해주세요.");
-		}
-		else{
-			add.submit();
-		}
-	}
-	
-</script>
+    </script>
 </head>
 <style>
-input {
-	size: 50px;
-}
-
-.my {
-	font: bold;
-	font-size: 15px;
-	text-align: left;
-}
+    input {
+        size: 50px;
+    }
 
 
-.font2 {
-	font-size: 50px;
-	font-weight: bold;
-	text-align: center;
-	margin-bottom: 50px;
-}
+    .btn-height {
+        height: 38px;
+    }
 
-
-label {
-	display: block;
-	width: 100%;
-	height: 34px;
-	padding: 6px 12px;
-	font-size: 15px;
-	line-height: 1.42857143;
-}
+    label {
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 15px;
+        line-height: 1.42857143;
+    }
 </style>
-<body>
 
-	<div>
-		<div>
-            <jsp:include page="../header.jsp" />
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <%@include file="../header.jsp" %>
+
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <div class="row">
+                    <div class="col-md-11">
+                        <h6 class="m-0 font-weight-bold text-primary">활동등록</h6>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-body">
+                <form name="add" id="add" action="http://localhost:8080/activity/enroll/employee" method="post">
+
+                    <!-- 몸통 -->
+                    <div class="row" style="margin-left:20px;">
+                        <label class="col-md-1">활동유형</label>
+                        <select name="type" style="" class="col-md-1 form-control">
+                            <option>출장</option>
+                            <option>고객사방문</option>
+                        </select>
+
+                        <label class="col-md-1" style="margin-left:30px;">활동상태</label>
+                        <select name="activityStatus" style="margin-left: -20px;" class="col-md-1 form-control">
+                            <option>활동예정</option>
+                            <option>활동중</option>
+                            <option>완료</option>
+                        </select>
+
+
+                        <label class="col-md-1 my" style="margin-left: 50px;">활동예정일</label>
+                        <input type="date" name="activityEstimatedDate" class="col-md-3 form-control">
+
+                    </div>
+
+                    <div class="row" style="margin: 20px;">
+                        <label class="col-md-1">완료예정일</label>
+                        <input type="date" name="activityCompletionDate" class=" col-md-3 form-control datepicker"
+                               style="width: 15%;">
+                    </div>
+
+
+                    <div class="row" style="margin: 20px; margin-top:20px;">
+                        <label class="col-md-1 my">제목</label>
+                        <input class="form-control" name="activityTitle" type="text"
+                               style="width: 60%;">
+                    </div>
+
+                    <div class="row" style="margin: 20px; margin-top:30px;">
+                        <label class=" col-md-1 my">내용</label>
+
+                        <textarea class="form-control" style="width: 80%;" name="activityContent" rows="15"
+                                  cols="120"></textarea>
+                    </div>
+
+
+                    <div class="col-md-11 text-center" style="margin-top: 30px;">
+                        <input class="col-xs-2 btn btn-outline-primary btn-height" type="button"
+                               onclick="Activity_add()" value="등록"/>
+                        <input class="col-xs-2 btn btn-outline-primary btn-height" type="reset" value="취소"/>
+                    </div>
+
+                </form>
+            </div>
         </div>
-	</div>
+
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="/resources/boots/vendor/jquery/jquery.min.js"></script>
+<script src="/resources/boots/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="/resources/boots/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="/resources/boots/js/sb-admin-2.min.js"></script>
 
 
-	<div class="container">
-	
-	<form name="add" action="http://localhost:8080/activity/enroll-employee"  method="post">
-		<div>
-			<h1 class="font2">활동 등록</h1>
-		</div>
-
-		<!-- 몸통 -->
-		<div class="row" style="margin-left:20px;">
-			<label class="col-md-2 my" style="width: 120px;">활동유형</label>
-			<select name="type"	style=" width: 15%;" class="col-md-2 form-control">
-				<option>출장</option>
-				<option>이슈</option>
-				<option>기능개발</option>
-			</select>
-				
-			<label class="col-md-2 my" style="width: 120px;  margin-left:50px;">활동 상태</label>
-			<select name="activityStatus" style=" width: 15%;" class="col-md-2 form-control">
-				<option>활동예정</option>
-				<option>활동중</option>
-				<option>완료</option>
-			</select>
-		</div>
-
-		<div  class="row" style="margin-top: 20px; margin-left:20px;">
-			<label class="col-md-2 my" style="width: 120px; ">활동 등록자</label>
-			<input class="col-md-2 form-control" style="width: 15%;"> 
-				
-			<label class="col-md-2 my" style="width: 120px;  margin-left:50px;">활동예정일</label>
-			<input type="date" name="activityEstimatedDate" class=" col-md-2 form-control" style="width: 15%;">
-			
-		</div>
-
-		<!-- <div class="row" style="margin-top: 20px;margin-left:20px; ">
-			<label class="col-md-2 my" style="width: 120px;">완료일</label>
-			<input type="date" name="activity_completionDate"  class=" col-md-2">		
-		</div>
- -->
-
-
-		<div style="margin: 20px; margin-top:40px;">
-			<label class="col-md-1 my">제목</label>
-			<input class="form-control" name="activityTitle" type="text"
-				style="width: 60%;">
-		</div>
-
-		<div style="margin: 20px; margin-top:30px;">
-			<label class=" col-md-1 my">내용</label>
-
-			<textarea class="form-control" style="width: 80%;" name="activityContent" rows="15" cols="120"></textarea>
-		</div>
-
-
-
-		<div style="margin-left: 500px; margin-top: 30px;">
-			<input class="btn btn-default" type = "submit"  value = "등록"/>
-            <input class="btn btn-default" type = "reset" value = "취소"/>
-		</div>
-		
-		</form>
-	</div>
-
-	<div style="margin-bottom: 50px;"></div>
-
-
-
-	<script src="/resources/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

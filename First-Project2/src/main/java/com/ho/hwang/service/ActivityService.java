@@ -1,9 +1,13 @@
 package com.ho.hwang.service;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Optional;
 
 import com.ho.hwang.dto.Activity.*;
+import com.ho.hwang.mappers.ActivityMapper;
+import com.ho.hwang.mappers.CustomerMapper;
 import com.ho.hwang.vo.ActivityVo;
 import org.springframework.stereotype.Service;
 
@@ -14,40 +18,87 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ActivityService {
+	private final ActivityMapper activityMapper;
 	private final UserMapper mapper;
+	private final CustomerMapper customerMapper;
 
-	public void insertActivity(InsertActivityDTO insertActivityDTO, Principal principal) {
-		insertActivityDTO.setActivityRegistrant(mapper.selectName(principal.getName()));
-		insertActivityDTO.setActivityType(mapper.selectCode(insertActivityDTO.getType()));
-		mapper.insertActivity(insertActivityDTO);
+	public ActivityVo insertActivity(InsertActivityDto insertActivityDto, Principal principal) {
+		insertActivityDto.setActivityRegistrant(mapper.selectName(principal.getName()));
+		insertActivityDto.setActivityType(mapper.selectCode(insertActivityDto.getType()));
+
+		ActivityVo activityVo = ActivityVo.insertBuilder()
+				.activityContent(insertActivityDto.getActivityContent())
+				.activityTitle(insertActivityDto.getActivityTitle())
+				.activityEstimatedDate(insertActivityDto.getActivityEstimatedDate())
+				.activityStatus(insertActivityDto.getActivityStatus())
+				.activityType(insertActivityDto.getActivityType())
+				.activityRegistrant(insertActivityDto.getActivityRegistrant())
+				.build();
+
+		activityMapper.insertActivity(activityVo);
+		return activityVo;
 	}
 
-	// 고객사 방문내역 확인
-	public List<SelectVisitDTO> selectVisit(int customerId) {
-		return mapper.selectVisit(customerId);
-	}
 
 	// 모든 활동 확인
-	public List<SelectActivityDTO> selectActivity() {
-		return mapper.selectActivity();
+	public List<SelectActivityDto> selectActivity() {
+		return activityMapper.selectActivity();
 	}
 
 	// 활동완료
-	public void updateComplete(int activityId) {
-		String status = mapper.selectComplete(activityId);
-		if (status != "완료")
-			mapper.updateComplete(activityId);
+	public int updateComplete(int activityId) {
+		String status = activityMapper.selectComplete(activityId);
+		if (status != "완료") {
+			return activityMapper.updateComplete(activityId);
+		}
+		else{
+			return 0;
+		}
 	}
 
 	// 각 고객별 활동 등록 및 검색
-	public void insertCustomerActivity(InsertCustomerActivityDTO insertCustomerActivityDTO, Principal principal) {
-		insertCustomerActivityDTO.setActivityRegistrant(mapper.selectName(principal.getName()));
-		insertCustomerActivityDTO.setActivityType(mapper.selectCode(insertCustomerActivityDTO.getType()));
-		mapper.insertCustomerActivity(insertCustomerActivityDTO);
+	public ActivityVo insertCustomerActivity(InsertCustomerActivityDto insertCustomerActivityDto, Principal principal) {
+		insertCustomerActivityDto.setActivityRegistrant(mapper.selectName(principal.getName()));
+		insertCustomerActivityDto.setActivityType(mapper.selectCode(insertCustomerActivityDto.getType()));
+
+		ActivityVo activityVo = ActivityVo.insertBuilder()
+				.srId(insertCustomerActivityDto.getSrId())
+				.activityTitle(insertCustomerActivityDto.getActivityTitle())
+				.activityContent(insertCustomerActivityDto.getActivityContent())
+				.activityType(insertCustomerActivityDto.getActivityType())
+				.activityEstimatedDate(insertCustomerActivityDto.getActivityEstimatedDate())
+				.activityRegistrant(insertCustomerActivityDto.getActivityRegistrant())
+				.activityStatus(insertCustomerActivityDto.getActivityStatus())
+				.build();
+
+		customerMapper.insertCustomerActivity(activityVo);
+		return activityVo;
+
 	}
 
-	public List<SelectCustomerActivityDTO> selectCustomerActivity(int srId) {
-		return mapper.selectCustomerActivity(srId);
+	public List<ActivityVo> selectCustomerActivity(int srId) {
+		return customerMapper.selectCustomerActivity(srId);
 	}
 
+	public Optional<ActivityVo> selectActivityDetail(int activityId){
+	    return activityMapper.selectActivityDetail(activityId);
+    }
+
+    public int updateActivity(UpdateActivityDto updateActivityDto, Principal principal){
+		ActivityVo activityVo = ActivityVo.builder()
+				.activityId(updateActivityDto.getActivityId())
+				.activityTitle(updateActivityDto.getActivityTitle())
+				.activityContent(updateActivityDto.getActivityContent())
+				.activityEstimatedDate(updateActivityDto.getActivityEstimatedDate())
+				.activityModifier(principal.getName())
+				.activityEstimatedCompletionDate(updateActivityDto.getActivityEstimatedCompletionDate())
+				.build();
+		return activityMapper.updateActivity(activityVo);
+
+
+	}
+
+	public int deleteActivity(int activityId){
+		return activityMapper.deleteActivity(activityId);
+	}
 }

@@ -1,186 +1,239 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="EUC-KR">
+    <meta charset="UTF-8">
 
+    <!-- Custom fonts for this template-->
+    <link href="/resources/boots/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
 
-<link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.css">
-<link rel="stylesheet"
-	href="/resources/bootstrap/css/bootstrap-theme.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Custom styles for this template-->
+    <link href="/resources/boots/css/sb-admin-2.min.css" rel="stylesheet">
 
-<title>Insert title here</title>
+    <script src="/resources/js/jquery-1.11.0.min.js"></script>
 
-<script type="text/javascript">
-	
-</script>
+    <title>Insert title here</title>
+
+    <script type="text/javascript">
+
+        $(document).ready(function ($) {
+            if ($("#activity").hasClass("active")) {
+
+            } else {
+                $(this).removeClass("active");
+                $("#serviceRequest").addClass("active");
+                $("#srPages").addClass("show");
+                $("#activity").addClass("active");
+            }
+        });
+
+        function Activity_edit() {
+            $(".edit").attr('readonly', false);
+            document.getElementById("btn_edit").style.display = "none";
+            document.getElementById("btn_complete").style.display = "inline-block";
+        }
+
+        function edit_cancel() {
+            history.back();
+        }
+
+        function Activity_update() {
+            var forms = $("#update").serialize();
+            $.ajax({
+                url: "/activity/update/employee",
+                type: "POST",
+                data: forms,
+                success: function (result) {
+                    if (result > 0) {
+                        alert("ìˆ˜ì • ë˜ì—ˆìŠµë‹ˆë‹¤.")
+                        location.replace("http://localhost:8080/activity/list");
+                    } else {
+                        alert("ì‹¤íŒ¨!!")
+                    }
+                }
+            });
+        }
+
+        function DeleteActivity(activityId) {
+            $.ajax({
+                type: 'GET',
+                url: '/activity/delete/' + activityId,
+                error: function (request, status, error) {
+                    alert("code:" + request.status + "\n" + "message:"
+                        + request.responseText + "\n" + "error:"
+                        + error);
+                },
+                success: function (result) {
+                    if (result > 0) {
+                        alert("ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤.")
+                        location.href = "/activity/list"
+                    } else {
+                        alert("ì‹¤íŒ¨!!")
+                    }
+                }
+            });
+        }
+
+        function complete(activityId) {
+            var check = confirm("ì™„ë£Œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?");
+            if (check) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/activity/complete/' + activityId,
+                    error: function (request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:"
+                            + request.responseText + "\n" + "error:"
+                            + error);
+                    },
+                    success: function (data) {
+                        location.href = "/activity/list";
+                    }
+                });
+            }
+        }
+
+    </script>
 
 </head>
 
 <style>
-.table {
-	display: table;
-}
-
-.mymargin{
-	margin: 20px;
-}
+    label {
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 15px;
+        line-height: 1.42857143;
+    }
 </style>
-<body>
 
-	<div>
-		<div>
-            <jsp:include page="../header.jsp" />
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <%@include file="../header.jsp" %>
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <h6 class="m-0 font-weight-bold text-primary col-md-10">í™œë™ì •ë³´</h6>
+                            <c:choose>
+                                <c:when test="${activityDetail.activityStatus eq 'ì™„ë£Œ'}">
+                                    <td height="45px;"></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <button class="col-xs-2 btn btn-outline-success"
+                                            onclick="complete(${activityDetail.activityId})">í™œë™ì™„ë£Œ
+                                    </button>
+                                </c:otherwise>
+                            </c:choose>
+                            <button class="col-xs-1 btn btn-outline-danger" style="margin-left: 15px;"
+                                    onclick="DeleteActivity(${activityDetail.activityId})">ì‚­ì œ
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-body">
+                <form name="update" id="update" action="http://localhost:8080/activity/enroll/employee" method="post">
+
+                    <input name="activityId" value="${activityDetail.activityId}" style="display: none"/>
+                    <!-- ëª¸í†µ -->
+                    <div class="row" style="margin-left:20px;">
+                        <label class="col-md-1">í™œë™ìœ í˜•</label>
+                        <select name="type" style="margin-left: -20px;" class="col-md-1 form-control" readonly="true">
+                            <option>${activityDetail.codeName}</option>
+                        </select>
+
+                        <label class="col-md-1" style="margin-left:30px;">í™œë™ìƒíƒœ</label>
+                        <select name="activityStatus" style="margin-left: -20px;" class="col-md-1 form-control"
+                                readonly="true">
+                            <option>${activityDetail.activityStatus}</option>
+                        </select>
+
+
+                        <label class="col-md-1 my" style="margin-left: 50px;">í™œë™ì˜ˆì •ì¼</label>
+                        <input type="date" name="activityEstimatedDate" class="col-md-2 form-control edit"
+                               value="${activityDetail.activityEstimatedDate}" readonly>
+
+                        <label class="col-md-1" style="margin-left: 50px;">ì™„ë£Œì˜ˆì •ì¼</label>
+                        <input type="date" name="activityEstimatedCompletionDate"
+                               class=" col-md-2 form-control datepicker edit" style="width: 15%;"
+                               value="${activityDetail.activityEstimatedCompletionDate}" readonly>
+
+
+                    </div>
+
+                    <div class="row" style="margin: 20px;">
+                        <label class="col-md-1">ë“±ë¡ì</label>
+                        <input name="activityRegistrant" class=" col-md-3 form-control"
+                               value="${activityDetail.activityRegistrant}" readonly>
+
+                        <label class="col-md-1" style="margin-left: 100px;">ì™„ë£Œì¼</label>
+                        <input name="activityCompletionDate" class=" col-md-2 form-control"
+                               value="${activityDetail.activityCompletionDate}" readonly>
+                    </div>
+
+
+                    <div class="row" style="margin: 20px; margin-top:20px;">
+                        <label class="col-md-1">ì œëª©</label>
+                        <input class="form-control edit" name="activityTitle" type="text"
+                               style="width: 60%;" value="${activityDetail.activityTitle}" readonly>
+                    </div>
+
+                    <div class="row" style="margin: 20px; margin-top:30px;">
+                        <label class=" col-md-1">ë‚´ìš©</label>
+
+                        <textarea class="form-control edit" style="width: 80%;" name="activityContent" rows="15"
+                                  cols="120" readonly>${activityDetail.activityContent}</textarea>
+                    </div>
+
+
+                    <div class="col-md-11 text-center" style="margin-top: 30px;">
+                        <input id="btn_edit" class="col-xs-2 btn btn-outline-primary btn-height" type="button"
+                               onclick="Activity_edit()" value="ìˆ˜ì •" style="display: inline-block"/>
+                        <input id="btn_complete" class="col-xs-2 btn btn-outline-primary btn-height" type="button"
+                               onclick="Activity_update()" value="ì™„ë£Œ" style="display: none"/>
+                        <input class="col-xs-2 btn btn-outline-primary btn-height" onclick="edit_cancel()" type="reset"
+                               value="ì·¨ì†Œ"/>
+                    </div>
+                </form>
+            </div>
         </div>
-	</div>
+    </div>
+</div>
+<!-- Bootstrap core JavaScript-->
+<script src="/resources/boots/vendor/jquery/jquery.min.js"></script>
+<script src="/resources/boots/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-	<div class="container">
-	
-		<div class="row mymargin">
-			<div class="col-md-1">°í°´»ç</div>
-			<input class="col-md-2">
-		
-			<div class="col-md-1" style="margin-left: 40px;">Á¦Ç°</div>
-			<input class="col-md-2">
-		</div>
-		
-		
-		<div class="row mymargin">
-			<div class="col-md-1">À¯Çü</div>
-			<input class="col-md-2">
-		
-			<div class="col-md-1" style="margin-left: 40px;">Áß¿äµµ</div>
-			<input class="col-md-2">
-			
-			<div class="col-md-1" style="margin-left: 40px;">¿äÃ»ÀÏ</div>
-			<input class="col-md-2">
-		</div>
-		
-		<div class="row mymargin">
-			<div class="col-md-1">µî·ÏÀÚ</div>
-			<input class="col-md-2">
-		
-			<div class="col-md-1" style="margin-left: 40px;">µî·ÏÀÏ</div>
-			<input class="col-md-2">
-		</div>
-		
-		<div class="row mymargin" style="margin-top : 40px;">
-			<div class="col-md-1">Á¦¸ñ</div>
-			<input class="col-md-4">
-		
-		</div>
-		
-		<div class="row mymargin">
-			<div class="col-md-1">¿ä±¸»çÇ×</div>
-			<textarea class="col-md-9" rows="14" cols="150"></textarea>
-		
-		</div>
-		
-		
-	
-	
-	
-	
-	
-	
-	
-	<div style="margin-top: 100px;">
-		<div class="row-fluid">
-			<h2>È°µ¿</h2>
-			
-			<button class="btn btn-default pull-right" type="button">È°µ¿Ãß°¡</button>
-		<div>
-		<table class="table" >
-			<thead>
-				<tr>
-					<th>À¯Çü</th>
-					<th>Á¦¸ñ</th>
-					<th>µî·ÏÀÚ</th>
-					<th>½ÃÀÛÀÏ</th>
-					<th>Á¾·áÀÏ</th>
-					<th>»óÅÂ</th>
-				</tr>
-			</thead>
+<!-- Core plugin JavaScript-->
+<script src="/resources/boots/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-			<tbody class="panel">
-				<tr class="panel-heading" data-toggle="collapse" data-target=".coll1">
-					<td>A</td>
-					<td>»õ·Î¿î Ãâ¼®±â´É Ãß°¡</td>
-					<td>ÀÌÈ£È²</td>
-					<td>2020-10-12</td>
-					<td>2020-12-22</td>
-					<td>ÁøÇàÁß</td>
-				</tr>
+<!-- Custom scripts for all pages-->
+<script src="/resources/boots/js/sb-admin-2.min.js"></script>
 
+<!-- Page level plugins -->
+<script src="/resources/boots/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/resources/boots/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-				<tr  class="panel-collapse collapse coll1" >
-					<td class="panel-body" colspan="6">³»¿ë
-					</td>	
-				</tr>
-				
-				<tr class="panel-collapse collapse coll1 panel-footer">
-					<td colspan="6">
-						<div class=" col-sm-1" style="width: 90px;">Á¢¼öÀÏ :</div>
-						<div class="col-md-2">2020-10-10</div>
-						<div class=" col-sm-1" style="width: 110px;">¿Ï·á¿¹Á¤ÀÏ :</div>
-						<div class="col-md-2">2020-10-13</div>
-						<div class=" col-sm-1" style="width: 80px;">¿Ï·áÀÏ :</div>
-						<div class="col-md-2">2020-10-13</div>
-					</td>
-					
-				</tr>
-				
-				
-				
-				<tr class="panel-heading" data-toggle="collapse" data-target=".coll2">
-					<td>A</td>
-					<td>»õ·Î¿î Ãâ¼®±â´É Ãß°¡</td>
-					<td>ÀÌÈ£È²</td>
-					<td>2020-10-12</td>
-					<td>2020-10-26</td>
-					<td>ÁøÇàÁß</td>
-				</tr>
+<!-- Page level custom scripts -->
+<script src="/resources/boots/js/demo/datatables-demo.js"></script>
 
-
-				<tr  class="panel-collapse collapse coll2">
-					<td class="panel-body" colspan="6">³»¿ë
-					</td>	
-				</tr>
-				
-				<tr class="panel-collapse collapse coll2 panel-footer">
-					<td colspan="6">
-						<div class=" col-sm-1" style="width: 90px;">Á¢¼öÀÏ :</div>
-						<div class="col-md-2">2020-10-10</div>
-						<div class=" col-sm-1" style="width: 110px;">¿Ï·á¿¹Á¤ÀÏ :</div>
-						<div class="col-md-2">2020-10-13</div>
-						<div class=" col-sm-1" style="width: 80px;">¿Ï·áÀÏ :</div>
-						<div class="col-md-2">2020-10-13</div>
-					</td>
-					
-				</tr>
-				
-
-			</tbody>
-
-
-		</table>
-		</div>
-		</div>
-		
-		
-
-	</div>
-	
-	
-	<div class="container-footer" style="margin-bottom: 100px;">
-		<h3>End</h3>
-	</div>
-
-	</div>
-	<script src="/resources/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
