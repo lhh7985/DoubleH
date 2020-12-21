@@ -1,5 +1,6 @@
 package com.ho.hwang.dto.Activity;
 
+import com.ho.hwang.vo.SrVo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,4 +20,10 @@ public class SelectCustomerActivityDto {
     private int activityId;
     private String activityStatus;
     private Date activityRegistrationDate;
+
+    public SelectCustomerActivityDto() {
+
+    }
+
+
 }

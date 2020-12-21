@@ -1,129 +1,162 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+         pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Hello test</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Hello test</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/resources/boots/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/resources/boots/css/sb-admin-2.min.css" rel="stylesheet">
 
 
-<link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.css">
-<link rel="stylesheet"
-	href="/resources/bootstrap/css/bootstrap-theme.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="/resources/jqueryUI/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/resources/css/ui.jqgrid.css"/>
+
+    <script src="/resources/js/jquery-1.11.0.min.js"></script>
+    <script type="text/ecmascript" src="/resources/js/i18n/grid.locale-kr.js"></script>
+    <script type="text/ecmascript" src="/resources/js/jquery.jqgrid.min.js"></script>
 
 
-<script type="text/javascript">
-	
+    <script type="text/javascript">
 
-	
-	function complete(activityId){
-		$.ajax({
-			type : 'POST',
-			url : '/activity/list?activity_id=' + activityId,
-			error : function(request, status, error) {
-				alert("code:" + request.status + "\n" + "message:"
-						+ request.responseText + "\n" + "error:"
-						+ error);
-			},
-			success : function(data) {
-				location.reload();
-			}
-		});
-	}
-</script>
+        $(document).ready(function ($) {
+            $("#jqGrid").jqGrid({
+                url: "http://localhost:8080/activity/getlist",
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['ID', '구분', '제목', '내용', '등록자', '활동예정일', '완료일'],
+                colModel: [
+                    {name: "activityId", label: "activityId", width: 50, key: true, hidden: true},
+                    {name: "codeName", label: "codeName", width: 30, hidden: false},
+                    {name: "activityTitle", label: "activityTitle", width: 100, editable: true},
+                    {name: "activityContent", label: "activityContent", width: 230, editable: true},
+                    {name: "activityRegistrant", label: "activityRegistrant", width: 40, editable: false},
+                    {name: "activityEstimatedDate", label: "activityEstimatedDate", width: 50, editable: false},
+                    {name: "activityCompletionDate", label: "activityCompletionDate", width: 50, editable: true}
+                ],
+                pager: '#pager',
+                loadonce: true,
+                rowNum: 15,
+                rownumbers: true,
+                gridview: true,
+                width: 1430,
+                height: 'auto',
+                rowList: [15, 30, 50],
+                // viewrecords: true,
+                caption: 'activiy-List',
+                // autoencode: true,
+                jsonReader: {
+                    // root: "rows",
+                    // page: "page",
+                    // total: "total",
+                    // records: "records",
+                    repeatitems: false,
+                    id: "0",
+                },
+                onCellSelect: function (rowid, iCol, cellcontent, e) {
+                    var rowid = $("#jqGrid").getRowData(rowid);
+                    location.href = "http://localhost:8080/activity/" + rowid.activityId + "/detail";
+                },
+                navOptions: {reloadGridOptions: {fromServer: true}}
+            }).navGrid('#pager', {edit: false, add: false, del: false, search: false, refresh: true},
+                {
+                    url: '#',
+                    closeOnExcape: true,
+                    recreateForm: true,
+                    closeAfterEdit: true,
+                    afterComplete: function (response) {
+                        if (response.responseText) {
+                            alert(response.responseText);
+                        }
+                    },
+                },
+                {},
+                {
+                    url: '#',
+                    afterComplete: function (response) {
+                        if (response.responseText) {
+                            alert(response.responseText);
+                        }
+                        $("#jqGrid").trigger('reloadGrid');
+                    }
+                }
+            );
+            $("#jqGrid").jqGrid('filterToolbar', {searchOperators: true, stringResult: true, searchOnEnter: true});
+
+
+            $(this).removeClass("active");
+            $("#serviceRequest").addClass("active");
+            $("#srPages").addClass("show");
+            $("#activity").addClass("active");
+
+        });
+
+
+    </script>
 </head>
 <style>
 
-.font1 {
-	font-size: 17px;
-	text-align:center;
-	font-weight: bold;
-	margin-left: 950px;
-	font:bold;
-}
-
-.font2 {
-	font-size: 50px;
-	font-weight: bold;
-	text-align: center;
-}
+    .ui-jqgrid .ui-jqgrid-bdiv {
+        overflow-x: hidden;
+        font-size: 18px;
+        font-family: 'NanumGothicB', '나눔고딕', "나눔고딕";
+    }
 
 </style>
-<body>
 
-	<div>
-		<div>
-            <jsp:include page="../header.jsp" />
+
+<body id="page-top">
+
+<div id="wrapper">
+    <%@include file="../header.jsp" %>
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <div class="row">
+                    <div class="col-md-11">
+                        <h6 class="m-0 font-weight-bold text-primary">활동리스트</h6>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline-primary " style="float: right; margin: unset;"
+                                onclick="location.href='/activity/enroll/employee'">추가
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="jqGrid"></table>
+                    <div id="pager"></div>
+                </div>
+            </div>
         </div>
-	</div>
+    </div>
+</div>
+<!-- Bootstrap core JavaScript-->
+<script src="/resources/boots/vendor/jquery/jquery.min.js"></script>
+<script src="/resources/boots/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+<!-- Core plugin JavaScript-->
+<script src="/resources/boots/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-	<div class="container">
-		<div>
-			<h1 class="font2">활동</h1>
-			<div>
-				<button class="btn btn-default font1 col-sx-2" onclick="location.href='http://localhost:8080/activity/enroll-employee'">추가</button>
-			</div>
-			
-		</div>
-		
-		<!-- 몸통 -->
-		<div>
-			<table class="table table-condensed"
-			style="border-collapse: collapse;">
-			<thead>
-				<tr>
-					<th>활동유형</th>
-					<th>제목</th>
-					<th>등록자</th>
-					<th>활동예정일</th>
-					<th>완료일</th>
-					<th></th>
-				</tr>
-			</thead>
+<!-- Custom scripts for all pages-->
+<script src="/resources/boots/js/sb-admin-2.min.js"></script>
 
-			<tbody>
-				<c:forEach var="item" items="${activity}" varStatus="status">
-					<tr >
-						<td>${item.codeName}</td>
-						<td data-toggle="collapse" data-target="#${status.index}" style="cursor: pointer;">${item.activityTitle}</td>
-						<td>${item.activityRegistrant}</td>
-						<td>${item.activityEstimatedDate}</td>
-						<td>${item.activityCompletionDate}</td>
-						<c:choose>
-							<c:when  test="${item.activityCompletionDate eq null}">
-								<td><input height="35px;" type="button" onclick=complete('${item.activityId}') class="btn" value="활동완료"/></td>
-							</c:when>
-							<c:otherwise>
-									<td height="45px;"></td>
-							</c:otherwise>	
-						</c:choose>
-					</tr>
-
-
-					<tr  class="panel-collapse collapse " id="${status.index}" >
-						<td style="padding: 10px;" class="panel-body" colspan="7">
-							<p style="white-space:pre; margin-left: 20px;">${item.activityContent}</p>
-						</td>	
-					</tr>
-				
-
-				</c:forEach>
-			</tbody>
-		</table>
-		
-		</div>
-	
-		
-	</div>
-
-
-
-	<script src="/resources/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
