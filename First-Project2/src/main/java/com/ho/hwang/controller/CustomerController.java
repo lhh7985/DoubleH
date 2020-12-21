@@ -1,140 +1,138 @@
 package com.ho.hwang.controller;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-
-import com.ho.hwang.dto.Activity.SelectCustomerActivityDto;
-import com.ho.hwang.dto.Activity.SelectVisitDto;
-import com.ho.hwang.dto.Customer.*;
+import com.ho.hwang.dto.Customer.InsertCustomerDto;
+import com.ho.hwang.dto.Customer.UpdateCustomerDetailDto;
 import com.ho.hwang.dto.ManagerHistory.SelectManagerDto;
 import com.ho.hwang.dto.Product.SelectDeliveryDto;
 import com.ho.hwang.dto.Product.SelectTotalOsDto;
 import com.ho.hwang.dto.Sr.SelectSrDetailDto;
 import com.ho.hwang.dto.Sr.SelectSrListDto;
-import com.ho.hwang.paging.Page;
+import com.ho.hwang.paging.JqgridResponse;
 import com.ho.hwang.service.*;
 import com.ho.hwang.vo.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/customer/*")
 public class CustomerController {
 
-	private final UserService userService;
-	private final CustomerService customerService;
-	private final SrService srService;
-	private final ActivityService activityService;
-	private final ProductService productService;
+    private final UserService userService;
+    private final CustomerService customerService;
+    private final SrService srService;
+    private final ActivityService activityService;
 
-	@GetMapping("/detail")
-	public String getDetail(int customerId, Model model) {
-		CustomerVo customerDetail = customerService.selectCustomerDetail(customerId);
-		Map<String, Object> managers = userService.selectEmployee(customerDetail.getEmployeeIdManager(),customerDetail.getEmployeeIdSe(),customerDetail.getEmployeeIdSales());
+    @GetMapping("/{rowid}/detail")
+    public String getDetail(@PathVariable("rowid") int rowid, Model model) {
+        CustomerVo customerDetail = customerService.selectCustomerDetail(rowid);
+        Map<String, Object> managers = userService.selectEmployee(customerDetail.getEmployeeIdManager(), customerDetail.getEmployeeIdSe(), customerDetail.getEmployeeIdSales());
 
-		model.addAttribute("customer", customerDetail);
-		model.addAttribute("managers", managers);
+        model.addAttribute("customer", customerDetail);
+        model.addAttribute("managers", managers);
 
-		return "customer/detail";
-	}
+        return "customer/detail";
+    }
 
-	@GetMapping("/delivery")
-	public String getDelivery(Model model, HttpServletRequest req) {
-		int customerId = Integer.parseInt(req.getParameter("customerId"));
-		List<SelectDeliveryDto> list = productService.selectDelivery(customerId);
-		model.addAttribute("list", list);
-		List<SelectTotalOsDto> list2 = productService.selectOS(customerId);
-		model.addAttribute("list2", list2);
+    @GetMapping("/delivery/{customerId}")
+    public String getDelivery(Model model, @PathVariable("customerId") int customerId) {
+        List<SelectDeliveryDto> list = customerService.selectDelivery(customerId);
+        model.addAttribute("list", list);
+        List<SelectTotalOsDto> list2 = customerService.selectOS(customerId);
+        model.addAttribute("list2", list2);
+        return "customer/delivery";
+    }
 
-		return "customer/delivery";
-	}
+    @GetMapping("/manager/{customerId}")
+    public String getManagerHistory(Model model, @PathVariable("customerId") int customerId) {
+        List<SelectManagerDto> list = customerService.selectManager(customerId);
+        model.addAttribute("list", list);
+        return "customer/manager";
+    }
 
-	@GetMapping("/manager")
-	public String getManagerHistory(Model model, HttpServletRequest req) {
-		int customerId = Integer.parseInt(req.getParameter("customerId"));
-		List<SelectManagerDto> list = customerService.selectManager(customerId);
-		model.addAttribute("list", list);
-		return "customer/manager";
-	}
+    @GetMapping("/list")
+    public String getCustomerList() {
+        return "customer/list";
+    }
 
-	@GetMapping("/list")
-	public String getCustomerList(@RequestParam(defaultValue = "1") int page, Model model) {
+    @GetMapping("/getlist")
+    public @ResponseBody
+    JqgridResponse getAll() {
+        List<CustomerListVo> customerList = customerService.selectCustomerList();
+        JqgridResponse response = new JqgridResponse();
+        response.setRows(customerList);
+        return response;
+    }
 
-		int listCnt = customerService.selectCustomerTotalCount();
-		Page paging = new Page(listCnt, page);
+    @GetMapping("/sr/{customerId}")
+    public String getSrList(Model model, @PathVariable("customerId") int customerId) {
+        List<SelectSrListDto> srList = srService.selectSRList(customerId);
+        model.addAttribute("srList", srList);
 
-		List<CustomerListVo> list = customerService.selectCustomerList(paging.getStartIndex(),paging.getPageSize());
-		model.addAttribute("list", list);
-		model.addAttribute("paging", paging);
+        return "customer/sr";
+    }
 
-		return "customer/list";
-	}
+    @GetMapping("/{srId}/sr-detail")
+    public String getSrDetail(Model model, @PathVariable("srId") int srId) {
 
-	@GetMapping("/sr")
-	public String getSrList(Model model, HttpServletRequest req) {
-		int customerId = Integer.parseInt(req.getParameter("customerId"));
-		List<SelectSrListDto> srList = srService.selectSRList(customerId);
-		model.addAttribute("srList", srList);
+        SelectSrDetailDto selectSrDetailDto = srService.selectSRDetail(srId)
+                .map((srVo) -> new SelectSrDetailDto(srVo))
+                .orElseThrow(() -> new NoSuchElementException());
+        model.addAttribute("srvo", selectSrDetailDto);
 
-		return "customer/sr";
-	}
+        List<ActivityVo> activityVo = activityService.selectCustomerActivity(srId);
+        model.addAttribute("acvo", activityVo);
 
-	@GetMapping("/{srId}/sr-detail")
-	public String getSrDetail(Model model, @PathVariable("srId") int srId) {
+        return "customer/sr_detail";
+    }
 
-		SelectSrDetailDto selectSrDetailDto = srService.selectSRDetail(srId)
-				.map((srVo)->new SelectSrDetailDto(srVo))
-				.orElseThrow(() -> new NoSuchElementException());
-				model.addAttribute("srvo", selectSrDetailDto);
+    @GetMapping("/activity/{customerId}")
+    public String getCustomerActivity(Model model, @PathVariable("customerId") int customerId) {
+        List<SrVo> list = customerService.selectVisit(customerId);
+        model.addAttribute("list", list);
 
-		List<ActivityVo> activityVo = activityService.selectCustomerActivity(srId);
-			model.addAttribute("acvo", activityVo);
+        return "customer/activity";
+    }
 
-		return "customer/sr_detail";
-	}
+    @GetMapping(value = "/modify")
+    public String modifyCustomerDetail() {
+        return "customer/modify";
+    }
 
-	@GetMapping("/activity")
-	public String getCustomerActivity(Model model, HttpServletRequest req) {
-		int customerId = Integer.parseInt(req.getParameter("customerId"));
-		List<SelectVisitDto> list = activityService.selectVisit(customerId);
-		model.addAttribute("list", list);
+    @PostMapping(value = "/modify")
+    public void modifyCustomerDetail(UpdateCustomerDetailDto updateCustomerDetailDto) {
+        customerService.updateCustomerDetail(updateCustomerDetailDto);
+    }
 
-		return "/customer/activity";
-	}
+    @PostMapping("/delete")
+    @ResponseBody
+    public int deleteCustomer(@RequestParam(value = "id") int customerId) throws Exception {
+        int result = customerService.deleteCustomer(customerId);
+        return result;
+    }
 
-	@GetMapping(value = "/modify")
-	public String modifyCustomerDetail() {
-		return "/customer/modify";
-	}
+    @GetMapping("/enroll")
+    public String enrollCustomer(Model model) {
+        return "customer/enroll";
+    }
 
-	@PostMapping(value = "/modify")
-	public void modifyCustomerDetail(UpdateCustomerDetailDto updateCustomerDetailDto) {
-		customerService.updateCustomerDetail(updateCustomerDetailDto);
-	}
+    // 고객사 등록부분
+    @PostMapping("/enroll")
+    public void enrollCustomer(InsertCustomerDto insertCustomerDto) {
+        customerService.insertCustomer(insertCustomerDto);
+    }
 
-	@PostMapping("/delete")
-	@ResponseBody
-	public int deleteCustomer(@RequestParam(value = "chbox[]") List<Integer> charr) throws Exception {
-		int result = customerService.deleteCustomer(charr);
-		return result;
-	}
-
-	@GetMapping("/enroll")
-	public String enrollCustomer(Model model) {
-		return "/customer/enroll";
-	}
-
-	// 고객사 등록부분
-	@PostMapping("/enroll")
-	public void enrollCustomer(InsertCustomerDto insertCustomerDto) {
-		customerService.insertCustomer(insertCustomerDto);
-	}
+    @GetMapping("{deliveryId}/os")
+    public String getOs(@PathVariable("deliveryId") int deliveryId, Model model) {
+        //os DB에서 받아오기
+        List<OsVo> osList = customerService.selectOs(deliveryId);
+        model.addAttribute("osList", osList);
+        return "customer/os";
+    }
 }
