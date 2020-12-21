@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ho.hwang.mappers.PatchMapper">
+    <select id="selectPatchList" resultType="PatchHistoryVo">
+        SELECT c.customer_name, p.product_name, pat.patch_title, pat.patch_Date, patch_registrant, pat.Patch_Content,pat.delivery_id, pat.package_id,pat.patch_id
+        FROM patchHistory pat
+        INNER JOIN customer c
+        INNER JOIN delivery d ON d.Customer_ID = c.Customer_ID AND pat.delivery_id = d.Delivery_ID
+        INNER JOIN product p ON p.product_id = d.Delivery_ID;
+    </select>
+
+    <select id="selectPackageList" resultType="PackageVo">
+        SELECT pac.package_id, pac.package_name,pac.package_version,pac.package_kernel,pac.package_uploadDate,pac.package_os,pac.package_registrant,e1.employee_name as developer, e2.employee_name as distributor, p.product_name, p.product_id
+        FROM package pac
+        INNER JOIN employee e1 ON e1.employee_id = pac.Employee_ID_Developer
+        INNER JOIN employee e2 ON e2.employee_id = pac.Employee_ID_Distributor
+        INNER JOIN product p ON p.product_id = pac.Product_ID;
+    </select>
+
+    <insert id="insertPatch">
+        INSERT INTO patchHistory(delivery_id, package_id, patch_title, patch_content, patch_date, patch_registrant, patch_registrationDate)
+        VALUES (#{deliveryId},#{packageId},#{patchTitle},#{patchContent},#{patchDate},#{patchRegistrant},#{patchRegistrationDate})
+    </insert>
+
+</mapper>
