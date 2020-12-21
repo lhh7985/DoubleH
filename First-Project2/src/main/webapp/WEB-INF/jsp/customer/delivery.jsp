@@ -1,70 +1,99 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="EUC-KR">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Delivery</title>
+    <!-- Custom fonts for this template -->
+    <link href="/resources/boots/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
 
+    <!-- Custom styles for this template -->
+    <link href="/resources/boots/css/sb-admin-2.min.css" rel="stylesheet">
 
-<link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.css">
-<link rel="stylesheet"
-	href="/resources/bootstrap/css/bootstrap-theme.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Custom styles for this page -->
+    <link href="/resources/boots/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-<title>Insert title here</title>
-
-<script type="text/javascript">
-	
-</script>
 
 </head>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
 
-<style>
-</style>
+    //클릭시 os별 수량 div 출력
+    function osShow(deliveryId, productName) {
+
+        // alert(productName);
+        if (productName == "iGRIFFIN" || productName == "ToS") {
+            $.ajax({
+                type: 'GET',
+                url: '/customer/' + deliveryId + '/os',
+                error: function (request, status, error) {
+                    alert("code:" + request.status + "\n" + "message:"
+                        + request.responseText + "\n" + "error:"
+                        + error);
+                },
+                success: function (data) {
+                    $('#os').html(data);
+                }
+            });
+        }
+    }
+
+</script>
 <body>
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <!-- DataTales Example -->
+    <div>
 
-	<div>
-		<table class="table table-condensed"
-			style="border-collapse: collapse;">
-			<thead>
-				<tr>
-					<th width="10%">����� ��ȣ</th>
-					<th>��ǰ��</th>
-					<th>��ǰ����</th>
-					<th>��ǰ��</th>
-				</tr>
-			</thead>
+        <div>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="myTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th width="10%">사업건 번호</th>
+                        <th>제품명</th>
+                        <th>납품수량</th>
+                        <th>납품일</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th width="10%">사업건 번호</th>
+                        <th>제품명</th>
+                        <th>납품수량</th>
+                        <th>납품일</th>
+                    </tr>
+                    </tfoot>
 
-			<tbody>
-				<c:forEach var="item" items="${list}" varStatus="status">
-					<tr data-toggle="collapse" data-target=".${status.index}" style="cursor: pointer;">
-						<td>${item.deliveryBusinessNum}</td>
-						<td>${item.productName}</td>
-						<td>${item.deliveryQuantity}</td>
-						<td>${item.deliveryDate}</td>
-					</tr>
+                    <tbody>
+                    <c:forEach var="item" items="${list}" varStatus="status">
+                        <tr class="collapsed" data-toggle="collapse" data-target="#d${status.index}"
+                            style="cursor: pointer;">
+                            <td>${item.deliveryBusinessNum}</td>
+                            <td onclick="osShow(${item.deliveryId},'${item.productName}')">${item.productName}</td>
+                            <td>${item.deliveryQuantity}</td>
+                            <td>${item.deliveryDate}</td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
-					<c:if test="${item.productName eq 'ToS' || item.productName eq 'iGRIFFIN'}">
-					<tr class="p panel-collapse collapse ${status.index}">
-						<td colspan="4">
-							<div>
-								<c:forEach var="item2" items="${list2}">
-									<c:if test="${item.deliveryId eq item2.deliveryId}">
-										<p>
-											${item2.osName} : <span>${item2.osQuantity}</span>
-										</p>
-									</c:if>
-								</c:forEach>
-							</div>
-						</td>
-					</tr>
-					</c:if>
-				</c:forEach>
-			</tbody>
-		</table>
-	</div>
+<div>
+    <div id="os" style="margin: 50px;"></div>
+</div>
+<!-- Page level plugins -->
+<script src="/resources/boots/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/resources/boots/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
 </body>
 </html>
