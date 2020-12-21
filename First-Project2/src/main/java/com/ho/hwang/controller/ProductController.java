@@ -1,22 +1,16 @@
 package com.ho.hwang.controller;
 
-import java.util.List;
-
 import com.ho.hwang.dto.Product.InsertDeliveryDto;
 import com.ho.hwang.dto.Product.SelectProductDto;
 import com.ho.hwang.dto.Product.SelectTotalDeliveryDto;
-import com.ho.hwang.dto.Product.SelectTotalOsDto;
-import com.ho.hwang.paging.Page;
+import com.ho.hwang.paging.JqgridResponse;
 import com.ho.hwang.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,27 +21,32 @@ public class ProductController {
 
 	@GetMapping("/list")
 	public String getProductList(Model model) {
-
 		List<SelectProductDto> productList = productService.selectProduct();
 		model.addAttribute("productList", productList);
-
 		return "product/list";
 	}
 
 	// 납품정보
 	@GetMapping("/delivery")
 	public String getDeliveryList(@RequestParam(defaultValue = "1") int page, Model model) {
-
-		int listCnt = productService.selectDeliveryTotalCount();
-		Page paging = new Page(listCnt, page);
-
-		List<SelectTotalDeliveryDto> deliveryList = productService.selectTotalDelivery(paging.getStartIndex(), paging.getPageSize());
-		model.addAttribute("deliveryList", deliveryList);
-		List<SelectTotalOsDto> osList = productService.selectTotalOS();
-		model.addAttribute("osList", osList);
-		model.addAttribute("paging", paging);
-
+//		int listCnt = productService.selectDeliveryTotalCount();
+//		Page paging = new Page(listCnt, page);
+//
+//		List<SelectTotalDeliveryDto> deliveryList = productService.selectTotalDelivery(paging.getStartIndex(), paging.getPageSize());
+//		model.addAttribute("deliveryList", deliveryList);
+//		List<SelectTotalOsDto> osList = productService.selectTotalOS();
+//		model.addAttribute("osList", osList);
+//		model.addAttribute("paging", paging);
 		return "product/delivery";
+	}
+
+	@GetMapping("/getlist")
+	public @ResponseBody
+	JqgridResponse getAll() {
+		List<SelectTotalDeliveryDto> deliveryList = productService.selectTotalDelivery();
+		JqgridResponse response = new JqgridResponse();
+		response.setRows(deliveryList);
+		return response;
 	}
 
 	@GetMapping("/delivery/enroll")
@@ -62,8 +61,8 @@ public class ProductController {
 
 	@PostMapping("/delivery/delete")
 	@ResponseBody
-	public int deleteDelivery(@RequestParam(value = "chbox[]") List<Integer> charr) throws Exception {
-		int result = productService.deleteDelivery(charr);
+	public int deleteDelivery(@RequestParam(value = "id") int id) throws Exception {
+		int result = productService.deleteDelivery(id);
 		return result;
 	}
 }

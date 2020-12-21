@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -14,7 +15,7 @@ public class SelectTotalDeliveryDto {
     private String customerName;
     private String productName;
     private int deliveryQuantity;
-    private Date deliveryDate;
+    private LocalDate deliveryDate;
     private int customerId;
     private int deliveryId;
 }
