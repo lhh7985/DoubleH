@@ -8,8 +8,11 @@ import lombok.Setter;
 public class PackageVo {
 	private int packageId;
 	private int employeeIdDeveloper;
+	private String developer;
 	private int employeeIdDistributor;
+	private String distributor;
 	private int productId;
+	private String productName;
 	
 	private String packageName;
 	private String packageVersion;
