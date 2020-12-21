@@ -1,27 +1,23 @@
 package com.ho.hwang.controller;
 
-import java.security.Principal;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.ho.hwang.dto.Activity.InsertActivityDto;
 import com.ho.hwang.dto.Activity.InsertCustomerActivityDto;
 import com.ho.hwang.dto.Activity.SelectActivityDto;
+import com.ho.hwang.dto.Activity.UpdateActivityDto;
+import com.ho.hwang.paging.JqgridResponse;
 import com.ho.hwang.responseEntity.Message;
+import com.ho.hwang.service.ActivityService;
 import com.ho.hwang.vo.ActivityVo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.ho.hwang.service.ActivityService;
-
-import lombok.RequiredArgsConstructor;
+import java.security.Principal;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,22 +26,45 @@ public class ActivityController {
 
 	private final ActivityService activityService;
 
-	//// 활동 검색 및 개발 완료 버튼
+	//jqGrid로 활동 목록 출력
 	@GetMapping("/list")
-	public String getList(Model model) {
-		List<SelectActivityDto> activity = activityService.selectActivity();
-		model.addAttribute("activity", activity);
+	public String getList() {
 		return "activity/list";
 	}
 
-	@PostMapping("/list")
-	@ResponseBody
-	public String setListComplete(Model model, int activityId) {
-		activityService.updateComplete(activityId);
-		return "redirect:/activity/list";
+	@GetMapping("/getlist")
+	public @ResponseBody JqgridResponse getAll() {
+		List<SelectActivityDto> activityList = activityService.selectActivity();
+		JqgridResponse response = new JqgridResponse();
+		response.setRows(activityList);
+		return response;
 	}
 
-	@PostMapping("detail")
+	//activity 완료하기
+	@PostMapping("/complete/{activityId}")
+	@ResponseBody
+	public int setListComplete(Model model, @PathVariable("activityId") int activityId) {
+		return activityService.updateComplete(activityId);
+	}
+
+
+	@GetMapping("/{activityId}/detail")
+	public String getActivityDetail(Model model, @PathVariable("activityId") int activityId){
+		SelectActivityDto selectActivityDto = activityService.selectActivityDetail(activityId)
+				.map((activityVo)-> new SelectActivityDto(activityVo))
+				.orElseThrow(()-> new NoSuchElementException());
+		model.addAttribute("activityDetail", selectActivityDto);
+		return "activity/detail";
+	}
+
+	@PostMapping("/update/employee")
+	@ResponseBody
+	public int updateActivity(UpdateActivityDto updateActivityDto, Principal principal){
+		int result = activityService.updateActivity(updateActivityDto, principal);
+		return result;
+	}
+
+	@PostMapping("/detail")
 	@ResponseBody
 	public String setDetailComplete(Model model, int activityId) {
 		activityService.updateComplete(activityId);
@@ -53,9 +72,8 @@ public class ActivityController {
 	}
 
 	// 고객사별 SR에대한 활동 추가
-	@GetMapping("/enroll/sr")
-	public String enrollSr(Model model, HttpServletRequest req) {
-		int srId = Integer.parseInt(req.getParameter("srId"));
+	@GetMapping("/enroll/sr/{srId}")
+	public String enrollSr(Model model, @PathVariable("srId") int srId) {
 		model.addAttribute("srId", srId);
 		return "/activity/enroll-sr";
 	}
@@ -68,16 +86,24 @@ public class ActivityController {
 	}
 
 	// 활동 등록
+	@GetMapping("/enroll/employee")
+	public String enrollEmployee() {
+		return "activity/enroll-employee";
+	}
+
 	@PostMapping("/enroll/employee")
 	public ResponseEntity<Message> enrollEmployee(InsertActivityDto insertActivityDto, Principal principal) {
 
 		ActivityVo activityVo = activityService.insertActivity(insertActivityDto, principal);
 		return new ResponseEntity<>(new Message("success", 200, activityVo), HttpStatus.OK);
-
 	}
 
-	@GetMapping("/enroll/employee")
-	public String enrollEmployee(Model model) {
-		return "activity/enroll-employee";
+	@GetMapping("/delete/{activityId}")
+	@ResponseBody
+	public int deleteActivity(@PathVariable("activityId") int activityId){
+		int result = activityService.deleteActivity(activityId);
+		return result;
 	}
+
+
 }
