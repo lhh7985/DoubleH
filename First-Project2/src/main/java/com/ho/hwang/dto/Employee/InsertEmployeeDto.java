@@ -13,6 +13,9 @@ public class InsertEmployeeDto {
     private String employeeContact;
     private String employeePhone;
     private String employeeEmail;
+    private String codeUpper;
+    private String codeName;
     private String type;
-    private String dept;
+
+    private String departmentName;
 }

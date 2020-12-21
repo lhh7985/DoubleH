@@ -1,8 +1,8 @@
 package com.ho.hwang.vo;
 
+import java.time.LocalDate;
 import java.util.Date;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public class OsVo {
@@ -12,8 +12,11 @@ public class OsVo {
 	private int osQuantity;
 	
 	private String osRegistrant;
-	private Date osRegistrationDate;
+	private LocalDate osRegistrationDate;
 	private String osModifier;
-	private Date osModifiedDate;
+	private LocalDate osModifiedDate;
+
+	private String productName;
+	private LocalDate deliveryDate;
 
 }

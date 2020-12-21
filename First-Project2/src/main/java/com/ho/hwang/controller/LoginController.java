@@ -1,13 +1,11 @@
 package com.ho.hwang.controller;
 
+import com.ho.hwang.service.AccountService;
+import com.ho.hwang.vo.AccountVo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import com.ho.hwang.vo.AccountVo;
-import com.ho.hwang.service.AccountService;
-
-import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
