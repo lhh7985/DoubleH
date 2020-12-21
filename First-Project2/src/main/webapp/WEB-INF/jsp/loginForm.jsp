@@ -9,7 +9,7 @@
 <script type="text/javascript">
 <!-- 공통 JavaScript -->
 	function goRegister() {
-		location.href = "register";
+		location.href = "http://localhost:8080/register";
 	}
 </script>
 </head>
