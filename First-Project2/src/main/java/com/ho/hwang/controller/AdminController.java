@@ -1,24 +1,19 @@
 package com.ho.hwang.controller;
 
-import java.util.List;
-
 import com.ho.hwang.dto.Code.InsertCodeDto;
-import com.ho.hwang.paging.Page;
+import com.ho.hwang.dto.Code.UpdateCodeDto;
+import com.ho.hwang.paging.JqgridResponse;
 import com.ho.hwang.responseEntity.Message;
+import com.ho.hwang.service.UserService;
 import com.ho.hwang.vo.CodeVo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.ho.hwang.service.UserService;
-
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,21 +23,21 @@ public class AdminController {
 
 	@GetMapping("/codetable")
 	public String getCodeList(@RequestParam(defaultValue = "1") int page, Model model) {
-
-		int listCnt = userService.selectCodeTotalCount();
-		Page paging = new Page(listCnt, page);
-
-		List<CodeVo> list = userService.selectCodeList(paging.getStartIndex(),paging.getPageSize());
-		model.addAttribute("list", list);
-		model.addAttribute("paging",paging);
-
 		return "admin/codetable";
+	}
+	@GetMapping("/getlist")
+	public @ResponseBody
+	JqgridResponse getAll() {
+		List<CodeVo> codeList = userService.selectCodeList();
+		JqgridResponse response = new JqgridResponse();
+		response.setRows(codeList);
+		return response;
 	}
 
 	@PostMapping("/codetable/delete")
 	@ResponseBody
-	public ResponseEntity<Message> deleteCode(@RequestParam(value = "chbox[]") List<Integer> checkList) throws Exception {
-		int result = userService.deleteCode(checkList);
+	public ResponseEntity<Message> deleteCode(@RequestParam(value="id") Integer codeId) throws Exception {
+		int result = userService.deleteCode(codeId);
 		Message deleteMessage;
 		deleteMessage = new Message("success", 200, result);
 		return new ResponseEntity<>(deleteMessage, HttpStatus.OK);
@@ -61,7 +56,24 @@ public class AdminController {
 		Message insertMessage;
 		insertMessage = new Message("success", 200, result);
 		return new ResponseEntity<>(insertMessage, HttpStatus.OK);
+	}
 
+	@PostMapping("/codetable/update")
+	@ResponseBody
+	public int updateCodeTable(@RequestParam("codeGroup") String codeGroup,
+							  @RequestParam("codeUpper") String codeUpper,
+							  @RequestParam("codeName") String codeName,
+							  @RequestParam("codeStatus") String codeStatus,
+							  @RequestParam("id") int codeId){
+		UpdateCodeDto updateCodeDto = UpdateCodeDto.builder()
+				.codeGroup(codeGroup)
+				.codeUpper(codeUpper)
+				.codeName(codeName)
+				.codeStatus(codeStatus)
+				.codeId(codeId)
+				.build();
+		int result = userService.updateCodeTable(updateCodeDto);
+		return result;
 	}
 
 }
