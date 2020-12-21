@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ho.hwang.mappers.ProductMapper">
+    <select id="selectProductID" resultType="int">
+        SELECT product_id
+        FROM
+            product
+        WHERE product_name = #{pname};
+    </select>
+
+    <!-- 제품페이지 제품 검색 -->
+    <select id="selectProduct" resultType="ProductVO">
+        SELECT product_id,
+               product_name, product_content
+        FROM product
+    </select>
+
+    <!-- 제품 검색 -->
+    <select id="selectSearchAllProduct" resultType="ProductVO">
+        SELECT
+            product_name, product_content, product_id
+        FROM product
+    </select>
+
+
+
+    <!-- 납품하기 -->
+    <insert id="insertDelivery">
+        INSERT INTO delivery(customer_id, product_id, delivery_quantity,
+                             delivery_date, delivery_businessNum)
+        VALUES(#{customerId},#{productId},#{deliveryQuantity},#{deliveryDate},#{deliveryBusinessNum})
+    </insert>
+
+    <select id="selectDelivery_id" resultType="int">
+        SELECT LAST_INSERT_ID()
+    </select>
+
+    <select id="selectTotalDelivery" resultType="DeliveryVO">
+        SELECT
+            d.delivery_businessNum , c.customer_name , p.product_name,
+            d.delivery_quantity, d.delivery_date, c.customer_id, d.delivery_id
+        FROM delivery d
+                 INNER JOIN customer c ON c.customer_id = d.Customer_ID
+                 INNER JOIN product p ON p.Product_ID = d.Product_ID
+        ORDER BY
+            d.delivery_businessNum
+    </select>
+
+    <!-- 납품정보 삭제 -->
+    <delete id="deleteDelivery">
+        DELETE FROM delivery
+        WHERE delivery_id = #{deliveryId}
+        <!--		<where>-->
+        <!--			FIND_IN_SET(delivery_id, #{deliveryId})-->
+        <!--		</where>-->
+    </delete>
+
+
+
+    <!-- os별 입력 -->
+    <insert id="insertOS">
+        INSERT INTO os(delivery_id, os_name, os_quantity)
+        VALUES(#{deliveryId},#{osName},#{osQuantity})
+    </insert>
+</mapper>
