@@ -1,10 +1,10 @@
 package com.ho.hwang.dto.Sr;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -18,13 +18,15 @@ public class InsertSrDto {
     private String productName;
 
     private String importance;
-    private Date srRequestDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate srRequestDate;
     private String srTitle;
     private String srContent;
     private String srRegistrant;
-    private String srRegistrationDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate srRegistrationDate;
 
-    public InsertSrDto(String type, String customerName, String productName, String importance, Date srRequestDate, String srTitle, String srContent) {
+    public InsertSrDto(String type, String customerName, String productName, String importance, LocalDate srRequestDate, String srTitle, String srContent) {
         this.type = type;
         this.customerName = customerName;
         this.productName = productName;

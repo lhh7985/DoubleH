@@ -1,71 +1,75 @@
 package com.ho.hwang.service;
 
-import java.security.Principal;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
 import com.ho.hwang.dto.Sr.InsertSrDto;
 import com.ho.hwang.dto.Sr.SelectSrDto;
 import com.ho.hwang.dto.Sr.SelectSrListDto;
+import com.ho.hwang.dto.Sr.UpdateSrDetailDto;
+import com.ho.hwang.mappers.SrMapper;
+import com.ho.hwang.mappers.UserMapper;
 import com.ho.hwang.vo.SrVo;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import com.ho.hwang.mappers.UserMapper;
-
-import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.crypto.spec.OAEPParameterSpec;
+import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class SrService {
 	private final UserMapper mapper;
-	public final static SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private final SrMapper srMapper;
 
 	@Transactional
-	public void insertSR(InsertSrDto insertSrDto, Principal principal) {
-		Date time = new Date();
+	public SrVo insertSR(InsertSrDto insertSrDto, Principal principal) {
 
-		String name = mapper.selectName(principal.getName());
-		insertSrDto.setSrRegistrant(name);
+		insertSrDto.setSrRegistrant(principal.getName());
+		insertSrDto.setSrType(mapper.selectCode(insertSrDto.getType()));
 
-		// 현재 날짜 삽입
-		insertSrDto.setSrRegistrationDate(fmt.format(time));
+		SrVo srVo = SrVo.builder()
+				.customerId(insertSrDto.getCustomerId())
+				.productId(insertSrDto.getProductId())
+				.srType(insertSrDto.getSrType())
+				.importance(insertSrDto.getImportance())
+				.srRequestDate(insertSrDto.getSrRequestDate())
+				.srTitle(insertSrDto.getSrTitle())
+				.srContent(insertSrDto.getSrContent())
+				.srRegistrant(insertSrDto.getSrRegistrant())
+				.build();
+		srMapper.insertSR(srVo);
+		return srVo;
 
-		int typeConvert = mapper.selectCode(insertSrDto.getType());
-		insertSrDto.setSrType(typeConvert);
-		log.info(String.valueOf(typeConvert));
-		int cuId = mapper.selectCustomerID(insertSrDto.getCustomerName());
-		int pId = mapper.selectProductID(insertSrDto.getProductName());
-
-		insertSrDto.setCustomerId(cuId);
-		insertSrDto.setProductId(pId);
-
-		mapper.insertSR(insertSrDto);
 	}
 
 	// SR 리스트 확인
-	public List<SelectSrDto> selectSR(int start, int cntPerPage) {
-		return mapper.selectSR(start, cntPerPage);
-	}
-	//SR 충 개수
-	public int selectSrTotalCount(){
-		return mapper.selectSrTotalCount();
+	public List<SelectSrDto> selectSR() {
+		return srMapper.selectSR();
 	}
 
 	// 각 고객사의 sr확인
 	public List<SelectSrListDto> selectSRList(int customerId) {
-		return mapper.selectSRList(customerId);
+		return srMapper.selectSRList(customerId);
 	}
 
 	// SR 내용확인
 	public Optional<SrVo> selectSRDetail(int srId) {
-		return mapper.selectSRDetail(srId);
+		return srMapper.selectSRDetail(srId);
 	}
 
+	public int deleteSr(int srId){
+		return srMapper.deleteSr(srId);
+	}
+
+	public int updateSrComplete(int srId, Principal principal){
+		SrVo srVo = new SrVo(srId, "완료", principal.getName());
+		return srMapper.updateSrComplete(srVo);
+	}
+
+	public int updateSrDetail(UpdateSrDetailDto updateSrDetailDto, Principal principal){
+		SrVo srVo = new SrVo(updateSrDetailDto.getSrId(),updateSrDetailDto.getSrTitle(),updateSrDetailDto.getSrContent(),principal.getName());
+		return srMapper.updateSrDetail(srVo);
+	}
 }

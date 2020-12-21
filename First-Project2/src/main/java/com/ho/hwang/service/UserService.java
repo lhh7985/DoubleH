@@ -6,8 +6,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.ho.hwang.dto.Code.InsertCodeDto;
+import com.ho.hwang.dto.Code.UpdateCodeDto;
 import com.ho.hwang.dto.Employee.*;
+import com.ho.hwang.mappers.CustomerMapper;
 import com.ho.hwang.vo.CodeVo;
+import com.ho.hwang.vo.DepartmentVo;
 import com.ho.hwang.vo.EmployeeVo;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 	
 	private final UserMapper mapper;
+	private final CustomerMapper customerMapper;
 	
 	public AccountVo selectUser(String id) {
 		return mapper.selectUser(id);
@@ -53,7 +57,7 @@ public class UserService {
 	
 	public void insertEmployee(InsertEmployeeDto insertEmployeeDto) {
 		insertEmployeeDto.setEmployeeType(mapper.selectCode(insertEmployeeDto.getType()));
-		insertEmployeeDto.setDepartmentId(mapper.selectDept(insertEmployeeDto.getDept()));
+		insertEmployeeDto.setDepartmentId(mapper.selectDept(insertEmployeeDto.getDepartmentName()));
 		mapper.insertEmployee(insertEmployeeDto);
 	}
 	
@@ -65,7 +69,7 @@ public class UserService {
 		return mapper.selectDept(dept_name);
 	}
 	public int selectCustomerID(String name) {
-		return mapper.selectCustomerID(name);
+		return customerMapper.selectCustomerID(name);
 	}
 	public String selectName(String name) {
 		return mapper.selectName(name);
@@ -81,18 +85,11 @@ public class UserService {
 	}
 
 	//모든 직원 검색
-	public List<EmployeeVo> selectAllEmployee(int start, int cntPerPage){
-		List<EmployeeVo> employeeList = mapper.selectAllEmployee(start, cntPerPage);
+	public List<EmployeeVo> selectAllEmployee(int start){
+		List<EmployeeVo> employeeList = mapper.selectAllEmployee(start);
 		return employeeList;
 	}
 
-	//리스트 개수
-	public int selectEmployeeTotalCount() {
-		return mapper.selectEmployeeTotalCount();
-	}
-	public int selectCodeTotalCount(){
-		return mapper.selectCodeTotalCount();
-	}
 
 	//고객사 및 자회사 직원 검색
 	public List<SelectEmployeeSecuveDto> selectEmployee_secuve(){
@@ -114,14 +111,13 @@ public class UserService {
 	
 	
 	//관리자 페이지 
-	public List<CodeVo> selectCodeList(int start, int cntPerPage){
-		return mapper.selectCodeList(start, cntPerPage);
+	public List<CodeVo> selectCodeList(){
+		return mapper.selectCodeList();
 	}
 
 	//코드테이블 삭제
-	public int deleteCode(List<Integer> checkList) {
-		String deleteList = checkList.stream().map(n->n.toString()).collect(Collectors.joining(","));
-		return mapper.deleteCode(deleteList);
+	public int deleteCode(int codeId) {
+		return mapper.deleteCode(codeId);
 	}
 
 	//코드테이블 추가
@@ -138,10 +134,25 @@ public class UserService {
 		return codeVo;
 	}
 
-	//직원 삭제
-	public int deleteEmployee(List<Integer> checkList) {
-		String deleteList = checkList.stream().map(n -> n.toString()).collect(Collectors.joining(","));
-		return mapper.deleteEmployee(deleteList);
+
+	public int deleteEmployee(int employeeId) {
+		return mapper.deleteEmployee(employeeId);
 	}
 
+	public List<EmployeeVo> selectAllEmployee2() {
+		return mapper.selectAllEmployee2();
+	}
+
+	public List<String> selectDepartment(){
+		return mapper.selectDepartment();
+	}
+
+	public int updateEmployee(UpdateEmployeeDto updateEmployeeDto){
+		updateEmployeeDto.setDepartmentId(mapper.selectDept(updateEmployeeDto.getDepartmentName()));
+		return mapper.updateEmployee(updateEmployeeDto);
+	}
+
+	public int updateCodeTable(UpdateCodeDto updateCodeDto){
+		return mapper.updateCodeTable(updateCodeDto);
+	}
 }

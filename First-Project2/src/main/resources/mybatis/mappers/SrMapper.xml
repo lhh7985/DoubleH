@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ho.hwang.mappers.SrMapper">
+    <update id="updateSrComplete">
+        UPDATE sr
+        SET sr_status = #{srStatus}, sr_completionDate = #{srCompletionDate}
+        WHERE sr_id = #{srId} AND sr_registrant = #{currentUser}
+    </update>
+
+    <update id="updateSrDetail">
+        UPDATE sr
+        SET sr_title=#{srTitle}, sr_content = #{srContent},sr_modifier = #{srModifier}, sr_modifiedDate =#{srModifiedDate}
+        WHERE sr_id = #{srId} AND sr_registrant = #{srModifier}
+    </update>
+
+    <select id="selectSR" resultType="SrVO">
+        SELECT s.sr_id, co.code_name,
+               p.product_name , c.customer_name, s.sr_title , s.sr_requestDate,
+               s.sr_estimatedDate, s.sr_completionDate, s.sr_status, s.importance
+        FROM SR s
+                 INNER JOIN customer c ON c.customer_id = s.customer_id
+                 INNER
+                     JOIN product p ON p.product_id = s.product_id
+                 INNER JOIN code co ON
+            co.code_id = s.sr_type
+        ORDER BY SR_requestDate desc
+    </select>
+
+    <select id="selectSRList" resultType="SrVO">
+        SELECT s.sr_id, co.code_name, p.product_name , c.customer_name, s.sr_title ,
+               s.sr_requestDate, s.sr_status
+        FROM SR s
+                 INNER JOIN customer c ON c.customer_id = s.customer_id AND s.customer_id = #{customerId}
+                 INNER	JOIN product p ON p.product_id = s.product_id
+                 INNER JOIN code co ON co.code_id = s.sr_type
+        WHERE s.sr_type IN (4,5);
+    </select>
+
+    <select id="selectSRDetail" resultType="SrVO">
+        SELECT s.sr_id,
+               co.code_name, p.product_name , c.customer_name, s.sr_title ,
+               s.sr_requestDate,
+               s.sr_estimatedDate, s.sr_completionDate, s.sr_status,
+               s.importance,s.sr_content,e.employee_Name, s.sr_registrationDate
+        FROM SR s
+                 INNER JOIN customer c ON c.customer_id = s.customer_id
+                 INNER JOIN product p ON p.product_id = s.product_id
+                 INNER JOIN code co ON co.code_id = s.sr_type
+                 INNER JOIN users u ON u.user_id = s.SR_Registrant
+                 INNER JOIN employee e ON e.employee_id = u.Employee_ID
+        WHERE s.sr_id = #{srId};
+    </select>
+
+    <insert id="insertSR">
+        INSERT INTO sr(customer_id, product_id, sr_type,
+                       importance, sr_requestDate, sr_title, sr_content, sr_registrant,
+                       sr_registrationDate)
+        values(#{customerId},#{productId},#{srType},#{importance},#{srRequestDate},#{srTitle},#{srContent},
+               #{srRegistrant},#{srRegistrationDate})
+    </insert>
+
+    <delete id="deleteSr">
+        DELETE FROM sr
+        WHERE sr_id = #{srId}
+    </delete>
+</mapper>
