@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ho.hwang.mappers.ActivityMapper">
+    <insert id="insertActivity">
+        INSERT INTO activity (activity_type, activity_status,
+                              activity_title, activity_content, activity_estimatedDate,
+                              activity_completionDate, activity_registrant, activity_registrationDate)
+        VALUES(#{activityType},#{activityStatus},#{activityTitle},#{activityContent},#{activityEstimatedDate},#{activityCompletionDate}
+              ,#{activityRegistrant}, NOW()
+              )
+    </insert>
+
+    <!-- 개인활동 검색 -->
+    <select id="selectActivity" resultType="ActivityVO">
+        SELECT c.code_name,
+               activity_title, activity_registrant, activity_estimatedDate,
+               activity_content,activity_completionDate, activity_id
+        FROM activity a
+                 INNER JOIN code c ON c.code_id = a.Activity_Type
+        WHERE a.activity_type IN (6,7);
+    </select>
+
+    <!--	활동 삭제-->
+    <delete id="deleteActivity">
+        DELETE FROM activity
+        WHERE activity_id = #{activityId}
+    </delete>
+
+    <select id="selectActivityDetail" resultType="ActivityVo">
+        SELECT c.code_name, a.activity_status, a.Activity_estimatedDate, a.activity_completionDate, a.activity_title, a.activity_content, a.activity_id, a.activity_registrant,a.activity_estimatedCompletionDate
+        FROM activity a
+                 INNER JOIN code c ON c.Code_ID = a.Activity_Type
+        WHERE activity_id = #{activityId}
+    </select>
+
+    <update id="updateActivity">
+        UPDATE activity
+        SET activity_title = #{activityTitle},
+            activity_content = #{activityContent},
+            activity_estimatedDate = #{activityEstimatedDate},
+            activity_EstimatedCompletionDate = #{activityEstimatedCompletionDate},
+            activity_modifier = #{activityModifier},
+            activity_modifiedDate = #{activityModifiedDate}
+        WHERE activity_id = #{activityId};
+    </update>
+
+    <select id="selectComplete" resultType="String">
+        SELECT activity_status
+        FROM activity
+        WHERE activity_id = #{activityId}
+    </select>
+
+    <update id="updateComplete">
+        UPDATE activity
+        SET activity_completionDate = NOW(),
+            activity_status = '완료'
+        WHERE activity_id = #{activityId};
+    </update>
+</mapper>
