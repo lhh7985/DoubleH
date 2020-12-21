@@ -7,6 +7,9 @@ import com.ho.hwang.dto.Customer.*;
 import com.ho.hwang.dto.ManagerHistory.SelectManagerDto;
 import com.ho.hwang.dto.ManagerHistory.UpdateManagerHistoryDto;
 import com.ho.hwang.dto.Product.SelectCustomerProductDto;
+import com.ho.hwang.dto.Product.SelectDeliveryDto;
+import com.ho.hwang.dto.Product.SelectTotalOsDto;
+import com.ho.hwang.mappers.CustomerMapper;
 import com.ho.hwang.vo.*;
 import org.springframework.stereotype.Service;
 
@@ -20,48 +23,48 @@ import static java.util.stream.Collectors.joining;
 @RequiredArgsConstructor
 public class CustomerService {
 
-	private final UserMapper mapper;
+	private final CustomerMapper customerMapper;
 	
 	public List<SelectCustomerSearchDto> selectCustomer(){
-		return mapper.selectCustomer();
+		return customerMapper.selectCustomer();
 	}
 
 	
-	public List<CustomerListVo> selectCustomerList(int start, int cntPerPage){
-		return mapper.selectCustomerList(start, cntPerPage);
+	public List<CustomerListVo> selectCustomerList(){
+		return customerMapper.selectCustomerList();
 	}
 
 	public CustomerVo selectCustomerDetail(int customerId) {
-		return mapper.selectCustomerDetail(customerId);
+		return customerMapper.selectCustomerDetail(customerId);
 	}
 
 	public List<SelectCustomerProductDto> selectCustomerProduct(int customerId) {
-		return mapper.selectCustomerProduct(customerId);
+		return customerMapper.selectCustomerProduct(customerId);
 	}
 	
 	public void insertCustomer(InsertCustomerDto insertCustomerDto) {
-		mapper.insertCustomer(insertCustomerDto);
-		int customerID = mapper.selectCustomer_id();
-		insertCustomerDto.setCustomerId(customerID);
-		mapper.insertAddress(insertCustomerDto);
+		customerMapper.insertCustomer(insertCustomerDto);
+		int customerId = customerMapper.selectCustomer_id();
+		insertCustomerDto.setCustomerId(customerId);
+		customerMapper.insertAddress(insertCustomerDto);
 
 		//매니저 이력 삽입
-		UpdateManagerHistoryDto managerHistory = new UpdateManagerHistoryDto(customerID);
+		UpdateManagerHistoryDto managerHistory = new UpdateManagerHistoryDto(customerId);
 
 		//manager
 		managerHistory.setEmployeeId(insertCustomerDto.getEmployeeIdManager());
 		managerHistory.setManagerHistoryType(19);
-		mapper.insertManagerHistory(managerHistory);
+		customerMapper.insertManagerHistory(managerHistory);
 
 		//se
 		managerHistory.setEmployeeId(insertCustomerDto.getEmployeeIdSe());
 		managerHistory.setManagerHistoryType(20);
-		mapper.insertManagerHistory(managerHistory);
+		customerMapper.insertManagerHistory(managerHistory);
 
 		//sales
 		managerHistory.setEmployeeId(insertCustomerDto.getEmployeeIdSales());
 		managerHistory.setManagerHistoryType(21);
-		mapper.insertManagerHistory(managerHistory);
+		customerMapper.insertManagerHistory(managerHistory);
 	}
 	
 	//담당자 수정e
@@ -71,49 +74,59 @@ public class CustomerService {
 		if(updateCustomerDetailDto.getEmployeeIdManager() !=0){
 			// 오늘날짜 현재 담당자 endDate에 찍기
 			manager.setManagerHistoryType(19);
-			mapper.updateEnddate(manager);
+			customerMapper.updateEnddate(manager);
 
 			//새로운 담당자를 오늘 날짜로 Start에 추가하기
 			manager.setEmployeeId(updateCustomerDetailDto.getEmployeeIdManager());
-			mapper.insertManagerHistory(manager);
-			mapper.updateManager(updateCustomerDetailDto);
+			customerMapper.insertManagerHistory(manager);
+			customerMapper.updateManager(updateCustomerDetailDto);
 		}
 		if(updateCustomerDetailDto.getEmployeeIdSe() !=0){
 			// 오늘날짜 현재 담당자 endDate에 찍기
 			manager.setManagerHistoryType(20);
-			mapper.updateEnddate(manager);
+			customerMapper.updateEnddate(manager);
 
 			//새로운 담당자를 오늘 날짜로 Start에 추가하기
 			manager.setEmployeeId(updateCustomerDetailDto.getEmployeeIdSe());
-			mapper.insertManagerHistory(manager);
-			mapper.updateSE(updateCustomerDetailDto);
+			customerMapper.insertManagerHistory(manager);
+			customerMapper.updateSE(updateCustomerDetailDto);
 		}
 		if(updateCustomerDetailDto.getEmployeeIdSales() !=0){
 			// 오늘날짜 현재 담당자 endDate에 찍기
 			manager.setManagerHistoryType(21);
-			mapper.updateEnddate(manager);
+			customerMapper.updateEnddate(manager);
 
 			//새로운 담당자를 오늘 날짜로 Start에 추가하기
 			manager.setEmployeeId(updateCustomerDetailDto.getEmployeeIdSales());
-			mapper.insertManagerHistory(manager);
-			mapper.updateSales(updateCustomerDetailDto);
+			customerMapper.insertManagerHistory(manager);
+			customerMapper.updateSales(updateCustomerDetailDto);
 		}
 	}
 
+	public List<SrVo> selectVisit(int customerId) {
+		return customerMapper.selectVisit(customerId);
+	}
 	
 	//담당자 이력
 	public List<SelectManagerDto> selectManager(int customerId){
-		return mapper.selectManager(customerId);
+		return customerMapper.selectManager(customerId);
 	}
 
 	//고객 목록 삭제
-	public int deleteCustomer(List<Integer> charr) {
-		String deleteList = charr.stream().map(n -> n.toString()).collect(Collectors.joining(","));
-		return mapper.deleteCustomer(deleteList);
+	public int deleteCustomer(int customerId) {
+		return customerMapper.deleteCustomer(customerId);
 	}
-	
-	//총 고객사 수
-	public int selectCustomerTotalCount(){
-		return mapper.selectCustomerTotalCount();
+
+
+	public List<OsVo> selectOs(int deliveryId){
+		return customerMapper.selectOs(deliveryId);
+	}
+
+	public List<SelectDeliveryDto> selectDelivery(int coId){
+		return customerMapper.selectDelivery(coId);
+	}
+
+	public List<SelectTotalOsDto> selectOS(int coId){
+		return customerMapper.selectOS(coId);
 	}
 }

@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-         pageEncoding="EUC-KR" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
@@ -8,54 +8,95 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Hello tabs</title>
 
-    <link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet"
-          href="/resources/bootstrap/css/bootstrap-theme.css">
-    <script
-            src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Custom fonts for this template-->
+    <link href="/resources/boots/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/resources/boots/css/sb-admin-2.min.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" type="text/css" media="screen" href="/resources/jqueryUI/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/resources/css/ui.jqgrid.css"/>
+
+    <script src="/resources/js/jquery-1.11.0.min.js"></script>
+    <script type="text/ecmascript" src="/resources/js/i18n/grid.locale-kr.js"></script>
+    <script type="text/ecmascript" src="/resources/js/jquery.jqgrid.min.js"></script>
+
 
     <script type="text/javascript">
-
-
-        function checkAll() {
-            if ($("#th_checkAll").is(':checked')) {
-                $("input[name=chBox]").prop("checked", true);
-            } else {
-                $("input[name=chBox]").prop("checked", false);
-            }
-        }
-
-
-        function selectDelete() {
-            var confirm_val = confirm("¡§∏ª ªË¡¶«œΩ√∞⁄Ω¿¥œ±Ó?");
-
-            if (confirm_val) {
-                var checkarr = new Array();
-
-                $("input[class='chBox']:checked").each(function () {
-                    checkarr.push($(this).attr("data-customerNum"));
-                });
-
-                $.ajax({
-                    url: "/customer/delete",
-                    type: "POST",
-                    data: {chbox: checkarr},
-                    success: function (result) {
-                        if (result == 1) {
-                            location.href = "/customer/list";
-                        } else {
-                            alert("ªË¡¶ Ω«∆–");
+        $(document).ready(function ($) {
+            $("#jqGrid").jqGrid({
+                url: "http://localhost:8080/customer/getlist",
+                datatype: 'json',
+                mtype: 'GET',
+                colNames: ['ÌöåÏÇ¨ID', 'ÌöåÏÇ¨Î™Ö', 'Ï£ºÏÜå', 'Îã¥ÎãπÏûê', 'ÏòÅÏóÖÎã¥ÎãπÏûê', 'SEÎã¥ÎãπÏûê', ''],
+                colModel: [
+                    {name: "customerId", label: "customerId", width: 50, key: true, hidden: false},
+                    {name: "customerName", label: "customerName", width: 100, hidden: false},
+                    {name: "addressAddress", label: "addressAddress", width: 200, editable: true},
+                    {name: "manager", label: "manager", width: 80, editable: true},
+                    {name: "sales", label: "sales", width: 80, editable: true},
+                    {name: "se", label: "se", width: 80, editable: true},
+                    {
+                        name: 'myac',
+                        search: false,
+                        width: 50,
+                        fixed: true,
+                        sortable: false,
+                        formatter: 'actions',
+                        formatoptions: {
+                            keys: true, editbutton: false,
+                            delOptions: {
+                                url: '/customer/delete',
+                                afterComplete: function () {
+                                    $("#jqGrid").trigger('reloadGrid');
+                                    alert("Ìï¥Îãπ Í≥†Í∞ùÏÇ¨Í∞Ä ÏÇ≠Ï†úÎêòÏóàÏäµÎãàÎã§.")
+                                }
+                            }
                         }
                     }
-                })
+                ],
+                pager: '#pager',
+                loadonce: true,
+                rowNum: 10,
+                rownumbers: true,
+                gridview: true,
+                width: 1350,
+                height: 420,
+                rowList: [5, 10, 20, 50],
+                // viewrecords: true,
+                caption: 'customer-List',
+                // autoencode: true,
+                jsonReader: {
+                    // root: "rows",
+                    // page: "page",
+                    // total: "total",
+                    // records: "records",
+                    repeatitems: false,
+                    id: "0",
+                },
+                onCellSelect: function (rowid, iCol, cellcontent, e) {
+                    var rowid = $("#jqGrid").getRowData(rowid);
+                    location.href = "http://localhost:8080/customer/" + rowid.customerId + "/detail";
+                },
+                navOptions: {reloadGridOptions: {fromServer: true}}
+            }).navGrid('#pager', {edit: false, add: false, del: false, search: false, refresh: true},
+                {},
+                {},
+                {}
+            );
+            $("#jqGrid").jqGrid('filterToolbar', {searchOperators: true, stringResult: true, searchOnEnter: true});
 
+            if ($("#customer").hasClass("active")) {
+            } else {
+                $(this).removeClass("active");
+                $("#customer").addClass("active");
             }
+        });
 
-        }
-
-        function goCustomerDetail(customerId) {
-            location.href = "/customer/detail?customerId=" + customerId;
-        }
 
         var winRef;
 
@@ -74,188 +115,77 @@
             window.close();
         }
 
-        function myFunction() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("myTable");
-            tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-                if ($("select option:selected").val() == 'customer') {
-                    td = tr[i].getElementsByTagName("td")[1];
-                } else if ($("select option:selected").val() == 'manager') {
-                    td = tr[i].getElementsByTagName("td")[3];
-                } else if ($("select option:selected").val() == 'sales') {
-                    td = tr[i].getElementsByTagName("td")[4];
-                } else if ($("select option:selected").val() == 'se') {
-                    td = tr[i].getElementsByTagName("td")[5];
-                }
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
+        function deleteCustomer(cellValue, options, rowdata, action) {
+            location.href = "/customer/delete/" + rowdata.customerId;
         }
 
         function reloadPage() {
             location.reload();
         }
 
-        function fn_paging(page) {
-            location.href = "/customer/list?page=" + page;
-        }
     </script>
 </head>
 
 <style>
 
-    .font2 {
-        font-size: 30px;
-        font-weight: bold;
+    .ui-jqgrid .ui-jqgrid-bdiv {
+        overflow-y: scroll;
+        font-size: 18px;
+        cursor: pointer;
     }
 </style>
-<body>
-<div>
-    <div>
-        <jsp:include page="../header.jsp"/>
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <%@include file="../header.jsp" %>
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <div class="row">
+                    <div class="col-md-11">
+                        <h6 class="m-0 font-weight-bold text-primary">Í≥†Í∞ùÏÇ¨ Î¶¨Ïä§Ìä∏</h6>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline-primary " style="float: right; margin: unset;"
+                                onclick="location.href='http://localhost:8080/customer/enroll'">Ï∂îÍ∞Ä
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="jqGrid"></table>
+                    <div id="pager"></div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
-<div class="container">
-    <div class="font2">∞Ì∞¥ªÁ ∏Ò∑œ</div>
 
-    <div class="panel with-nav-tabs panel-default" style="margin-top: 10px; min-height: 600px;">
-        <div class="panel-heading">
-            <ul class="nav nav-tabs">
-                <%--						<ul class="nav nav-pills font2 row" style="padding: 5px;">--%>
+<!-- Bootstrap core JavaScript-->
+<script src="/resources/boots/vendor/jquery/jquery.min.js"></script>
+<script src="/resources/boots/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-                <form class="navbar-form col-md-3" role="search" style="width: 45%; margin-top:7px;">
-                    <select class=" form-control" style="  width: 25%; font-size: 12px;" id="searchOption"
-                            name="searchOption">
-                        <option value="customer">∞Ì∞¥ªÁ∏Ì</option>
-                        <option value="manager">¥„¥Á¿⁄∏Ì</option>
-                        <option value="se">SE¥„¥Á¿⁄∏Ì</option>
-                        <option value="sales">øµæ˜¥„¥Á¿⁄∏Ì</option>
-                    </select>
-                    <div class="form-group">
-                        <input type="text" id="myInput" onkeyup="myFunction()" class="form-control"
-                               placeholder="Search">
-                    </div>
-                </form>
+<!-- Core plugin JavaScript-->
+<script src="/resources/boots/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-                <button class=" btn btn-default" id="btn1"
-                        style="margin-left: 5px; float: right;" disabled="disabled"
-                        onclick="selectDelete()">º±≈√ ªË¡¶
-                </button>
-                <button class="btn btn-default" style="float: right;"
-                        onclick="customer_enroll()">√ﬂ∞°
-                </button>
-            </ul>
-            <%--					</ul>--%>
-        </div>
+<!-- Custom scripts for all pages-->
+<script src="/resources/boots/js/sb-admin-2.min.js"></script>
 
+<!-- Page level plugins -->
+<script src="/resources/boots/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/resources/boots/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-        <div class="panel-body">
-            <table id="myTable" class="table table-hover">
-                <thead>
-                <tr>
-                    <th width="80px">»∏ªÁID</th>
-                    <th width="110px">»∏ªÁ∏Ì</th>
-                    <th width="450px">¡÷º“</th>
-                    <th width="120">¥„¥Á¿⁄</th>
-                    <th width="120">øµæ˜¥„¥Á¿⁄</th>
-                    <th width="120">SE¥„¥Á¿⁄</th>
-                    <sec:authorize access="hasRole('ADMIN')">
-                        <th width="3%"><input type="checkbox" name="checkAll" id="th_checkAll" onclick="checkAll()">
-                        </th>
-                    </sec:authorize>
-                </tr>
-                </thead>
+<!-- Page level custom scripts -->
+<script src="/resources/boots/js/demo/datatables-demo.js"></script>
 
-                <tbody>
-                <c:forEach var="item" items="${list}" varStatus="status">
-                    <tr>
-                        <td>${item.customerId}</td>
-                        <td onclick=goCustomerDetail(${item.customerId})
-                            style="cursor: pointer;">${item.customerName}</td>
-                        <td onclick=goCustomerDetail(${item.customerId})
-                            style="cursor: pointer;">${item.addressAddress}</td>
-                        <td>${item.manager}</td>
-                        <td>${item.sales}</td>
-                        <td>${item.se}</td>
-                        <sec:authorize access="hasRole('ADMIN')">
-                            <td><input type="checkbox" name="chBox" class="chBox"
-                                       data-customerNum="${item.customerId}"/>
-                                <script type="text/javascript">
-                                    $(".chBox").click(function () {
-                                        $("#th_checkAll").prop("checked", false);
-                                    });
-                                    $('input[type="checkbox"]').click(function () {
-                                        var tmpp = $(this).prop('checked');
-                                        var tt = $("[name='chBox']:checked").length;
-                                        // this∏¶ ªÁøÎ«œø© ≈¨∏Ø«— checkbox ∞° √º≈©µ«µµ∑œ º≥¡§
-                                        if (tmpp == true || tt > 0) {
-                                            $("#btn1").prop("disabled", false);
-                                        } else {
-                                            $("#btn1").prop("disabled", true);
-                                        }
-                                    });
-                                </script>
-                            </td>
-                        </sec:authorize>
-
-                    </tr>
-
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div>
-        <nav class="text-center">
-            <ul class="pagination">
-                <li>
-                    <a href="#" onClick="fn_paging(1)" ; aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li>
-                    <c:if test="${paging.curPage ne 1}">
-                        <a href="#" onClick="fn_paging(${paging.prevPage })"><span aria-hidden="true">¿Ã¿¸</span></a>
-                    </c:if>
-                    <c:forEach var="pageNum" begin="${paging.startPage}" end="${paging.endPage}">
-                        <c:choose>
-                            <c:when test="${pageNum eq  paging.curPage}">
-                                <span style="font-weight: bold;">
-                                    <a href="#" onClick="fn_paging(${pageNum})" style="font-weight: bold; color:red;">
-                                            ${pageNum}
-                                    </a>
-                                </span>
-                            </c:when>
-                            <c:otherwise>
-                                <a href="#" onClick="fn_paging(${pageNum })">${pageNum }</a>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                    <c:if test="${paging.curPage ne paging.pageCnt && paging.pageCnt > 0}">
-                        <a href="#" onClick="fn_paging(${paging.nextPage })"><span aria-hidden="true">¥Ÿ¿Ω</span></a>
-                    </c:if>
-                </li>
-                <li>
-                    <a href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-
-
-    <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
