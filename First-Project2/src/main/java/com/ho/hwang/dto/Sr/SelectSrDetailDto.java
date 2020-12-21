@@ -4,8 +4,10 @@ import com.ho.hwang.vo.SrVo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -15,15 +17,20 @@ public class SelectSrDetailDto {
     private String productName;
     private String customerName;
     private String srTitle;
-    private Date srRequestDate;
-    private Date srEstimatedDate;
-    private Date srCompletionDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate srRequestDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate srEstimatedDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate srCompletionDate;
     private String srStatus;
     private String importance;
     private String srContent;
     private String srRegistrant;
-    private String srRegistrationDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate srRegistrationDate;
     private int srId;
+    private String employeeName;
 
 
     public SelectSrDetailDto(SrVo srVo) {
@@ -40,5 +47,6 @@ public class SelectSrDetailDto {
         this.srRegistrant = srVo.getSrRegistrant();
         this.srRegistrationDate = srVo.getSrRegistrationDate();
         this.srId = srVo.getSrId();
+        this.employeeName = srVo.getEmployeeName();
     }
 }
