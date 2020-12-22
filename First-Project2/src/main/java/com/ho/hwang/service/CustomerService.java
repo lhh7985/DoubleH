@@ -1,7 +1,6 @@
 package com.ho.hwang.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.ho.hwang.dto.Customer.*;
 import com.ho.hwang.dto.ManagerHistory.SelectManagerDto;
@@ -9,29 +8,31 @@ import com.ho.hwang.dto.ManagerHistory.UpdateManagerHistoryDto;
 import com.ho.hwang.dto.Product.SelectCustomerProductDto;
 import com.ho.hwang.dto.Product.SelectDeliveryDto;
 import com.ho.hwang.dto.Product.SelectTotalOsDto;
+import com.ho.hwang.interfaces.CustomerServiceInterface;
 import com.ho.hwang.mappers.CustomerMapper;
+import com.ho.hwang.paging.JqgridResponse;
 import com.ho.hwang.vo.*;
-import org.springframework.stereotype.Service;
-
-import com.ho.hwang.mappers.UserMapper;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import static java.util.stream.Collectors.joining;
 
 @Service
 @RequiredArgsConstructor
-public class CustomerService {
+public class CustomerService implements CustomerServiceInterface {
 
 	private final CustomerMapper customerMapper;
-	
+
 	public List<SelectCustomerSearchDto> selectCustomer(){
 		return customerMapper.selectCustomer();
 	}
 
-	
-	public List<CustomerListVo> selectCustomerList(){
-		return customerMapper.selectCustomerList();
+	@Override
+	public JqgridResponse selectCustomerList(){
+		List<CustomerListVo> customerList = customerMapper.selectCustomerList();
+		JqgridResponse response = new JqgridResponse();
+		response.setRows(customerList);
+		return response;
 	}
 
 	public CustomerVo selectCustomerDetail(int customerId) {

@@ -8,6 +8,7 @@ import com.ho.hwang.dto.Product.SelectTotalOsDto;
 import com.ho.hwang.dto.Sr.SelectSrDetailDto;
 import com.ho.hwang.dto.Sr.SelectSrListDto;
 import com.ho.hwang.paging.JqgridResponse;
+import com.ho.hwang.proxyService.ProxyCustomer;
 import com.ho.hwang.service.*;
 import com.ho.hwang.vo.*;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class CustomerController {
     private final CustomerService customerService;
     private final SrService srService;
     private final ActivityService activityService;
+    private final ProxyCustomer proxyCustomer;
 
     @GetMapping("/{rowid}/detail")
     public String getDetail(@PathVariable("rowid") int rowid, Model model) {
@@ -64,10 +66,7 @@ public class CustomerController {
     @GetMapping("/getlist")
     public @ResponseBody
     JqgridResponse getAll() {
-        List<CustomerListVo> customerList = customerService.selectCustomerList();
-        JqgridResponse response = new JqgridResponse();
-        response.setRows(customerList);
-        return response;
+        return proxyCustomer.selectCustomerList();
     }
 
     @GetMapping("/sr/{customerId}")
