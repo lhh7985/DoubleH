@@ -105,8 +105,8 @@
             var package_name = add.packageName.value;
 
             var patchDate = add.patchDate.value;
-            var title = add.srTitle.value;
-            var content = add.srContent.value;
+            var title = add.patchTitle.value;
+            var content = add.patchContent.value;
 
 
             if (!customer_name || !product_name || !package_name || !title || !content || !patchDate) {
@@ -114,11 +114,12 @@
             } else {
                 var forms = $("#patchAdd").serialize();
                 $.ajax({
-                    url: "/patch/enroll",
-                    type: "POST",
+                    url: 'http://localhost:8080/patch/enroll',
+                    type: 'POST',
                     data: forms,
                     success: function () {
-                        location.replace("http://localhost:8080/patch/list");
+                        alert("패치가 등록되었습니다.")
+                        location.href="http://localhost:8080/patch/list";
                     }
                 });
             }
@@ -152,7 +153,7 @@
         <!-- Page Heading -->
 
         <!-- DataTales Example -->
-        <div class="card shadow mb-4" style="width: 1400px;">
+        <div class="card shadow mb-4" >
             <div class="card-header py-3">
                 <div class="row">
                     <div class="col-md-11">
@@ -166,12 +167,10 @@
                         <!-- 몸통 -->
                         <div style="margin: 20px;" class="row">
                             <label class="col-xl-1">패키지명</label>
-                            <input name="packageName" class="col-xs-4 form-control" id="package_name"
-                                   style="width:30%;" readonly/>
+                            <input style="width: 30%;" name="packageName" class="col-xs-4 form-control" id="package_name" readonly/>
 
                             <label class="col-xl-1 " style="margin-left: 70px; ">납품제품</label>
-                            <input name="productName" class="col-md-4 form-control" id="product_name"
-                                   style="width:20%;" readonly>
+                            <input name="productName" class="col-md-4 form-control" id="product_name" readonly>
                             <button class="col-xs-2 btn btn-outline-primary btn-height" type="button"
                                     onclick='package_search()'>검색
                             </button>
@@ -197,13 +196,13 @@
                         <div style="margin: 20px;" class="row">
                             <label class="col-xl-1 label1">제목</label>
                             <input id="title" class="col-md-10 form-control" style="width:50%;" type="text"
-                                   name="srTitle">
+                                   name="patchTitle">
                         </div>
 
                         <div class="row" style="margin: 20px;">
                             <label class="col-xl-1 label1">내용</label>
 
-                            <textarea name="srContent" id="srContent" class="form-control" style="width:90%"
+                            <textarea name="patchContent" id="patchContent" class="form-control" style="width:90%"
                                       rows="10" cols="100"></textarea>
                         </div>
 

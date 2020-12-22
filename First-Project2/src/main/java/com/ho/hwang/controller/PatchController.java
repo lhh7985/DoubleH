@@ -3,7 +3,6 @@ package com.ho.hwang.controller;
 import com.ho.hwang.dto.patch.InsertPatchDto;
 import com.ho.hwang.paging.JqgridResponse;
 import com.ho.hwang.service.PatchService;
-import com.ho.hwang.vo.EmployeeVo;
 import com.ho.hwang.vo.PackageVo;
 import com.ho.hwang.vo.PatchHistoryVo;
 import lombok.RequiredArgsConstructor;
@@ -58,7 +57,8 @@ public class PatchController {
     }
 
     @PostMapping("enroll")
+    @ResponseBody
     public void PatchEnroll(InsertPatchDto insertPatchDto, Principal principal){
-        patchService.insertPatch(insertPatchDto, principal);
+        PatchHistoryVo patchHistoryVo = patchService.insertPatch(insertPatchDto, principal);
     }
 }
