@@ -22,6 +22,9 @@
     - intellij를 사용하는 경우
         1. maven프로젝트로 추가
         2. maven:springboot:run으로 실행해야 합니다.
+        
+        
+## 5. 실행 화면
 
-
+<img width="461" src="https://user-images.githubusercontent.com/59523147/121545842-d3ce5100-ca45-11eb-9e42-16c8d0707412.png">
 
