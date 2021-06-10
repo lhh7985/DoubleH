@@ -26,5 +26,5 @@
         
 ## 5. 실행 화면
 
-<img width="461" src="https://user-images.githubusercontent.com/59523147/121545842-d3ce5100-ca45-11eb-9e42-16c8d0707412.png">
+<img width="1000" src="https://user-images.githubusercontent.com/59523147/121545842-d3ce5100-ca45-11eb-9e42-16c8d0707412.png">
 
