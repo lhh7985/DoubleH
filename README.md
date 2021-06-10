@@ -6,9 +6,11 @@
 
 
 ##2. 프로젝트 정보
+
     Springboot, 부트스트랩, Mybatis, jqGrid, mySql을 사용하였습니다.
 
 ##3. 설치 (Header 2)
+
     1. 해당 프로젝트를 다운
     2. lombok plugin 다운
     
