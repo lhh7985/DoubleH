@@ -30,5 +30,5 @@
 <img width="1000" src="https://user-images.githubusercontent.com/59523147/121545842-d3ce5100-ca45-11eb-9e42-16c8d0707412.png">
 
  - 직원 정보
-<img width="1000" src="https://user-images.githubusercontent.com/59523147/121546365-3293ca80-ca46-11eb-948a-1ad9df95bc13.png">
+<img width="1000" src="https://user-images.githubusercontent.com/59523147/121546776-86061880-ca46-11eb-971e-4b96794919d5.jpg">
 
