@@ -1,0 +1,422 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema mypjt
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema mypjt
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `mypjt` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+USE `mypjt` ;
+
+-- -----------------------------------------------------
+-- Table `mypjt`.`department`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mypjt`.`department` (
+  `Department_ID` INT NOT NULL AUTO_INCREMENT,
+  `Department_Name` VARCHAR(10) NULL DEFAULT NULL,
+  `Department_headID` INT NULL DEFAULT NULL,
+  `Department_upper` INT NULL DEFAULT NULL,
+  `Department_location` VARCHAR(20) NULL DEFAULT NULL,
+  `Department_Registrant` VARCHAR(10) NULL DEFAULT NULL,
+  `Department_registrationDate` DATETIME NULL DEFAULT NULL,
+  `Department_Modifier` VARCHAR(10) NULL DEFAULT NULL,
+  `Department_modifiedDate` DATETIME NULL DEFAULT NULL,
+  PRIMARY KEY (`Department_ID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 5
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `mypjt`.`employee`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mypjt`.`employee` (
+  `Employee_ID` INT NOT NULL AUTO_INCREMENT,
+  `Department_ID` INT NULL DEFAULT NULL,
+  `Employee_Type` INT NULL DEFAULT NULL,
+  `Employee_Name` VARCHAR(10) NULL DEFAULT NULL,
+  `Employee_Contact` VARCHAR(15) NULL DEFAULT NULL,
+  `Employee_Phone` VARCHAR(15) NULL DEFAULT NULL,
+  `Employee_Email` VARCHAR(20) NULL DEFAULT NULL,
+  `Employee_Position` VARCHAR(15) NULL DEFAULT NULL,
+  `Employee_Status` VARCHAR(10) NULL DEFAULT NULL,
+  `Employee_Registrant` VARCHAR(10) NULL DEFAULT NULL,
+  `Employee_registrationDate` DATETIME NULL DEFAULT NULL,
+  `Employee_Modifier` VARCHAR(10) NULL DEFAULT NULL,
+  `Employee_modifiedDate` DATETIME NULL DEFAULT NULL,
+  PRIMARY KEY (`Employee_ID`),
+  INDEX `Department_ID` (`Department_ID` ASC) VISIBLE,
+  CONSTRAINT `employee_ibfk_1`
+    FOREIGN KEY (`Department_ID`)
+    REFERENCES `mypjt`.`department` (`Department_ID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 4
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `mypjt`.`customer`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mypjt`.`customer` (
+  `Customer_ID` INT NOT NULL AUTO_INCREMENT,
+  `Customer_Name` VARCHAR(20) NULL DEFAULT NULL,
+  `Employee_ID_Sales` INT NULL DEFAULT NULL,
+  `Employee_ID_SE` INT NULL DEFAULT NULL,
+  `Employee_ID_Manager` INT NULL DEFAULT NULL,
+  `Customer_Registrant` VARCHAR(10) NULL DEFAULT NULL,
+  `Customer_registrationDate` DATETIME NULL DEFAULT NULL,
+  `Customer_Modifier` VARCHAR(10) NULL DEFAULT NULL,
+  `Customer_modifiedDate` DATETIME NULL DEFAULT NULL,
+  PRIMARY KEY (`Customer_ID`),
+  INDEX `Employee_ID_SE` (`Employee_ID_SE` ASC) VISIBLE,
+  INDEX `Employee_ID_Sales` (`Employee_ID_Sales` ASC) VISIBLE,
+  INDEX `Employee_ID_Manager` (`Employee_ID_Manager` ASC) VISIBLE,
+  CONSTRAINT `customer_ibfk_1`
+    FOREIGN KEY (`Employee_ID_SE`)
+    REFERENCES `mypjt`.`employee` (`Employee_ID`),
+  CONSTRAINT `customer_ibfk_2`
+    FOREIGN KEY (`Employee_ID_Sales`)
+    REFERENCES `mypjt`.`employee` (`Employee_ID`),
+  CONSTRAINT `customer_ibfk_3`
+    FOREIGN KEY (`Employee_ID_Manager`)
+    REFERENCES `mypjt`.`employee` (`Employee_ID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 2
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `mypjt`.`product`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mypjt`.`product` (
+  `Product_ID` INT NOT NULL AUTO_INCREMENT,
+  `Product_Name` VARCHAR(10) NULL DEFAULT NULL,
+  `Product_Content` VARCHAR(30) NULL DEFAULT NULL,
+  `Product_Registrant` VARCHAR(10) NULL DEFAULT NULL,
+  `Product_registrationDate` DATETIME NULL DEFAULT NULL,
+  `Product_Modifier` VARCHAR(10) NULL DEFAULT NULL,
+  `Product_modifiedDate` DATETIME NULL DEFAULT NULL,
+  PRIMARY KEY (`Product_ID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `mypjt`.`sr`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mypjt`.`sr` (
+  `SR_ID` INT NOT NULL AUTO_INCREMENT,
+  `Customer_ID` INT NULL DEFAULT NULL,
+  `Product_ID` INT NULL DEFAULT NULL,
+  `SR_Type` INT NULL DEFAULT NULL,
+  `SR_Title` VARCHAR(20) NULL DEFAULT NULL,
+  `SR_Content` VARCHAR(200) NULL DEFAULT NULL,
+  `SR_Status` INT NULL DEFAULT NULL,
+  `SR_requestDate` DATE NULL DEFAULT NULL,
+  `SR_estimatedDate` DATE NULL DEFAULT NULL,
+  `SR_completionDate` DATE NULL DEFAULT NULL,
+  `SR_PatchEstimatedDate` DATE NULL DEFAULT NULL,
+  `SR_Registrant` VARCHAR(10) NULL DEFAULT NULL,
+  `SR_registrationDate` DATETIME NULL DEFAULT NULL,
+  `SR_Modifier` VARCHAR(10) NULL DEFAULT NULL,
+  `SR_modifiedDate` DATETIME NULL DEFAULT NULL,
+  `importance` VARCHAR(30) NULL DEFAULT NULL,
+  PRIMARY KEY (`SR_ID`),
+  INDEX `Customer_ID` (`Customer_ID` ASC) VISIBLE,
+  INDEX `Product_ID` (`Product_ID` ASC) VISIBLE,
+  CONSTRAINT `sr_ibfk_1`
+    FOREIGN KEY (`Customer_ID`)
+    REFERENCES `mypjt`.`customer` (`Customer_ID`),
+  CONSTRAINT `sr_ibfk_2`
+    FOREIGN KEY (`Product_ID`)
+    REFERENCES `mypjt`.`product` (`Product_ID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `mypjt`.`activity`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mypjt`.`activity` (
+  `Activity_ID` INT NOT NULL AUTO_INCREMENT,
+  `SR_ID` INT NULL DEFAULT NULL,
+  `Activity_Type` INT NULL DEFAULT NULL,
+  `Activity_Title` VARCHAR(20) NULL DEFAULT NULL,
+  `Activity_Content` VARCHAR(200) NULL DEFAULT NULL,
+  `Activity_Status` INT NULL DEFAULT NULL,
+  `Activity_estimatedDate` DATETIME NULL DEFAULT NULL,
+  `Activity_completionDate` DATETIME NULL DEFAULT NULL,
+  `Activity_Registrant` VARCHAR(10) NULL DEFAULT NULL,
+  `Activity_registrationDate` DATETIME NULL DEFAULT NULL,
+  `Activity_Modifier` VARCHAR(10) NULL DEFAULT NULL,
+  `Activity_modifiedDate` DATETIME NULL DEFAULT NULL,
+  PRIMARY KEY (`Activity_ID`),
+  INDEX `SR_ID` (`SR_ID` ASC) VISIBLE,
+  CONSTRAINT `activity_ibfk_1`
+    FOREIGN KEY (`SR_ID`)
+    REFERENCES `mypjt`.`sr` (`SR_ID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `mypjt`.`address`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mypjt`.`address` (
+  `Address_ID` INT NOT NULL AUTO_INCREMENT,
+  `Customer_ID` INT NULL DEFAULT NULL,
+  `Address_Type` INT NULL DEFAULT NULL,
+  `Address_post` INT NULL DEFAULT NULL,
+  `Address_address` VARCHAR(50) NULL DEFAULT NULL,
+  `Address_detail` VARCHAR(30) NULL DEFAULT NULL,
+  `Address_Registrant` VARCHAR(10) NULL DEFAULT NULL,
+  `Address_registrationDate` DATETIME NULL DEFAULT NULL,
+  `Address_Modifier` VARCHAR(10) NULL DEFAULT NULL,
+  `Address_modifiedDate` DATETIME NULL DEFAULT NULL,
+  PRIMARY KEY (`Address_ID`),
+  INDEX `Customer_ID` (`Customer_ID` ASC) VISIBLE,
+  CONSTRAINT `address_ibfk_1`
+    FOREIGN KEY (`Customer_ID`)
+    REFERENCES `mypjt`.`customer` (`Customer_ID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 2
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `mypjt`.`authority`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mypjt`.`authority` (
+  `Authority_ID` INT NOT NULL AUTO_INCREMENT,
+  `Authority_Name` VARCHAR(10) NULL DEFAULT NULL,
+  `Authority_Registrant` VARCHAR(10) NULL DEFAULT NULL,
+  `Authority_registrationDate` DATETIME NULL DEFAULT NULL,
+  `Authority_Modifier` VARCHAR(10) NULL DEFAULT NULL,
+  `Authority_modifiedDate` DATETIME NULL DEFAULT NULL,
+  PRIMARY KEY (`Authority_ID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 2
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `mypjt`.`codes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mypjt`.`codes` (
+  `Code_ID` INT NOT NULL AUTO_INCREMENT,
+  `Code_Group` VARCHAR(20) NULL DEFAULT NULL,
+  `Code_Upper` VARCHAR(20) NULL DEFAULT NULL,
+  `Code_Name` VARCHAR(20) NULL DEFAULT NULL,
+  `Code_Status` VARCHAR(10) NULL DEFAULT NULL,
+  `Code_Registrant` VARCHAR(10) NULL DEFAULT NULL,
+  `Code_registrationDate` DATETIME NULL DEFAULT NULL,
+  `Code_Modifier` VARCHAR(10) NULL DEFAULT NULL,
+  `Code_modifiedDate` DATETIME NULL DEFAULT NULL,
+  PRIMARY KEY (`Code_ID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 4
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `mypjt`.`delivery`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mypjt`.`delivery` (
+  `Delivery_ID` INT NOT NULL AUTO_INCREMENT,
+  `Customer_ID` INT NULL DEFAULT NULL,
+  `Product_ID` INT NULL DEFAULT NULL,
+  `Delivery_Quantity` INT NULL DEFAULT NULL,
+  `Delivery_Date` DATETIME NULL DEFAULT NULL,
+  `Delivery_businessNum` INT NULL DEFAULT NULL,
+  `Delivery_Registrant` VARCHAR(10) NULL DEFAULT NULL,
+  `Delivery_registrationDate` DATETIME NULL DEFAULT NULL,
+  `Delivery_Modifier` VARCHAR(10) NULL DEFAULT NULL,
+  `Delivery_modifiedDate` DATETIME NULL DEFAULT NULL,
+  PRIMARY KEY (`Delivery_ID`),
+  INDEX `Customer_ID` (`Customer_ID` ASC) VISIBLE,
+  INDEX `Product_ID` (`Product_ID` ASC) VISIBLE,
+  CONSTRAINT `delivery_ibfk_1`
+    FOREIGN KEY (`Customer_ID`)
+    REFERENCES `mypjt`.`customer` (`Customer_ID`),
+  CONSTRAINT `delivery_ibfk_2`
+    FOREIGN KEY (`Product_ID`)
+    REFERENCES `mypjt`.`product` (`Product_ID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `mypjt`.`managerhistory`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mypjt`.`managerhistory` (
+  `Customer_ID` INT NULL DEFAULT NULL,
+  `Employee_ID` INT NULL DEFAULT NULL,
+  `ManagerHistory_Type` INT NULL DEFAULT NULL,
+  `ManagerHistory_startDate` DATE NULL DEFAULT NULL,
+  `ManagerHistory_endDate` DATE NULL DEFAULT NULL,
+  `ManagerHistory_Registrant` VARCHAR(10) NULL DEFAULT NULL,
+  `ManagerHistory_registrationDate` DATETIME NULL DEFAULT NULL,
+  `ManagerHistory_Modifier` VARCHAR(10) NULL DEFAULT NULL,
+  `ManagerHistory_modifiedDate` DATETIME NULL DEFAULT NULL,
+  INDEX `Customer_ID` (`Customer_ID` ASC) VISIBLE,
+  INDEX `Employee_ID` (`Employee_ID` ASC) VISIBLE,
+  CONSTRAINT `managerhistory_ibfk_1`
+    FOREIGN KEY (`Customer_ID`)
+    REFERENCES `mypjt`.`customer` (`Customer_ID`),
+  CONSTRAINT `managerhistory_ibfk_2`
+    FOREIGN KEY (`Employee_ID`)
+    REFERENCES `mypjt`.`employee` (`Employee_ID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `mypjt`.`os`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mypjt`.`os` (
+  `OS_ID` INT NOT NULL AUTO_INCREMENT,
+  `Delivery_ID` INT NULL DEFAULT NULL,
+  `OS_Name` VARCHAR(10) NULL DEFAULT NULL,
+  `OS_Quantity` INT NULL DEFAULT NULL,
+  `OS_Registrant` VARCHAR(10) NULL DEFAULT NULL,
+  `OS_registrationDate` DATETIME NULL DEFAULT NULL,
+  `OS_Modifier` VARCHAR(10) NULL DEFAULT NULL,
+  `OS_modifiedDate` DATETIME NULL DEFAULT NULL,
+  PRIMARY KEY (`OS_ID`),
+  INDEX `Delivery_ID` (`Delivery_ID` ASC) VISIBLE,
+  CONSTRAINT `os_ibfk_1`
+    FOREIGN KEY (`Delivery_ID`)
+    REFERENCES `mypjt`.`delivery` (`Delivery_ID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `mypjt`.`package`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mypjt`.`package` (
+  `Package_ID` INT NOT NULL AUTO_INCREMENT,
+  `Employee_ID_Developer` INT NULL DEFAULT NULL,
+  `Employee_ID_Distributor` INT NULL DEFAULT NULL,
+  `Product_ID` INT NULL DEFAULT NULL,
+  `Package_Name` VARCHAR(20) NULL DEFAULT NULL,
+  `Package_Version` VARCHAR(20) NULL DEFAULT NULL,
+  `Package_uploadDate` DATETIME NULL DEFAULT NULL,
+  `Package_Kernel` VARCHAR(20) NULL DEFAULT NULL,
+  `Package_OS` VARCHAR(10) NULL DEFAULT NULL,
+  `Package_Registrant` VARCHAR(10) NULL DEFAULT NULL,
+  `Package_registrationDate` DATETIME NULL DEFAULT NULL,
+  `Package_Modifier` VARCHAR(10) NULL DEFAULT NULL,
+  `Package_modifiedDate` DATETIME NULL DEFAULT NULL,
+  PRIMARY KEY (`Package_ID`),
+  INDEX `Employee_ID_Developer` (`Employee_ID_Developer` ASC) VISIBLE,
+  INDEX `Employee_ID_Distributor` (`Employee_ID_Distributor` ASC) VISIBLE,
+  INDEX `Product_ID` (`Product_ID` ASC) VISIBLE,
+  CONSTRAINT `package_ibfk_1`
+    FOREIGN KEY (`Employee_ID_Developer`)
+    REFERENCES `mypjt`.`employee` (`Employee_ID`),
+  CONSTRAINT `package_ibfk_2`
+    FOREIGN KEY (`Employee_ID_Distributor`)
+    REFERENCES `mypjt`.`employee` (`Employee_ID`),
+  CONSTRAINT `package_ibfk_3`
+    FOREIGN KEY (`Product_ID`)
+    REFERENCES `mypjt`.`product` (`Product_ID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `mypjt`.`patchhistory`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mypjt`.`patchhistory` (
+  `Delivery_ID` INT NULL DEFAULT NULL,
+  `Package_ID` INT NULL DEFAULT NULL,
+  `Patch_Title` VARCHAR(30) NULL DEFAULT NULL,
+  `Patch_Content` VARCHAR(100) NULL DEFAULT NULL,
+  `Patch_Date` DATETIME NULL DEFAULT NULL,
+  `Patch_Registrant` VARCHAR(10) NULL DEFAULT NULL,
+  `Patch_registrationDate` DATETIME NULL DEFAULT NULL,
+  `Patch_Modifier` VARCHAR(10) NULL DEFAULT NULL,
+  `Patch_modifiedDate` DATETIME NULL DEFAULT NULL,
+  `patch_id` INT NOT NULL,
+  PRIMARY KEY (`patch_id`),
+  INDEX `Delivery_ID` (`Delivery_ID` ASC) VISIBLE,
+  INDEX `Package_ID` (`Package_ID` ASC) VISIBLE,
+  CONSTRAINT `patchhistory_ibfk_1`
+    FOREIGN KEY (`Delivery_ID`)
+    REFERENCES `mypjt`.`delivery` (`Delivery_ID`),
+  CONSTRAINT `patchhistory_ibfk_2`
+    FOREIGN KEY (`Package_ID`)
+    REFERENCES `mypjt`.`package` (`Package_ID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `mypjt`.`users`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mypjt`.`users` (
+  `User_ID` VARCHAR(15) NOT NULL,
+  `User_Pw` VARCHAR(200) NULL DEFAULT NULL,
+  `Employee_ID` INT NULL DEFAULT NULL,
+  `User_Status` INT NULL DEFAULT NULL,
+  `User_Registrant` VARCHAR(10) NULL DEFAULT NULL,
+  `User_registrationDate` DATETIME NULL DEFAULT NULL,
+  `User_Modifier` VARCHAR(10) NULL DEFAULT NULL,
+  `User_modifiedDate` DATETIME NULL DEFAULT NULL,
+  `enabled` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`User_ID`),
+  INDEX `Employee_ID` (`Employee_ID` ASC) VISIBLE,
+  CONSTRAINT `users_ibfk_1`
+    FOREIGN KEY (`Employee_ID`)
+    REFERENCES `mypjt`.`employee` (`Employee_ID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `mypjt`.`userauthority`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mypjt`.`userauthority` (
+  `User_ID` VARCHAR(15) NULL DEFAULT NULL,
+  `Authority_ID` INT NULL DEFAULT NULL,
+  INDEX `User_ID` (`User_ID` ASC) VISIBLE,
+  INDEX `Authority_ID` (`Authority_ID` ASC) VISIBLE,
+  CONSTRAINT `userauthority_ibfk_1`
+    FOREIGN KEY (`User_ID`)
+    REFERENCES `mypjt`.`users` (`User_ID`),
+  CONSTRAINT `userauthority_ibfk_2`
+    FOREIGN KEY (`Authority_ID`)
+    REFERENCES `mypjt`.`authority` (`Authority_ID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
