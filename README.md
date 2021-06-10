@@ -12,11 +12,12 @@
     1. 해당 프로젝트를 다운
     2. lombok plugin 다운
     
-##4. 사용 방법 (Header 2)
-    **- 이클립스를 사용하는 경우
+**4. 사용 방법 (Header 2)
+
+    - 이클립스를 사용하는 경우
         1. 설치한 파일을 스프링부트로 실행
     
-    **- intellij를 사용하는 경우
+    - intellij를 사용하는 경우
         1. maven프로젝트로 추가
         2. maven:springboot:run으로 실행해야 합니다.
 
