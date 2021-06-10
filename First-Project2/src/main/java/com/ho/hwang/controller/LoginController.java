@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequiredArgsConstructor
@@ -17,12 +18,13 @@ public class LoginController {
 
 	@GetMapping(value="/loginForm")
 	public String login() {
-		return "loginForm";
+		return "/loginForm";
 	}
 	
 	@PostMapping(value="/register")
 	public String register(AccountVo account) {
-		System.out.println(account.getPassword());
+		System.out.println("로그인컨트롤러");
+		System.out.println("login controller:"+account);
 		accountService.save(account);
 		return "redirect:/loginForm";
 	}
@@ -30,7 +32,7 @@ public class LoginController {
 	
 	@GetMapping("/register")
 	public String register() {
-		return "register";
+		return "/register";
 	}
 	
 

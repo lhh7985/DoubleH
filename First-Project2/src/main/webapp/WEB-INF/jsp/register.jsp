@@ -88,17 +88,17 @@
 
 			<label class="label">회원가입 ID</label>
 			<div class="div">
-				<input class="input" type="text" id="user_id" name="user_id" />
+				<input class="input" type="text" id="user_id" name="userId" />
 			</div>
 
 			<label class="label">회원가입 password</label>
 			<div class="div">
-				<input class="input" type="password" id="user_pw" name="user_pw" />
+				<input class="input" type="password" id="user_pw" name="userPw" />
 			</div>
 			
 			<label class="label">직원ID</label>
 			<div class="div">
-				<input class="input" type="text" id="employee_id" name="employee_id" />
+				<input class="input" type="text" id="employee_id" name="employeeId" />
 			</div>
 
 			<div class="div">

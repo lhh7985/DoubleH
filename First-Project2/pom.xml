@@ -41,10 +41,10 @@
 		</dependency>
 
 		<!-- Maria DB 연동 -->
-		<dependency>
-			<groupId>org.mariadb.jdbc</groupId>
-			<artifactId>mariadb-java-client</artifactId>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.mariadb.jdbc</groupId>-->
+<!--			<artifactId>mariadb-java-client</artifactId>-->
+<!--		</dependency>-->
 
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
@@ -52,6 +52,11 @@
 			<version>2.1.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 		<!-- jsp 구동을위한 -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -109,6 +114,16 @@
 					<artifactId>junit-vintage-engine</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.5.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>2.0.3</version>
 		</dependency>
 	</dependencies>
 

@@ -22,7 +22,7 @@
                  INNER JOIN customer c ON c.customer_id = s.customer_id
                  INNER
                      JOIN product p ON p.product_id = s.product_id
-                 INNER JOIN code co ON
+                 INNER JOIN codes co ON
             co.code_id = s.sr_type
         ORDER BY SR_requestDate desc
     </select>
@@ -33,7 +33,7 @@
         FROM SR s
                  INNER JOIN customer c ON c.customer_id = s.customer_id AND s.customer_id = #{customerId}
                  INNER	JOIN product p ON p.product_id = s.product_id
-                 INNER JOIN code co ON co.code_id = s.sr_type
+                 INNER JOIN codes co ON co.code_id = s.sr_type
         WHERE s.sr_type IN (4,5);
     </select>
 
@@ -46,7 +46,7 @@
         FROM SR s
                  INNER JOIN customer c ON c.customer_id = s.customer_id
                  INNER JOIN product p ON p.product_id = s.product_id
-                 INNER JOIN code co ON co.code_id = s.sr_type
+                 INNER JOIN codes co ON co.code_id = s.sr_type
                  INNER JOIN users u ON u.user_id = s.SR_Registrant
                  INNER JOIN employee e ON e.employee_id = u.Employee_ID
         WHERE s.sr_id = #{srId};

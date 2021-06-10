@@ -66,5 +66,14 @@ public class AccountVo implements UserDetails{
 		return enabled;
 	}
 
-
+	@Override
+	public String toString() {
+		return "AccountVo{" +
+				"userId='" + userId + '\'' +
+				", userPw='" + userPw + '\'' +
+				", enabled=" + enabled +
+				", authorityName='" + authorityName + '\'' +
+				", employeeId=" + employeeId +
+				'}';
+	}
 }

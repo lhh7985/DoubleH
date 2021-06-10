@@ -17,7 +17,7 @@
                activity_title, activity_registrant, activity_estimatedDate,
                activity_content,activity_completionDate, activity_id
         FROM activity a
-                 INNER JOIN code c ON c.code_id = a.Activity_Type
+                 INNER JOIN codes c ON c.code_id = a.Activity_Type
         WHERE a.activity_type IN (6,7);
     </select>
 
@@ -30,7 +30,7 @@
     <select id="selectActivityDetail" resultType="ActivityVo">
         SELECT c.code_name, a.activity_status, a.Activity_estimatedDate, a.activity_completionDate, a.activity_title, a.activity_content, a.activity_id, a.activity_registrant,a.activity_estimatedCompletionDate
         FROM activity a
-                 INNER JOIN code c ON c.Code_ID = a.Activity_Type
+                 INNER JOIN codes c ON c.Code_ID = a.Activity_Type
         WHERE activity_id = #{activityId}
     </select>
 

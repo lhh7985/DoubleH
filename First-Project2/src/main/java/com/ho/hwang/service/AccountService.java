@@ -1,10 +1,12 @@
 package com.ho.hwang.service;
 
 import com.ho.hwang.vo.AccountVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ho.hwang.mappers.UserMapper;
@@ -17,7 +19,7 @@ public class AccountService implements UserDetailsService {
 	
 	private final UserMapper mapper;
 
-	BCryptPasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
 	@Override
@@ -33,9 +35,11 @@ public class AccountService implements UserDetailsService {
 
 
 	public void save(AccountVo account) {
+		System.out.println("Encoding password");
+		System.out.println(passwordEncoder);
 		String pw = passwordEncoder.encode(account.getPassword());
-		account.setUserPw(passwordEncoder.encode(account.getPassword()));
 		System.out.println("Account Service PW : "+ pw);
+		account.setUserPw(passwordEncoder.encode(account.getPassword()));
 		mapper.save(account);
 		
 	}

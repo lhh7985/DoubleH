@@ -30,7 +30,7 @@
                s.sr_completionDate, s.sr_status,s.sr_content,s.sr_registrant,
                s.sr_registrationDate
         FROM sr s
-                 INNER JOIN code c ON c.code_id = s.sr_type
+                 INNER JOIN codes c ON c.code_id = s.sr_type
                  INNER JOIN product p ON p.product_id = s.product_id
         WHERE s.customer_id = #{customerId} AND sr_type IN(4,5)
     </select>
@@ -94,7 +94,7 @@
             activity_estimatedDate, activity_content,activity_completionDate,
             activity_id, activity_status, activity_registrationDate
         FROM activity a
-                 INNER JOIN code c ON c.code_id =a.Activity_Type
+                 INNER JOIN codes c ON c.code_id =a.Activity_Type
         WHERE sr_id = #{srId};
     </select>
 
@@ -113,7 +113,7 @@
         FROM SR s
                  INNER JOIN customer c ON c.customer_id = s.customer_id AND s.customer_id = #{customerId}
                  INNER	JOIN product p ON p.product_id = s.product_id
-                 INNER JOIN code co ON co.code_id = s.sr_type
+                 INNER JOIN codes co ON co.code_id = s.sr_type
         WHERE s.sr_type IN (7);
 
     </select>
@@ -151,7 +151,7 @@
         FROM managerhistory h
                  INNER JOIN customer c ON c.customer_id = h.Customer_ID
                  INNER JOIN employee e ON e.Employee_ID = h.Employee_ID
-                 INNER JOIN code co ON co.Code_id = h.ManagerHistory_Type
+                 INNER JOIN codes co ON co.Code_id = h.ManagerHistory_Type
         WHERE c.customer_id = #{customerId}
         ORDER BY co.Code_Name, h.ManagerHistory_startDate ASC;
     </select>

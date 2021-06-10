@@ -3,7 +3,7 @@
 
 <mapper namespace="com.ho.hwang.mappers.UserMapper">
 
-	<select id="selectUser"
+	<select id="selectUser" parameterType="String"
 		resultType="com.ho.hwang.vo.AccountVo">
 		SELECT u.user_id, u.user_pw, u.employee_id,
 		a.authority_name, u.enabled
@@ -85,7 +85,7 @@
 	<!-- 이름으로 아이디 값 찾기 -->
 	<select id="selectCode" resultType="int">
 		SELECT code_id
-		FROM code
+		FROM codes
 		WHERE code_name = #{type};
 	</select>
 
@@ -109,7 +109,7 @@
 	<select id="selectAllEmployee" resultType="EmployeeVO">
 		SELECT e.employee_id, c.code_upper, code_name, d.department_name, e.employee_name, e.employee_contact, e.employee_phone, e.employee_email,e.employee_position
 		FROM employee e
-		INNER JOIN code c ON e.Employee_Type = c.Code_ID
+		INNER JOIN codes c ON e.Employee_Type = c.Code_ID
 		LEFT OUTER JOIN department d ON e.Department_ID = d.Department_ID
 		LIMIT #{start}, 10;
 	</select>
@@ -117,7 +117,7 @@
 	<select id="selectAllEmployee2" resultType="EmployeeVO">
 		SELECT e.employee_id, c.code_upper, code_name, d.department_name, e.employee_name, e.employee_contact, e.employee_phone, e.employee_email,e.employee_position
 		FROM employee e
-		INNER JOIN code c ON e.Employee_Type = c.Code_ID
+		INNER JOIN codes c ON e.Employee_Type = c.Code_ID
 		LEFT OUTER JOIN department d ON e.Department_ID = d.Department_ID
 
 	</select>
@@ -130,7 +130,7 @@
 		FROM employee e
 		INNER JOIN
 		department D ON e.Department_ID = D.Department_ID
-		INNER JOIN code C ON
+		INNER JOIN codes C ON
 		C.code_id = e.Employee_Type AND C.Code_Name='시큐브'
 		ORDER BY
 		D.department_name;
@@ -142,7 +142,7 @@
 		e.employee_phone, e.employee_email ,e.employee_id
 		FROM employee e
 		INNER
-		JOIN code c ON c.code_id = e.employee_type
+		JOIN codes c ON c.code_id = e.employee_type
 		left outer JOIN department d
 		ON d.Department_ID = e.department_id
 		WHERE employee_type !=1;
@@ -151,7 +151,7 @@
 
 	<select id="selectEmployee_type" resultType="String">
 		SELECT code_name
-		FROM code
+		FROM codes
 		WHERE code_group = '직원구분' ;
 	</select>
 
@@ -179,11 +179,11 @@
 		SELECT code_id,
 		code_group, code_upper, code_name, code_status,code_registrant,
 		code_registrationDate, code_modifier, code_modifiedDate
-		FROM code
+		FROM codes
 	</select>
 	<!-- 코트테이블 삭제 -->
 	<delete id="deleteCode" >
-		DELETE FROM code
+		DELETE FROM codes
 		WHERE code_id = #{codeId}
 <!--		<where>-->
 <!--			FIND_IN_SET(code_id, #{codeId})-->
@@ -191,7 +191,7 @@
 	</delete>
 	<!-- 코드테이블 추가 -->
 	<insert id="insertCode">
-		INSERT INTO code(code_group,code_upper,code_name,code_status,code_registrationDate)
+		INSERT INTO codes(code_group,code_upper,code_name,code_status,code_registrationDate)
 		VALUES(#{codeGroup},#{codeUpper},#{codeName},#{codeStatus}, #{code_registration_date})
 	</insert>
 
@@ -228,7 +228,7 @@
 	</update>
 
 	<update id="updateCodeTable">
-		UPDATE code
+		UPDATE codes
 		SET code_group = #{codeGroup},
 			code_upper = #{codeUpper},
 			code_name = #{codeName},
